@@ -1,23 +1,18 @@
 package application;
 
-import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -28,14 +23,11 @@ public class Main extends Application {
     try {
       BorderPane root = new BorderPane();
       HBox hbox = new HBox();
+      hbox.setSpacing(10);
       Scene scene = new Scene(root,1200,800);
-      //Label welcomeText = new Label("Welcome to Quiz Generator!");
-      //welcomeText.setStyle("-fx-font-size: 50px;");
       scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
       primaryStage.setScene(scene);
-      //root.setCenter(welcomeText);
-      //primaryStage.show();
-
+      
       //Generate Buttons
       Button addQuestion = new Button("Add Question");
       hbox.getChildren().add(addQuestion);
@@ -57,6 +49,8 @@ public class Main extends Application {
           stage.show();
         }
       });
+      
+      hbox.getStyleClass().add("hbox");
 
       //Generates Topic List
       ObservableList<String> items = FXCollections.observableArrayList(
