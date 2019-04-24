@@ -24,17 +24,9 @@ public class Main extends Application {
     try {
       BorderPane root = new BorderPane();
       HBox hbox = new HBox();
-<<<<<<< HEAD
       hbox.setSpacing(10);
-      Scene scene = new Scene(root,1200,800);
-      scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-      primaryStage.setScene(scene);
-      
-      //Generate Buttons
-=======
 
       // Generate Buttons needed
->>>>>>> 4ae54dceded99e86435c1a2cc056cb1e3fdf1fdd
       Button addQuestion = new Button("Add Question");
       Button edit = new Button("Edit");
       Button takeQuiz = new Button("Take Quiz");
@@ -60,7 +52,7 @@ public class Main extends Application {
           numberOfQuetionsStage.show();
         }
       });
-      
+
       hbox.getStyleClass().add("hbox");
 
       // Set up behavior for Start Quiz button
@@ -96,13 +88,11 @@ public class Main extends Application {
       list.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
         selected.setItems(list.getSelectionModel().getSelectedItems());
       });
-      
+
       root.setCenter(hbox);
       root.setLeft(hBox2);
 
       Scene scene = new Scene(root, 1200, 600);
-
-      // Import CSS
       scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
       primaryStage.setScene(scene);
 

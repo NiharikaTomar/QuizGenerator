@@ -1,11 +1,18 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
 .button {
-	-fx-background-color: #ccc;
+	-fx-background-color: #b0c4de;
 	-fx-border-radius: 4px;
 	-fx-padding: 10px;
 } 
 
 .hbox {
 	-fx-padding: 20px;
+}
+
+/*
+ * Added by Liza
+ */
+.root {
+	-fx-background-color: #ffa07a;
 }
