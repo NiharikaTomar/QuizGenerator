@@ -36,7 +36,6 @@ public class Main extends Application {
       hbox.getChildren().add(addQuestion);
       hbox.getChildren().add(edit);
       hbox.getChildren().add(takeQuiz);
-
       Stage numberOfQuetionsStage = new Stage();
       TextField inputBox = new TextField();
 
