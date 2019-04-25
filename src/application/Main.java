@@ -38,6 +38,7 @@ public class Main extends Application {
       hbox.getChildren().add(takeQuiz);
 
       Stage numberOfQuetionsStage = new Stage();
+      TextField inputBox = new TextField();
 
       takeQuiz.setOnAction(new EventHandler<ActionEvent>() {
         /**
@@ -45,7 +46,6 @@ public class Main extends Application {
          */
         public void handle(ActionEvent event) {
           Label questionNumPrompt = new Label("How many questions would you like in your quiz?");
-          TextField inputBox = new TextField();
           VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
           Scene popupScene = new Scene(vBox);
           numberOfQuetionsStage.setScene(popupScene);
@@ -64,7 +64,9 @@ public class Main extends Application {
          */
         @Override
         public void handle(ActionEvent event) {
+          int numQuestions = Integer.parseInt(inputBox.getText());
           Quiz quiz = new Quiz();
+          quiz.setNumQuestions(numQuestions);
           Stage newStage = new Stage();
           try {
             quiz.start(newStage);

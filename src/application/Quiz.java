@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 public class Quiz extends Application {
 
+  private int numQuestions;
   @Override
   public void start(Stage primaryStage) throws Exception {
 
@@ -27,7 +28,6 @@ public class Quiz extends Application {
 
     // Buttons needed for the page
     Button homeButton = new Button("Home");
-    
     Button nextQuestionButton = new Button("Next Question");
     Button submitButton = new Button("Sumbit");
 
@@ -123,6 +123,10 @@ public class Quiz extends Application {
     // Set the title
     primaryStage.setTitle("Quiz Generator");
     primaryStage.show();
+  }
+  
+  public void setNumQuestions(int numQs) {
+    numQuestions = numQs;
   }
 
 }
