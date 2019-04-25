@@ -3,6 +3,7 @@ package application;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -17,6 +18,9 @@ import javafx.stage.Stage;
 public class Quiz extends Application {
 
   private int numQuestions;
+  private boolean nextButtonClicked; //pauses program until "Next Question" is pressed.
+  private int i;
+
   @Override
   public void start(Stage primaryStage) throws Exception {
 
@@ -31,53 +35,83 @@ public class Quiz extends Application {
     Button nextQuestionButton = new Button("Next Question");
     Button submitButton = new Button("Sumbit");
 
-    // Add questions to an Horizontal Box
     hboxTopMenu.getChildren().add(homeButton);
-    
     hboxBottomMenu.getChildren().add(nextQuestionButton);
     hboxBottomMenu.getChildren().add(submitButton);
-    
- 	  Label question1 = new Label("question 1" + ": How's life?");
-	  TilePane questionHolder1 = new TilePane(); 
-	  questionHolder1.getChildren().add(question1);
-	  for(int j=0; j<6; j++) {
-		  int num = 1;
-		  RadioButton r = new RadioButton("answer"+ num);
-		  num++;
-		 // add label 
-		  questionHolder1.getChildren().add(r); 
-		  
-		 
-	  }
- root.setCenter(questionHolder1);
-    
-    nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
-        /**
-         * This method creates a new scene with a pop up to get number of questions needed in quiz.
-         */
-        public void handle(ActionEvent event) {
+
+    // Add questions to an Horizontal Box
+    i = 1;
+    nextButtonClicked = true;
+    while (i <= numQuestions && nextButtonClicked) {
+      nextButtonClicked = false;
+      VBox questionsAndAnswers = new VBox();
+      Label question = new Label("Question " + i + ": Can you choose an option?");
+      questionsAndAnswers.getChildren().add(question);
+      for (int j = 1; j < 6; j++) {
+        RadioButton r = new RadioButton("Answer " + j);
+        questionsAndAnswers.getChildren().add(r);
+        root.setCenter(questionsAndAnswers);
         
-        	
-          for(int i =0; i<4; i++) {
-        	  
-        	  Label question1 = new Label("question " + i + ": watcha doin?");
-        	  //TilePane questionHolder = new TilePane(); 
-        	  questionHolder1.getChildren().add(question1);
-        	  for(int j=0; j<6; j++) {
-        		  int num = 1;
-        		  RadioButton r = new RadioButton("answer"+ num);
-        		  num++;
-        		 // add label 
-        		  questionHolder1.getChildren().add(r); 
-        		  
-        		 
-        	  }
-         root.setCenter(questionHolder1);	  
+      }
+      nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent arg0) {
+          nextButtonClicked = false;
+          if (i <= numQuestions) {
+            questionsAndAnswers.getChildren().clear();
+            Label question = new Label("Question " + i + ": Can you choose an option?");
+            questionsAndAnswers.getChildren().add(question);
+            for (int j = 1; j < 6; j++) {
+              RadioButton r = new RadioButton("Answer " + j);
+              questionsAndAnswers.getChildren().add(r);
+              root.setCenter(questionsAndAnswers);
+            }
+            i++;
           }
-          
-        }
-        
+        }    
       });
+    }
+
+    //    Label question1 = new Label("question 1" + ": How's life?");
+    //    TilePane questionHolder1 = new TilePane(); 
+    //    questionHolder1.getChildren().add(question1);
+    //    for(int j=0; j<6; j++) {
+    //      int num = 1;
+    //      RadioButton r = new RadioButton("answer"+ num);
+    //      num++;
+    //      // add label 
+    //      questionHolder1.getChildren().add(r); 
+
+
+    //root.setCenter(questionHolder1);
+
+    //    nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
+    //      /**
+    //       * This method creates a new scene with a pop up to get number of questions needed in quiz.
+    //       */
+    //      public void handle(ActionEvent event) {
+
+
+    //        for(int i =0; i<4; i++) {
+    //
+    //          Label question1 = new Label("question " + i + ": watcha doin?");
+    //          //TilePane questionHolder = new TilePane(); 
+    //          questionHolder1.getChildren().add(question1);
+    //          for(int j=0; j<6; j++) {
+    //            int num = 1;
+    //            RadioButton r = new RadioButton("answer"+ num);
+    //            num++;
+    //            // add label 
+    //            questionHolder1.getChildren().add(r); 
+    //
+    //
+    //          }
+    //          root.setCenter(questionHolder1);	  
+    //        }
+
+    //      }
+
+    //  });
 
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
@@ -94,7 +128,7 @@ public class Quiz extends Application {
         }
       }
     });
-    
+
     submitButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
        * This method creates a new scene with a pop up to get quiz results.
@@ -110,7 +144,7 @@ public class Quiz extends Application {
         }
       }
     });
-    
+
 
     root.setTop(hboxTopMenu);
     root.setBottom(hboxBottomMenu);
@@ -124,7 +158,7 @@ public class Quiz extends Application {
     primaryStage.setTitle("Quiz Generator");
     primaryStage.show();
   }
-  
+
   public void setNumQuestions(int numQs) {
     numQuestions = numQs;
   }
