@@ -5,8 +5,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Quiz extends Application {
@@ -22,15 +27,57 @@ public class Quiz extends Application {
 
     // Buttons needed for the page
     Button homeButton = new Button("Home");
-    Button newQuizButton = new Button("Take New Quiz");
+    
     Button nextQuestionButton = new Button("Next Question");
     Button submitButton = new Button("Sumbit");
 
     // Add questions to an Horizontal Box
     hboxTopMenu.getChildren().add(homeButton);
-    hboxTopMenu.getChildren().add(newQuizButton);
+    
     hboxBottomMenu.getChildren().add(nextQuestionButton);
     hboxBottomMenu.getChildren().add(submitButton);
+    
+ 	  Label question1 = new Label("question 1" + ": How's life?");
+	  TilePane questionHolder1 = new TilePane(); 
+	  questionHolder1.getChildren().add(question1);
+	  for(int j=0; j<6; j++) {
+		  int num = 1;
+		  RadioButton r = new RadioButton("answer"+ num);
+		  num++;
+		 // add label 
+		  questionHolder1.getChildren().add(r); 
+		  
+		 
+	  }
+ root.setCenter(questionHolder1);
+    
+    nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
+        /**
+         * This method creates a new scene with a pop up to get number of questions needed in quiz.
+         */
+        public void handle(ActionEvent event) {
+        
+        	
+          for(int i =0; i<4; i++) {
+        	  
+        	  Label question1 = new Label("question " + i + ": watcha doin?");
+        	  //TilePane questionHolder = new TilePane(); 
+        	  questionHolder1.getChildren().add(question1);
+        	  for(int j=0; j<6; j++) {
+        		  int num = 1;
+        		  RadioButton r = new RadioButton("answer"+ num);
+        		  num++;
+        		 // add label 
+        		  questionHolder1.getChildren().add(r); 
+        		  
+        		 
+        	  }
+         root.setCenter(questionHolder1);	  
+          }
+          
+        }
+        
+      });
 
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
