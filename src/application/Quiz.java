@@ -39,7 +39,7 @@ public class Quiz extends Application {
     hboxBottomMenu.getChildren().add(nextQuestionButton);
     hboxBottomMenu.getChildren().add(submitButton);
 
-    // Add questions to an Horizontal Box
+    // Add questions to a Vertical Box
     i = 1;
     nextButtonClicked = true;
     while (i <= numQuestions && nextButtonClicked) {
@@ -47,12 +47,13 @@ public class Quiz extends Application {
       VBox questionsAndAnswers = new VBox();
       Label question = new Label("Question " + i + ": Can you choose an option?");
       questionsAndAnswers.getChildren().add(question);
-      for (int j = 1; j < 6; j++) {
+      for (int j = 1; j < 6; j++) { //Adds answer options
         RadioButton r = new RadioButton("Answer " + j);
         questionsAndAnswers.getChildren().add(r);
         root.setCenter(questionsAndAnswers);
         
       }
+      i++;
       nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent arg0) {
