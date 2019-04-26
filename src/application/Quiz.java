@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class Quiz extends Application {
@@ -46,9 +47,11 @@ public class Quiz extends Application {
       nextButtonClicked = false;
       VBox questionsAndAnswers = new VBox();
       Label question = new Label("Question " + i + ": Can you choose an option?");
+      question.setTextFill(Color.WHITE);
       questionsAndAnswers.getChildren().add(question);
       for (int j = 1; j < 6; j++) { //Adds answer options
         RadioButton r = new RadioButton("Answer " + j);
+        r.setTextFill(Color.WHITE);
         questionsAndAnswers.getChildren().add(r);
         root.setCenter(questionsAndAnswers);
         
@@ -61,9 +64,11 @@ public class Quiz extends Application {
           if (i <= numQuestions) {
             questionsAndAnswers.getChildren().clear();
             Label question = new Label("Question " + i + ": Can you choose an option?");
+            question.setTextFill(Color.WHITE);
             questionsAndAnswers.getChildren().add(question);
             for (int j = 1; j < 6; j++) {
               RadioButton r = new RadioButton("Answer " + j);
+              r.setTextFill(Color.WHITE);
               questionsAndAnswers.getChildren().add(r);
               root.setCenter(questionsAndAnswers);
             }
