@@ -72,47 +72,7 @@ public class Quiz extends Application {
       });
     }
 
-    //    Label question1 = new Label("question 1" + ": How's life?");
-    //    TilePane questionHolder1 = new TilePane(); 
-    //    questionHolder1.getChildren().add(question1);
-    //    for(int j=0; j<6; j++) {
-    //      int num = 1;
-    //      RadioButton r = new RadioButton("answer"+ num);
-    //      num++;
-    //      // add label 
-    //      questionHolder1.getChildren().add(r); 
-
-
-    //root.setCenter(questionHolder1);
-
-    //    nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
-    //      /**
-    //       * This method creates a new scene with a pop up to get number of questions needed in quiz.
-    //       */
-    //      public void handle(ActionEvent event) {
-
-
-    //        for(int i =0; i<4; i++) {
-    //
-    //          Label question1 = new Label("question " + i + ": watcha doin?");
-    //          //TilePane questionHolder = new TilePane(); 
-    //          questionHolder1.getChildren().add(question1);
-    //          for(int j=0; j<6; j++) {
-    //            int num = 1;
-    //            RadioButton r = new RadioButton("answer"+ num);
-    //            num++;
-    //            // add label 
-    //            questionHolder1.getChildren().add(r); 
-    //
-    //
-    //          }
-    //          root.setCenter(questionHolder1);	  
-    //        }
-
-    //      }
-
-    //  });
-
+  
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
        * This method creates a new scene with a pop up to go back to main page.
