@@ -15,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 
 public class Main extends Application {
@@ -25,7 +26,12 @@ public class Main extends Application {
       BorderPane root = new BorderPane();
       HBox hbox = new HBox();
       hbox.setSpacing(10);
-
+      
+      //Choose Topic Label
+      Label chooseTopic = new Label("Please choose a topic. \n[To select multiple topics, hold down the CTRL button on Windows " +
+          "or COMMAND on MAC.]");
+      chooseTopic.setTextFill(Color.WHITE);
+      
       // Generate Buttons needed
       Button addQuestion = new Button("Add Question");
       Button edit = new Button("Edit");
@@ -130,7 +136,8 @@ public class Main extends Application {
       list.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
         selected.setItems(list.getSelectionModel().getSelectedItems());
       });
-
+      
+      root.setTop(chooseTopic);
       root.setCenter(hbox);
       root.setLeft(hBox2);
 
