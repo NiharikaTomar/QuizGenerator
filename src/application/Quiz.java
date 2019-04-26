@@ -1,3 +1,11 @@
+/**
+ * Filename:   Quiz.java
+ * Project:    Final Project
+ * Authors:    Ved Kale, Miriam Lebowitz, Niharika Tomar, and Elizaveta Stepanova
+ * 
+ * Final Project GUI
+ * 
+ */
 package application;
 
 import javafx.application.Application;
@@ -16,12 +24,20 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * Runs the Quiz page GUI
+ * @author Miriam, Elizaveta, Niharika, and Ved
+ *
+ */
 public class Quiz extends Application {
 
   private int numQuestions;
   private boolean nextButtonClicked; //pauses program until "Next Question" is pressed.
   private int i;
 
+  /**
+   * Runs the quiz page
+   */
   @Override
   public void start(Stage primaryStage) throws Exception {
 
@@ -54,7 +70,7 @@ public class Quiz extends Application {
         r.setTextFill(Color.WHITE);
         questionsAndAnswers.getChildren().add(r);
         root.setCenter(questionsAndAnswers);
-        
+
       }
       i++;
       nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -78,7 +94,7 @@ public class Quiz extends Application {
       });
     }
 
-  
+
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
        * This method creates a new scene with a pop up to go back to main page.
@@ -97,7 +113,7 @@ public class Quiz extends Application {
 
     submitButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
-       * This method creates a new scene with a pop up to get quiz results.
+       * This method creates a new screen with quiz results.
        */
       public void handle(ActionEvent event) {
         QuizResults quizResults = new QuizResults();
@@ -125,6 +141,10 @@ public class Quiz extends Application {
     primaryStage.show();
   }
 
+  /**
+   * Sets numQuestions field
+   * @param numQs
+   */
   public void setNumQuestions(int numQs) {
     numQuestions = numQs;
   }

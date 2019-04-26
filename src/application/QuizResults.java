@@ -1,3 +1,11 @@
+/**
+ * Filename:   QuizResults.java
+ * Project:    Final Project
+ * Authors:    Ved Kale, Miriam Lebowitz, Niharika Tomar, and Elizaveta Stepanova
+ * 
+ * Final Project GUI
+ * 
+ */
 package application;
 
 import javafx.application.Application;
@@ -8,9 +16,15 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-
+/**
+ * Runs QuizResults GUI
+ * @author Miriam
+ *
+ */
 public class QuizResults extends Application {
-
+  /**
+   * Runs QuizResults GUI
+   */
   @Override
   public void start(Stage primaryStage) throws Exception {
 
@@ -42,7 +56,7 @@ public class QuizResults extends Application {
 
 
     root.setTop(hboxTopMenu);
-    
+
     Scene scene = new Scene(root, 1200, 600);
 
     scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

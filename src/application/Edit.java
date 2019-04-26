@@ -1,3 +1,11 @@
+/**
+ * Filename:   Edit.java
+ * Project:    Final Project
+ * Authors:    Ved Kale, Miriam Lebowitz, Niharika Tomar, and Elizaveta Stepanova
+ * 
+ * Final Project GUI
+ * 
+ */
 package application;
 
 import javafx.application.Application;
@@ -9,11 +17,19 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+/**
+ * Runs Edit page GUI
+ * @author Miriam, Elizaveta, Niharika, and Ved
+ *
+ */
 public class Edit extends Application{
 
+  /**
+   * Runs edit page
+   */
   @Override
   public void start(Stage primaryStage) throws Exception {
-    
+
 
     BorderPane root = new BorderPane();
 
@@ -25,10 +41,10 @@ public class Edit extends Application{
     Button homeButton = new Button("Home");
 
     hboxTopMenu.getChildren().add(homeButton);
-    
+
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
-       * This method creates a new scene with a pop up to go back to main page.
+       * This method creates a new screen with editing properties
        */
       public void handle(ActionEvent event) {
         Main main = new Main();
@@ -41,7 +57,7 @@ public class Edit extends Application{
         }
       }
     });
-    
+
     root.setTop(hboxTopMenu);
 
     Scene scene = new Scene(root, 1200, 600);

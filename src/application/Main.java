@@ -1,3 +1,11 @@
+/**
+ * Filename:   Main.java
+ * Project:    Final Project
+ * Authors:    Ved Kale, Miriam Lebowitz, Niharika Tomar, and Elizaveta Stepanova
+ * 
+ * Final Project GUI
+ * 
+ */
 package application;
 
 import javafx.application.Application;
@@ -17,21 +25,28 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-
+/**
+ * Drives the GUI for the program
+ * @author Miriam, Elizaveta, Niharika, and Ved
+ *
+ */
 public class Main extends Application {
 
+  /**
+   * Runs the Home Screen
+   */
   @Override
   public void start(Stage primaryStage) throws Exception {
     try {
       BorderPane root = new BorderPane();
       HBox hbox = new HBox();
       hbox.setSpacing(10);
-      
+
       //Choose Topic Label
       Label chooseTopic = new Label("Please choose a topic. \n[To select multiple topics, hold down the CTRL button on Windows " +
           "or COMMAND on MAC.]");
       chooseTopic.setTextFill(Color.WHITE);
-      
+
       // Generate Buttons needed
       Button addQuestion = new Button("Add Question");
       Button edit = new Button("Edit");
@@ -107,8 +122,7 @@ public class Main extends Application {
       addQuestion.setOnAction(new EventHandler<ActionEvent>() {
 
         /**
-         * This method creates a new scene with a quiz questions and closes primaryStage and
-         * numberOfQuestionsStage.
+         * Goes to AddQuestion Page
          */
         @Override
         public void handle(ActionEvent event) {
@@ -136,7 +150,7 @@ public class Main extends Application {
       list.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
         selected.setItems(list.getSelectionModel().getSelectedItems());
       });
-      
+
       root.setTop(chooseTopic);
       root.setCenter(hbox);
       root.setLeft(hBox2);
