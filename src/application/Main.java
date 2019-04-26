@@ -77,6 +77,47 @@ public class Main extends Application {
         }
       });
 
+      // Set up behavior for Edit button
+      edit.setOnAction(new EventHandler<ActionEvent>() {
+
+        /**
+         * This method creates a new scene with a quiz questions and closes primaryStage and
+         * numberOfQuestionsStage.
+         */
+        @Override
+        public void handle(ActionEvent event) {
+          Edit edit = new Edit();
+          Stage newStage = new Stage();
+          try {
+            edit.start(newStage);
+            primaryStage.close();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      });
+
+      // Set up behavior for Edit button
+      addQuestion.setOnAction(new EventHandler<ActionEvent>() {
+
+        /**
+         * This method creates a new scene with a quiz questions and closes primaryStage and
+         * numberOfQuestionsStage.
+         */
+        @Override
+        public void handle(ActionEvent event) {
+          Edit edit = new Edit();
+          Stage newStage = new Stage();
+          try {
+            edit.start(newStage);
+            primaryStage.close();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      });
+
+
       // Generates Topic List
       ObservableList<String> items =
           FXCollections.observableArrayList("Computer Science", "Math", "Science");
