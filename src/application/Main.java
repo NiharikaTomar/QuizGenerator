@@ -8,11 +8,15 @@
  */
 package application;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,6 +36,7 @@ import javafx.scene.paint.Color;
  */
 public class Main extends Application {
 
+  private Desktop desktop = Desktop.getDesktop();
   /**
    * Runs the Home Screen
    */
@@ -49,12 +54,14 @@ public class Main extends Application {
 
       // Generate Buttons needed
       Button addQuestion = new Button("Add Question");
+      Button addFile = new Button("Upload a JSON File");
       Button edit = new Button("Edit");
       Button takeQuiz = new Button("Take Quiz");
       Button startQuiz = new Button("Start Quiz");
 
       // Add buttons to a horizontal box
       hbox.getChildren().add(addQuestion);
+      hbox.getChildren().add(addFile);
       hbox.getChildren().add(edit);
       hbox.getChildren().add(takeQuiz);
       Stage numberOfQuetionsStage = new Stage();
@@ -118,7 +125,7 @@ public class Main extends Application {
         }
       });
 
-      // Set up behavior for Edit button
+      // Set up behavior for addQuestion button
       addQuestion.setOnAction(new EventHandler<ActionEvent>() {
 
         /**
@@ -126,10 +133,18 @@ public class Main extends Application {
          */
         @Override
         public void handle(ActionEvent event) {
-          Edit edit = new Edit();
+          //          ObservableList<String> options = 
+          //              FXCollections.observableArrayList(
+          //                  "Add Individual Question",
+          //                  "Upload JSON File"
+          //              );
+          //          final ComboBox comboBox = new ComboBox(options);
+
+          primaryStage.show();
+          AddQuestion addQuestion = new AddQuestion();
           Stage newStage = new Stage();
           try {
-            edit.start(newStage);
+            addQuestion.start(newStage);
             primaryStage.close();
           } catch (Exception e) {
             e.printStackTrace();
@@ -137,6 +152,40 @@ public class Main extends Application {
         }
       });
 
+      //Sets up behavior for addFile button
+      final FileChooser fileChooser = new FileChooser();
+      addFile.setOnAction(new EventHandler<ActionEvent>() {
+
+        /**
+         * Goes to AddQuestion Page
+         */
+        @Override
+        public void handle(ActionEvent event) {
+          File file = fileChooser.showOpenDialog(primaryStage);
+          Stage newStage = new Stage();
+          AddFile addFile = new AddFile();
+          if (file != null) {
+            try {
+              addFile.start(newStage);
+              primaryStage.close();
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+            
+          }
+        }
+      });
+
+      //          AddFile addFile = new AddFile();
+      //          Stage newStage = new Stage();
+      //          try {
+      //            addFile.start(newStage);
+      //            primaryStage.close();
+      //          } catch (Exception e) {
+      //            e.printStackTrace();
+      //          }
+      //        }
+      //      });
 
       // Generates Topic List
       ObservableList<String> items =
@@ -168,6 +217,17 @@ public class Main extends Application {
     }
   }
 
+  /**
+   * Opens File Explorer so a user can upload a JSON file
+   * @param file
+   */
+  private void openFile(File file) {
+    try {
+      desktop.open(file);
+    } catch (IOException ex) {
+    }
+  }
+  
   /**
    * Main method that runs the application
    * 
