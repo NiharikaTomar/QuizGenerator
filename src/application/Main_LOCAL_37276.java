@@ -173,7 +173,6 @@ public class Main extends Application {
         @Override
         public void handle(ActionEvent event) {
           File file = fileChooser.showOpenDialog(primaryStage);
-<<<<<<< HEAD
           Stage newStage = new Stage();
           try {
 			AddFile addFile = new AddFile(file, topics);
@@ -186,27 +185,24 @@ public class Main extends Application {
             try {
               //addFile.start(newStage);
               primaryStage.close();
-=======
-//          Stage newStage = new Stage();
-//          AddFile addFile = new AddFile();
-          if (file != null) {
-            try {
-              // open file
-              // https://docs.oracle.com/javafx/2/ui_controls/file-chooser.htm
->>>>>>> c0e0aae48c387a4ba87cd91d5237679739ce596f
             } catch (Exception e) {
-              // TODO: handle exception
+              e.printStackTrace();
             }
-//            try {
-//              addFile.start(newStage);
-//              primaryStage.close();
-//            } catch (Exception e) {
-//              e.printStackTrace();
-//            }
             
           }
         }
       });
+
+      //          AddFile addFile = new AddFile();
+      //          Stage newStage = new Stage();
+      //          try {
+      //            addFile.start(newStage);
+      //            primaryStage.close();
+      //          } catch (Exception e) {
+      //            e.printStackTrace();
+      //          }
+      //        }
+      //      });
 
       // Generates Topic List
       ObservableList<String> items =

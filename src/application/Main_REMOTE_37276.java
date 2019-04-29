@@ -10,11 +10,7 @@ package application;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import org.json.simple.parser.ParseException;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,18 +37,11 @@ import javafx.scene.paint.Color;
 public class Main extends Application {
 
   private Desktop desktop = Desktop.getDesktop();
-  private HashTable<String, Topic> topics = new HashTable<String, Topic>();
-  
-  
   /**
    * Runs the Home Screen
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-	  
-	  
-	  
-	  
     try {
       BorderPane root = new BorderPane();
       HBox hbox = new HBox();
@@ -173,27 +162,12 @@ public class Main extends Application {
         @Override
         public void handle(ActionEvent event) {
           File file = fileChooser.showOpenDialog(primaryStage);
-<<<<<<< HEAD
-          Stage newStage = new Stage();
-          try {
-			AddFile addFile = new AddFile(file, topics);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-          if (file != null) {
-            try {
-              //addFile.start(newStage);
-              primaryStage.close();
-=======
 //          Stage newStage = new Stage();
 //          AddFile addFile = new AddFile();
           if (file != null) {
             try {
               // open file
               // https://docs.oracle.com/javafx/2/ui_controls/file-chooser.htm
->>>>>>> c0e0aae48c387a4ba87cd91d5237679739ce596f
             } catch (Exception e) {
               // TODO: handle exception
             }
@@ -242,10 +216,12 @@ public class Main extends Application {
    * Opens File Explorer so a user can upload a JSON file
    * @param file
    */
-	/*
-	 * private void openFile(File file) { try { desktop.open(file); } catch
-	 * (IOException ex) { } }
-	 */
+  private void openFile(File file) {
+    try {
+      desktop.open(file);
+    } catch (IOException ex) {
+    }
+  }
   
   /**
    * Main method that runs the application

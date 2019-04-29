@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
@@ -63,10 +64,12 @@ public class Quiz extends Application {
       nextButtonClicked = false;
       VBox questionsAndAnswers = new VBox();
       Label question = new Label("Question " + i + ": Can you choose an option?");
+      ToggleGroup answersGroup = new ToggleGroup();
       question.setTextFill(Color.WHITE);
       questionsAndAnswers.getChildren().add(question);
       for (int j = 1; j < 6; j++) { //Adds answer options
         RadioButton r = new RadioButton("Answer " + j);
+        r.setToggleGroup(answersGroup);
         r.setTextFill(Color.WHITE);
         questionsAndAnswers.getChildren().add(r);
         root.setCenter(questionsAndAnswers);
@@ -84,6 +87,7 @@ public class Quiz extends Application {
             questionsAndAnswers.getChildren().add(question);
             for (int j = 1; j < 6; j++) {
               RadioButton r = new RadioButton("Answer " + j);
+              r.setToggleGroup(answersGroup);
               r.setTextFill(Color.WHITE);
               questionsAndAnswers.getChildren().add(r);
               root.setCenter(questionsAndAnswers);

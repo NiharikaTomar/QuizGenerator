@@ -36,8 +36,11 @@ public class QuizResults extends Application {
 
     // Buttons needed for the page
     Button homeButton = new Button("Home");
+    Button saveJsonButton = new Button("Save Results");
 
     hboxTopMenu.getChildren().add(homeButton);
+    hboxTopMenu.getChildren().add(saveJsonButton);
+    
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
        * This method creates a new scene with a pop up to go back to main page.
@@ -54,6 +57,14 @@ public class QuizResults extends Application {
       }
     });
 
+    saveJsonButton.setOnAction(new EventHandler<ActionEvent>() {
+      /**
+       * This method allows user to save quiz Results to JSON file.
+       */
+      public void handle(ActionEvent event) {
+        // TODO
+      }
+    });
 
     root.setTop(hboxTopMenu);
 
