@@ -10,7 +10,11 @@ package application;
 
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import org.json.simple.parser.ParseException;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,11 +41,18 @@ import javafx.scene.paint.Color;
 public class Main extends Application {
 
   private Desktop desktop = Desktop.getDesktop();
+  private HashTable<String, Topic> topics = new HashTable<String, Topic>();
+  
+  
   /**
    * Runs the Home Screen
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
+	  
+	  
+	  
+	  
     try {
       BorderPane root = new BorderPane();
       HBox hbox = new HBox();
@@ -163,10 +174,16 @@ public class Main extends Application {
         public void handle(ActionEvent event) {
           File file = fileChooser.showOpenDialog(primaryStage);
           Stage newStage = new Stage();
-          AddFile addFile = new AddFile();
+          try {
+			AddFile addFile = new AddFile(file, topics);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
           if (file != null) {
             try {
-              addFile.start(newStage);
+              //addFile.start(newStage);
               primaryStage.close();
             } catch (Exception e) {
               e.printStackTrace();
@@ -221,12 +238,10 @@ public class Main extends Application {
    * Opens File Explorer so a user can upload a JSON file
    * @param file
    */
-  private void openFile(File file) {
-    try {
-      desktop.open(file);
-    } catch (IOException ex) {
-    }
-  }
+	/*
+	 * private void openFile(File file) { try { desktop.open(file); } catch
+	 * (IOException ex) { } }
+	 */
   
   /**
    * Main method that runs the application
