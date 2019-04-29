@@ -1,5 +1,15 @@
 
 public interface DataStructureADT<K extends Comparable<K>, V> {
+  /**
+   * Add the key,value pair to the data structure and increase the number of keys. If key is null,
+   * throw IllegalNullKeyException; If key is already in data structure, throw
+   * DuplicateKeyException();
+   * 
+   * @param key
+   * @param value
+   * @throws IllegalNullKeyException
+   * @throws DuplicateKeyException
+   */
   void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException;
 
 
