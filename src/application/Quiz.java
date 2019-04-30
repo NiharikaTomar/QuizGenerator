@@ -8,6 +8,12 @@
  */
 package application;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
 import javax.print.attribute.Size2DSyntax;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -37,7 +43,10 @@ public class Quiz extends Application {
   private int numQuestions;
   private boolean nextButtonClicked; //pauses program until "Next Question" is pressed.
   private int i;
-
+  private ArrayList<Question> askedQuestions;
+  List<Question> questions;
+  List<Answer> answers;
+  List<Answer> chosenAnswers;
   /**
    * Runs the quiz page
    */
@@ -53,25 +62,49 @@ public class Quiz extends Application {
     // Buttons needed for the page
     Button homeButton = new Button("Home");
     Button nextQuestionButton = new Button("Next Question");
-    Button submitButton = new Button("Sumbit");
+    Button submitButton = new Button("Submit");
 
     hboxTopMenu.getChildren().add(homeButton);
     hboxBottomMenu.getChildren().add(nextQuestionButton);
     hboxBottomMenu.getChildren().add(submitButton);
+    
+    questions = new ArrayList<>();
+    answers = new ArrayList<>();
+    chosenAnswers = new ArrayList<>();
+    
+    System.out.println(Main.topicsToQuestion);
+    
+    for (int a=0;a<Main.topicsToQuestion.size();a++)
+    {
+    	questions.addAll(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().keySet());
+    	for (int b=0;b<questions.size();b++)
+    	{
+    		answers.add(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
+    	}
+    	
+    }
+    
 
     // Add questions to a Vertical Box
     i = 1;
     nextButtonClicked = true;
-    Answer answer = new Answer();
     while (i <= numQuestions && nextButtonClicked) {
       nextButtonClicked = false;
       VBox questionsAndAnswers = new VBox();
-      Label question = new Label("Question " + i + ": Can you choose an option?");
+      
+      askedQuestions = new ArrayList<Question>();
+		
+      Random random = new Random();
+      int randomNumber = random.nextInt(questions.size());
+      Question randomKey = questions.get(randomNumber);
+      askedQuestions.add(randomKey);
+      
+      Label question = new Label("Question " + i + ": " + randomKey.getQuestion());     
       ToggleGroup answersGroup = new ToggleGroup();
       question.setTextFill(Color.WHITE);
       questionsAndAnswers.getChildren().add(question);
-      for (int j = 1; j < 6; j++) { //Adds answer options
-        RadioButton r = new RadioButton("Answer " + j);
+      for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { //Adds answer options
+        RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
         r.setToggleGroup(answersGroup);
         r.setTextFill(Color.WHITE);
         questionsAndAnswers.getChildren().add(r);
@@ -89,11 +122,25 @@ public class Quiz extends Application {
           nextButtonClicked = false;
           if (i <= numQuestions) {
             questionsAndAnswers.getChildren().clear();
-            Label question = new Label("Question " + i + ": Can you choose an option?");
+            
+            Random random = new Random();
+            int randomNumber = random.nextInt(questions.size());
+            Question randomKey = questions.get(randomNumber);
+            
+            while (askedQuestions.contains(randomKey))
+            {
+            	randomNumber = random.nextInt(questions.size());
+            	randomKey = questions.get(randomNumber);
+            }
+            
+            askedQuestions.add(randomKey);
+            
+            Label question = new Label("Question " + i + ": " + randomKey.getQuestion());     
+            ToggleGroup answersGroup = new ToggleGroup();
             question.setTextFill(Color.WHITE);
             questionsAndAnswers.getChildren().add(question);
-            for (int j = 1; j < 6; j++) {
-              RadioButton r = new RadioButton("Answer " + j);
+            for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { //Adds answer options
+              RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
               r.setToggleGroup(answersGroup);
               r.setTextFill(Color.WHITE);
               questionsAndAnswers.getChildren().add(r);

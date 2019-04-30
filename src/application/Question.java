@@ -1,6 +1,6 @@
 package application;
 
-public class Question {
+public class Question implements Comparable<Question>{
 	
 	String question;
 	String image;
@@ -30,6 +30,11 @@ public class Question {
 	public boolean equals(Question q)
 	{
 		return question.equals(q.getQuestion());
+	}
+
+	@Override
+	public int compareTo(Question o) {
+		return question.compareTo(o.getQuestion());
 	}
 
 }

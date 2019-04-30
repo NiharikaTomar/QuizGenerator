@@ -59,7 +59,7 @@ public class AddQuestion extends Application{
     Label topicPrompt = new Label("Choose a topic");
     topicPrompt.setTextFill(Color.WHITE);
     form.getChildren().add(topicPrompt);
-    HashTable table = new HashTable();
+    HashTable<String, QuestionBank> table = Main.topics;
     ArrayList<String> topics = table.keySet();
     ComboBox<String> topicChooser = new ComboBox<String>();
     for (int i = 0; i < topics.size(); i++) {
@@ -140,16 +140,7 @@ public class AddQuestion extends Application{
     form.getChildren().add(questionInput);
     form.getChildren().add(instructions);
     form.getChildren().add(answersAndSwitches);
-//    form.getChildren().add(answer1);
-//    form.getChildren().add(txt1);
-//    form.getChildren().add(answer2);
-//    form.getChildren().add(txt2);
-//    form.getChildren().add(answer3);
-//    form.getChildren().add(txt3);
-//    form.getChildren().add(answer4);
-//    form.getChildren().add(txt4);
-//    form.getChildren().add(answer5);
-//    form.getChildren().add(txt5);
+
     root.setCenter(form);
 
     homeButton.setOnAction(new EventHandler<ActionEvent>() {

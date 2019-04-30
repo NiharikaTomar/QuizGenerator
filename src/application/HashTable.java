@@ -240,12 +240,16 @@ public class HashTable<K extends Comparable<K>, V> implements HashTableADT<K, V>
 		return 1;
 	}
 	
-	public ArrayList<String> keySet()
+	public ArrayList<K> keySet()
 	{
-		ArrayList<String> keys = new ArrayList<String>();
+		ArrayList<K> keys = new ArrayList<K>();
 		for (int i=0;i<table.length;i++)
 		{
-			keys.add((String) table[i]);
+			if (!(table[i] == null))
+			{
+				HashNode<K, V> node = (HashNode<K, V>) table[i];
+				keys.add(node.getKey());
+			}
 		}
 		return keys;
 	}

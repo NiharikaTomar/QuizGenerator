@@ -12,6 +12,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import org.json.simple.parser.ParseException;
 
@@ -41,8 +42,10 @@ import javafx.scene.paint.Color;
 public class Main extends Application {
 
   private Desktop desktop = Desktop.getDesktop();
-  private HashTable<String, Topic> topics = new HashTable<String, Topic>();
-  
+  public static HashTable<String, QuestionBank> topics = new HashTable<String, QuestionBank>();
+  ObservableList<String> items;
+  public static ArrayList<String> topicsToQuestion = new ArrayList<String>();
+ 
   
   /**
    * Runs the Home Screen
@@ -176,7 +179,12 @@ public class Main extends Application {
           File file = fileChooser.showOpenDialog(primaryStage);
           Stage newStage = new Stage();
           try {
-			AddFile addFile = new AddFile(file, topics);
+			AddFile addFile = new AddFile(file);
+			items.clear();
+			for (int i=0;i<topics.keySet().size();i++)
+		      {
+		    	  items.add(topics.keySet().get(i));
+		      }
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -186,11 +194,11 @@ public class Main extends Application {
             try {
               //addFile.start(newStage);
               //primaryStage.close();
-            	 Main main = new Main();
-                 Stage newStage1 = new Stage();
+            	// Main main = new Main();
+                 //Stage newStage1 = new Stage();
                  
-                   main.start(newStage1);
-                   primaryStage.close();
+                   //main.start(newStage1);
+                   primaryStage.show();
                  
               
             } catch (Exception e) {
@@ -213,8 +221,13 @@ public class Main extends Application {
       //      });
 
       // Generates Topic List
-      ObservableList<String> items =
-          FXCollections.observableArrayList("Computer Science", "Math", "Science");
+      items = FXCollections.observableArrayList();
+      //topicsToQuestion = new ArrayList<String>();
+      items.clear();
+		for (int i=0;i<topics.keySet().size();i++)
+	      {
+	    	  items.add(topics.keySet().get(i));
+	      }
       ListView<String> list = new ListView<>(items);
       ListView<String> selected = new ListView<>();
       HBox hBox2 = new HBox(list, selected);
@@ -223,6 +236,7 @@ public class Main extends Application {
       list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
       list.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
         selected.setItems(list.getSelectionModel().getSelectedItems());
+        topicsToQuestion.add(list.getSelectionModel().getSelectedItems().get(0));
       });
 
       root.setTop(chooseTopic);
