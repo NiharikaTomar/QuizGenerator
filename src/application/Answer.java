@@ -34,4 +34,11 @@ public class Answer {
 		return "No Correct Answer";
 	}
 	
+	public ArrayList<String> getAnswers() {
+      return answers;
+    }
+	
+	public ArrayList<Boolean> getIsCorrect() {
+      return isCorrect;
+    }
 }

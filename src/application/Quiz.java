@@ -8,6 +8,7 @@
  */
 package application;
 
+import javax.print.attribute.Size2DSyntax;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
