@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 import org.json.simple.parser.ParseException;
 
@@ -42,9 +43,9 @@ import javafx.scene.paint.Color;
 public class Main extends Application {
 
   private Desktop desktop = Desktop.getDesktop();
-  private HashTable<String, Topic> topics = new HashTable<String, Topic>();
-  boolean updateList = false;
-  ObservableList<String> items;
+  private static HashTable<String, Topic> topics = new HashTable<String, Topic>();
+  //ArrayList<String> 
+  ObservableList<String> items = FXCollections.observableArrayList();
   
   
   /**
@@ -53,7 +54,7 @@ public class Main extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
 	  
-	  
+	  System.out.println(topics.keySet());
 	  
 	  
     try {
@@ -179,6 +180,7 @@ public class Main extends Application {
           Stage newStage = new Stage();
           try {
 			AddFile addFile = new AddFile(file, topics);
+			topics = addFile.get();
 			//topics = addFile.getTable();
 			items.clear();
 			for (int i=0;i<topics.keySet().size();i++)
@@ -191,10 +193,10 @@ public class Main extends Application {
 		}
  
           if (file != null) {
-        	  updateList = true;
+        	  //updateList = true;
             try {
               //addFile.start(newStage);
-              primaryStage.close();
+              //primaryStage.close();
               primaryStage.show();
             } catch (Exception e) {
               e.printStackTrace();
@@ -216,7 +218,13 @@ public class Main extends Application {
       //      });
 
       // Generates Topic List
-      items = FXCollections.observableArrayList("Computer Science", "Math", "Science");
+      //items = FXCollections.observableArrayList();
+      System.out.println(topics.numKeys());
+      for (int i=0;i<topics.keySet().size();i++)
+      {
+    	  items.add(topics.keySet().get(i));
+      }
+      
       ListView<String> list = new ListView<>(items);
       ListView<String> selected = new ListView<>();
       HBox hBox2 = new HBox(list, selected);

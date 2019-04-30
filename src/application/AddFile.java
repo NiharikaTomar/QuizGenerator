@@ -12,6 +12,7 @@ import org.json.simple.parser.ParseException;
 
 public class AddFile {
 	
+	HashTable<String, Topic> t;
 	
 	public AddFile(File f, HashTable<String, Topic> topics) throws FileNotFoundException, IOException, ParseException, IllegalNullKeyException, DuplicateKeyException, KeyNotFoundException
 	{		
@@ -56,6 +57,12 @@ public class AddFile {
     	  topics.get(topic).addQA(new Question(question, image), ans);
           
         }
+    	t = topics;
     	//System.out.println(topics.keySet());
+	}
+	
+	public HashTable<String, Topic> get()
+	{
+		return t;
 	}
 }
