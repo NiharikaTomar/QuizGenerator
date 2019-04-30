@@ -46,12 +46,14 @@ public class Quiz extends Application {
   private ArrayList<Question> askedQuestions;
   List<Question> questions;
   List<Answer> answers;
-  List<Answer> chosenAnswers;
+  List<String> chosenAnswers;
+  ToggleGroup answersGroup;
   /**
    * Runs the quiz page
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
+	i = 1;
 
     BorderPane root = new BorderPane();
     HBox hboxTopMenu = new HBox();
@@ -72,27 +74,18 @@ public class Quiz extends Application {
     answers = new ArrayList<>();
     chosenAnswers = new ArrayList<>();
     
-    System.out.println(Main.topicsToQuestion);
-    
     for (int a=0;a<Main.topicsToQuestion.size();a++)
     {
     	questions.addAll(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().keySet());
     	for (int b=0;b<questions.size();b++)
     	{
-    		//System.out.println(questions.get(b).question);
-    		//System.out.println(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
     		if (Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)) != null)
     			answers.add(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
-    		//System.out.println(answers);
     	}
     	
     }
-    
-    System.out.println(questions);
-    System.out.println(answers);
 
     // Add questions to a Vertical Box
-    i = 1;
     nextButtonClicked = true;
     while (i <= numQuestions && nextButtonClicked) {
       nextButtonClicked = false;
@@ -106,7 +99,7 @@ public class Quiz extends Application {
       askedQuestions.add(randomKey);
       
       Label question = new Label("Question " + i + ": " + randomKey.getQuestion());     
-      ToggleGroup answersGroup = new ToggleGroup();
+      answersGroup = new ToggleGroup();
       question.setTextFill(Color.WHITE);
       questionsAndAnswers.getChildren().add(question);
       for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { //Adds answer options
@@ -117,6 +110,8 @@ public class Quiz extends Application {
         root.setCenter(questionsAndAnswers);
 
       }
+      //RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+      //System.out.println(selectedRadioButton.getText());
       i++;
       
       nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -125,6 +120,9 @@ public class Quiz extends Application {
          */
         @Override
         public void handle(ActionEvent arg0) {
+        	RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+        	chosenAnswers.add(selectedRadioButton.getText());
+        	System.out.println(chosenAnswers);
           nextButtonClicked = false;
           if (i <= numQuestions) {
             questionsAndAnswers.getChildren().clear();
@@ -142,13 +140,9 @@ public class Quiz extends Application {
             askedQuestions.add(randomKey);
             
             Label question = new Label("Question " + i + ": " + randomKey.getQuestion());     
-            ToggleGroup answersGroup = new ToggleGroup();
+            answersGroup = new ToggleGroup();
             question.setTextFill(Color.WHITE);
             questionsAndAnswers.getChildren().add(question);
-            System.out.println(answers);
-            //System.out.println(answers.get(randomNumber));
-            //System.out.println(answers.get(randomNumber).getAnswers());
-            //System.out.println(answers.get(randomNumber).getAnswers().size());
             for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { //Adds answer options
               RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
               r.setToggleGroup(answersGroup);
@@ -158,7 +152,9 @@ public class Quiz extends Application {
             }
             i++;
           }
-        }    
+          //if (i > numQuestions)
+          // 	hboxBottomMenu.getChildren().remove(nextQuestionButton);
+        }
       });
     }
 
@@ -184,6 +180,9 @@ public class Quiz extends Application {
        * This method creates a new screen with quiz results.
        */
       public void handle(ActionEvent event) {
+    	RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+      	chosenAnswers.add(selectedRadioButton.getText());
+      	System.out.println(chosenAnswers);
         QuizResults quizResults = new QuizResults();
         Stage newStage = new Stage();
         try {
