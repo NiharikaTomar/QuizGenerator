@@ -61,6 +61,7 @@ public class Quiz extends Application {
     // Add questions to a Vertical Box
     i = 1;
     nextButtonClicked = true;
+    Answer answer = new Answer();
     while (i <= numQuestions && nextButtonClicked) {
       nextButtonClicked = false;
       VBox questionsAndAnswers = new VBox();
