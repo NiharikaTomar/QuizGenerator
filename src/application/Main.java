@@ -172,6 +172,7 @@ public class Main extends Application {
          */
         @Override
         public void handle(ActionEvent event) {
+        	
           File file = fileChooser.showOpenDialog(primaryStage);
           Stage newStage = new Stage();
           try {
@@ -184,7 +185,14 @@ public class Main extends Application {
           if (file != null) {
             try {
               //addFile.start(newStage);
-              primaryStage.close();
+              //primaryStage.close();
+            	 Main main = new Main();
+                 Stage newStage1 = new Stage();
+                 
+                   main.start(newStage1);
+                   primaryStage.close();
+                 
+              
             } catch (Exception e) {
               e.printStackTrace();
             }
