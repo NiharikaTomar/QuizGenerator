@@ -79,11 +79,17 @@ public class Quiz extends Application {
     	questions.addAll(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().keySet());
     	for (int b=0;b<questions.size();b++)
     	{
-    		answers.add(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
+    		//System.out.println(questions.get(b).question);
+    		//System.out.println(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
+    		if (Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)) != null)
+    			answers.add(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
+    		//System.out.println(answers);
     	}
     	
     }
     
+    System.out.println(questions);
+    System.out.println(answers);
 
     // Add questions to a Vertical Box
     i = 1;
@@ -139,6 +145,10 @@ public class Quiz extends Application {
             ToggleGroup answersGroup = new ToggleGroup();
             question.setTextFill(Color.WHITE);
             questionsAndAnswers.getChildren().add(question);
+            System.out.println(answers);
+            //System.out.println(answers.get(randomNumber));
+            //System.out.println(answers.get(randomNumber).getAnswers());
+            //System.out.println(answers.get(randomNumber).getAnswers().size());
             for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { //Adds answer options
               RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
               r.setToggleGroup(answersGroup);

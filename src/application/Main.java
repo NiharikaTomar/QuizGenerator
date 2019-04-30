@@ -236,7 +236,11 @@ public class Main extends Application {
       list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
       list.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
         selected.setItems(list.getSelectionModel().getSelectedItems());
-        topicsToQuestion.add(list.getSelectionModel().getSelectedItems().get(0));
+        for (String t: list.getSelectionModel().getSelectedItems())
+        {
+        	if (!topicsToQuestion.contains(t))
+        		topicsToQuestion.add(t);
+        }
       });
 
       root.setTop(chooseTopic);
