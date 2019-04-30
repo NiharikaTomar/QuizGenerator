@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 public class Topic {
 	
-	String topicName;
-	HashMap<Question, Answer> questions;
+	private String topicName;
+	private HashMap<Question, Answer> questions;
 	
 	public Topic(String tn)
 	{
@@ -18,5 +18,21 @@ public class Topic {
 	{
 		questions.put(q, a);
 	}
+	
+	/**
+	 * Getter for HashMap of questions and answers
+	 * @return
+	 */
+	public HashMap<Question, Answer> getQuestions() {
+      return questions;
+    }
+	
+	/**
+	 * Getter for Topic String
+	 * @return
+	 */
+	public String getTopicName() {
+      return topicName;
+    }
 	
 }

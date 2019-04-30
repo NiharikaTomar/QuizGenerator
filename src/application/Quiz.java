@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.ValueAxis;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -76,7 +77,11 @@ public class Quiz extends Application {
 
       }
       i++;
+      
       nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
+        /**
+         * This method loads a next questions when next button was clicked.
+         */
         @Override
         public void handle(ActionEvent arg0) {
           nextButtonClicked = false;
