@@ -180,9 +180,9 @@ public class Quiz extends Application {
        * This method creates a new screen with quiz results.
        */
       public void handle(ActionEvent event) {
-    	RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-      	chosenAnswers.add(selectedRadioButton.getText());
-      	System.out.println(chosenAnswers);
+    	//RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+      	//chosenAnswers.add(selectedRadioButton.getText());
+      	//System.out.println(chosenAnswers);
         QuizResults quizResults = new QuizResults();
         Stage newStage = new Stage();
         try {
