@@ -53,6 +53,7 @@ public class AddQuestion extends Application{
 
     // Buttons needed for the page
     Button homeButton = new Button("Home");
+    Button addQuestion = new Button("Add question");
 
     hboxTopMenu.getChildren().add(homeButton);
     
@@ -159,6 +160,27 @@ public class AddQuestion extends Application{
       }
     });
 
+    addQuestion.setOnAction(new EventHandler<ActionEvent>() {
+        /**
+         * This method creates a new scene with a pop up to go back to main page.
+         */
+        public void handle(ActionEvent event) {
+          Main main = new Main();
+          Stage newStage = new Stage();
+          try {
+        	  
+        	  
+            main.start(newStage);
+            primaryStage.close();
+            
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      });
+    
+    
+    
     root.setTop(hboxTopMenu);
 
     Scene scene = new Scene(root, 1200, 600);
