@@ -166,6 +166,9 @@ public class HashTable<K extends Comparable<K>, V> implements HashTableADT<K, V>
 	 */
 	@Override
 	public V get(K key) throws IllegalNullKeyException, KeyNotFoundException {
+		System.out.println("key " +key);
+		System.out.println("keySEt " +keySet());
+		
 		if (key == null)
 			throw new IllegalNullKeyException();
 		for (int i=Math.abs(key.hashCode()%getCapacity());i<getCapacity();i++)
@@ -173,6 +176,7 @@ public class HashTable<K extends Comparable<K>, V> implements HashTableADT<K, V>
 			if (table[i] == null)
 				throw new KeyNotFoundException();
 			HashNode<K, V> node = (HashNode<K, V>) table[i];
+			System.out.println("node " + node.getKey());
 			if (node.getKey().compareTo(key) == 0)
 			{
 				return node.getValue();
@@ -240,12 +244,16 @@ public class HashTable<K extends Comparable<K>, V> implements HashTableADT<K, V>
 		return 1;
 	}
 	
-	public ArrayList<String> keySet()
+	public ArrayList<K> keySet()
 	{
-		ArrayList<String> keys = new ArrayList<String>();
+		ArrayList<K> keys = new ArrayList<K>();
 		for (int i=0;i<table.length;i++)
 		{
-			keys.add((String) table[i]);
+			if (!(table[i] == null))
+			{
+				HashNode<K, V> node = (HashNode<K, V>) table[i];
+				keys.add(node.getKey());
+			}
 		}
 		return keys;
 	}

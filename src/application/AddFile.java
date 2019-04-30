@@ -13,9 +13,8 @@ import org.json.simple.parser.ParseException;
 public class AddFile {
 	
 	
-	
-	public AddFile(File f, HashTable<String, Topic> topics) throws FileNotFoundException, IOException, ParseException
-	{
+	public AddFile(File f, HashTable<String, Topic> topics) throws FileNotFoundException, IOException, ParseException, IllegalNullKeyException, DuplicateKeyException, KeyNotFoundException
+	{		
 		Object obj = new JSONParser().parse(new FileReader(f)); 
     	JSONObject jo = (JSONObject) obj;
     	JSONArray jsonArray = (JSONArray) jo.get("questionArray");
@@ -36,9 +35,11 @@ public class AddFile {
           JSONArray choicesArray = (JSONArray) objectInArray.get("choiceArray");
           for (int j = 0; j < choicesArray.size(); j++)
           {
-        	  JSONObject choices = (JSONObject) choicesArray.get(i);
+        	  JSONObject choices = (JSONObject) choicesArray.get(j);
         	  String choice = (String) choices.get("choice");
-        	  boolean correct = Boolean.getBoolean((String) choices.get("isCorrect"));
+        	  boolean correct = false;
+        	  if (((String) choices.get("isCorrect")).equals("T"))
+        		  correct = true;     	   
         	  
         	  ans.addAnswer(choice, correct);
         	  
@@ -46,17 +47,15 @@ public class AddFile {
               //System.out.println(correct);
           }
           
-          try {
-        	  if (!topics.contains(topic))
-        	  {
-        		  topics.insert(topic, new Topic(topic));
-        	  }
-        	  topics.get(topic).addQA(new Question(topic, image), ans);
-        	  
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+          if (!topics.contains(topic))
+    	  {
+    		  topics.insert(topic, new Topic(topic));
+    	  }
+          System.out.println("KEUE SET CHECK " + topics.keySet());
+    	  
+    	  topics.get(topic).addQA(new Question(question, image), ans);
           
         }
+    	//System.out.println(topics.keySet());
 	}
 }

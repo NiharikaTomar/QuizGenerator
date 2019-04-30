@@ -12,6 +12,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.json.simple.parser.ParseException;
 
@@ -42,6 +43,8 @@ public class Main extends Application {
 
   private Desktop desktop = Desktop.getDesktop();
   private HashTable<String, Topic> topics = new HashTable<String, Topic>();
+  boolean updateList = false;
+  ObservableList<String> items;
   
   
   /**
@@ -176,15 +179,23 @@ public class Main extends Application {
           Stage newStage = new Stage();
           try {
 			AddFile addFile = new AddFile(file, topics);
+			//topics = addFile.getTable();
+			items.clear();
+			for (int i=0;i<topics.keySet().size();i++)
+		      {
+		    	  items.add(topics.keySet().get(i));
+		      }
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
+ 
           if (file != null) {
+        	  updateList = true;
             try {
               //addFile.start(newStage);
               primaryStage.close();
+              primaryStage.show();
             } catch (Exception e) {
               e.printStackTrace();
             }
@@ -205,8 +216,7 @@ public class Main extends Application {
       //      });
 
       // Generates Topic List
-      ObservableList<String> items =
-          FXCollections.observableArrayList("Computer Science", "Math", "Science");
+      items = FXCollections.observableArrayList("Computer Science", "Math", "Science");
       ListView<String> list = new ListView<>(items);
       ListView<String> selected = new ListView<>();
       HBox hBox2 = new HBox(list, selected);
