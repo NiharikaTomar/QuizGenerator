@@ -52,13 +52,17 @@ public class Main extends Application {
 
     try {
       BorderPane root = new BorderPane();
+      
       HBox hbox = new HBox();
+      
       hbox.setSpacing(10);
 
       // Choose Topic Label
       Label chooseTopic = new Label(
           "Please choose a topic. \n[To select multiple topics, hold down the CTRL button on Windows "
               + "or COMMAND on MAC.]");
+
+      
       chooseTopic.setTextFill(Color.WHITE);
 
       // Generate Buttons needed
@@ -67,13 +71,14 @@ public class Main extends Application {
       Button edit = new Button("Edit");
       Button takeQuiz = new Button("Take Quiz");
       Button startQuiz = new Button("Start Quiz");
-      Button closePopUp = new Button("Agree");
+      Button closePopUp = new Button("Thank you");
 
       // Add buttons to a horizontal box
       hbox.getChildren().add(addQuestion);
       hbox.getChildren().add(addFile);
       hbox.getChildren().add(edit);
       hbox.getChildren().add(takeQuiz);
+      
       Stage numberOfQuetionsStage = new Stage();
       TextField inputBox = new TextField();
 
@@ -89,7 +94,7 @@ public class Main extends Application {
           numberOfQuetionsStage.show();
         }
       });
-
+      
       hbox.getStyleClass().add("hbox");
 
       // Set up behavior for Start Quiz button

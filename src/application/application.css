@@ -18,6 +18,7 @@
 
 .root {
 	-fx-background-color: #132D54;
+	-fx-padding: 10px 10px 10px 10px;
 }
 
 
