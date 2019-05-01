@@ -8,25 +8,20 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
-import javax.print.attribute.Size2DSyntax;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.ValueAxis;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -103,6 +98,14 @@ public class Quiz extends Application {
       askedQuestions.add(randomKey);
 
       Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
+      System.out.println(randomKey.image);
+      System.out.println(randomKey.image.equals("none"));
+      
+      if (!(randomKey.image.equals("none")))
+      {
+    	  question.setGraphic(new ImageView(new Image(randomKey.image)));
+      }
+      
       answersGroup = new ToggleGroup();
       question.setTextFill(Color.WHITE);
       questionsAndAnswers.getChildren().add(question);
