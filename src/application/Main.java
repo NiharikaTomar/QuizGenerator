@@ -105,7 +105,18 @@ public class Main extends Application {
 				 */
 				@Override
 				public void handle(ActionEvent event) {
-					int numQuestions = Integer.parseInt(inputBox.getText());
+					int numQuestions = 0;
+					try {
+						numQuestions = Integer.parseInt(inputBox.getText());
+					} catch (NumberFormatException e) {
+						numberOfQuetionsStage.close();
+						Label questionNumPrompt = new Label("Type number of questions");
+						VBox vBox = new VBox(questionNumPrompt, closePopUp);
+						Scene popupScene = new Scene(vBox);
+						numberOfQuetionsStage.setScene(popupScene);
+						numberOfQuetionsStage.show();
+						return;
+					}
 					Quiz quiz = new Quiz();
 					quiz.setNumQuestions(numQuestions);
 					Stage newStage = new Stage();
@@ -198,17 +209,17 @@ public class Main extends Application {
 							items.add(topics.keySet().get(i));
 						}
 					} catch (Exception e1) {
-						
-					        Main main = new Main();
-					        Stage newStage3 = new Stage();
-					        
-					        try {
-					          main.start(newStage3);
-					          primaryStage.close();
-					        } catch (Exception e) {
-					          e.printStackTrace();
-					        }
-					      
+
+						Main main = new Main();
+						Stage newStage3 = new Stage();
+
+						try {
+							main.start(newStage3);
+							primaryStage.close();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
 					}
 
 					// if (file != null) {

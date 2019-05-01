@@ -104,6 +104,7 @@ public class Quiz extends Application {
       questionsAndAnswers.getChildren().add(question);
       for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { //Adds answer options
         RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
+        //r.setSelected(true);
         r.setToggleGroup(answersGroup);
         r.setTextFill(Color.WHITE);
         questionsAndAnswers.getChildren().add(r);
