@@ -99,8 +99,9 @@ public class Quiz extends Application {
 
       Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
       System.out.println(randomKey.image);
+      System.out.println(randomKey.image.equals("none"));
       
-      if (!(randomKey.image == null && randomKey.image.equals("none")))
+      if (!(randomKey.image.equals("none")))
       {
     	  question.setGraphic(new ImageView(new Image(randomKey.image)));
       }
