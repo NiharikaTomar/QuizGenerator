@@ -198,25 +198,35 @@ public class Main extends Application {
 							items.add(topics.keySet().get(i));
 						}
 					} catch (Exception e1) {
-						e1.printStackTrace();
+						
+					        Main main = new Main();
+					        Stage newStage3 = new Stage();
+					        
+					        try {
+					          main.start(newStage3);
+					          primaryStage.close();
+					        } catch (Exception e) {
+					          e.printStackTrace();
+					        }
+					      
 					}
 
-					if (file != null) {
-						try {
-							// addFile.start(newStage);
-							// primaryStage.close();
-							// Main main = new Main();
-							// Stage newStage1 = new Stage();
+					// if (file != null) {
+					try {
+						// addFile.start(newStage);
+						// primaryStage.close();
+						// Main main = new Main();
+						// Stage newStage1 = new Stage();
 
-							// main.start(newStage1);
-							primaryStage.show();
+						// main.start(newStage1);
+						primaryStage.show();
 
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-
+					} catch (Exception e) {
+						e.printStackTrace();
 					}
+
 				}
+
 			});
 
 			// AddFile addFile = new AddFile();
