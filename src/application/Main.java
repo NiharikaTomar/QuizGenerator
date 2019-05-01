@@ -68,7 +68,6 @@ public class Main extends Application {
       // Generate Buttons needed
       Button addQuestion = new Button("Add Question");
       Button addFile = new Button("Upload a JSON File");
-      Button edit = new Button("Edit");
       Button takeQuiz = new Button("Take Quiz");
       Button startQuiz = new Button("Start Quiz");
       Button closePopUp = new Button("Thank you");
@@ -76,7 +75,6 @@ public class Main extends Application {
       // Add buttons to a horizontal box
       hbox.getChildren().add(addQuestion);
       hbox.getChildren().add(addFile);
-      hbox.getChildren().add(edit);
       hbox.getChildren().add(takeQuiz);
 
       Stage numberOfQuetionsStage = new Stage();
@@ -147,25 +145,7 @@ public class Main extends Application {
         }
       });
       // Set up behavior for Edit button
-      edit.setOnAction(new EventHandler<ActionEvent>() {
-
-        /**
-         * This method creates a new scene with a quiz questions and closes primaryStage and
-         * numberOfQuestionsStage.
-         */
-        @Override
-        public void handle(ActionEvent event) {
-          Edit edit = new Edit();
-          Stage newStage = new Stage();
-          try {
-            edit.start(newStage);
-            primaryStage.close();
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
-        }
-      });
-
+      
       // Set up behavior for addQuestion button
       addQuestion.setOnAction(new EventHandler<ActionEvent>() {
 
