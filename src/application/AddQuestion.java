@@ -8,12 +8,15 @@
  */
 package application;
 
+import java.io.File;
 import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -26,6 +29,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 /**
  * Runs AddQuestion GUI
@@ -33,6 +37,8 @@ import javafx.stage.Stage;
  *
  */
 public class AddQuestion extends Application{
+  
+  private File imageName;
   /**
    * Runs AddQuestion GUI
    */
@@ -46,6 +52,7 @@ public class AddQuestion extends Application{
     HBox hboxBottomMenu = new HBox();
     
     VBox form = new VBox();
+    form.setSpacing(5);
     HBox answersAndSwitches = new HBox();
     VBox answers = new VBox();
     VBox switches = new VBox();
@@ -56,6 +63,7 @@ public class AddQuestion extends Application{
 
     // Buttons needed for the page
     Button homeButton = new Button("Home");
+    Button addImage = new Button("Add Image");
     Button addQuestion = new Button("Add question");
 
     hboxTopMenu.getChildren().add(homeButton);
@@ -143,6 +151,7 @@ public class AddQuestion extends Application{
     form.getChildren().add(topicChooser);
     form.getChildren().add(questionPrompt);
     form.getChildren().add(questionInput);
+    form.getChildren().add(addImage);
     form.getChildren().add(instructions);
     form.getChildren().add(answersAndSwitches);
 
@@ -150,16 +159,19 @@ public class AddQuestion extends Application{
     
     String topicChosen ="";
     
-//    topicChooser.setOnAction(new EventHandler<ActionEvent>() {
-//    	public void handle(ActionEvent event) {
-//           topicChosen = topicChooser.getValue();
-//           
-//           //System.out.println(topicChooser.getValue());
-//          }
-//    	
-//    });
-    
+    final FileChooser fileChooser = new FileChooser();
+    addImage.setOnAction(new EventHandler<ActionEvent>() {
 
+      @Override
+      public void handle(ActionEvent arg0) {
+        imageName = fileChooser.showOpenDialog(primaryStage);  
+        Alert a = new Alert(AlertType.CONFIRMATION);
+        a.setContentText("You have successfully uploaded an image!");
+        a.show();
+      }
+      
+    });
+    
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
        * This method creates a new scene with a pop up to go back to main page.
@@ -208,12 +220,12 @@ public class AddQuestion extends Application{
         	  if( selectedCorrect.equals(switch5.getUserData())) {
         		  corr5 = true;
         	  }
-        	  ans.addAnswer(answer1.toString(), corr1);
-        	  ans.addAnswer(answer2.toString(), corr2);
-        	  ans.addAnswer(answer3.toString(), corr3);
-        	  ans.addAnswer(answer4.toString(), corr4);
-        	  ans.addAnswer(answer5.toString(), corr5);
-        	  Main.topics.get(topicChooser.getValue()).addQA(new Question(questionInput.getText(), null), ans);
+        	  ans.addAnswer(txt1.getText(), corr1);
+        	  ans.addAnswer(txt2.getText(), corr2);
+        	  ans.addAnswer(txt3.getText(), corr3);
+        	  ans.addAnswer(txt4.getText(), corr4);
+        	  ans.addAnswer(txt5.getText(), corr5);
+        	  Main.topics.get(topicChooser.getValue()).addQA(new Question(questionInput.getText(), imageName.getName()), ans);
         	  
             main.start(newStage);
             primaryStage.close();

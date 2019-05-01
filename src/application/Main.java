@@ -52,9 +52,9 @@ public class Main extends Application {
 
     try {
       BorderPane root = new BorderPane();
-      
+
       HBox hbox = new HBox();
-      
+
       hbox.setSpacing(10);
 
       // Choose Topic Label
@@ -62,7 +62,7 @@ public class Main extends Application {
           "Please choose a topic. \n[To select multiple topics, hold down the CTRL button on Windows "
               + "or COMMAND on MAC.]");
 
-      
+
       chooseTopic.setTextFill(Color.WHITE);
 
       // Generate Buttons needed
@@ -78,7 +78,7 @@ public class Main extends Application {
       hbox.getChildren().add(addFile);
       hbox.getChildren().add(edit);
       hbox.getChildren().add(takeQuiz);
-      
+
       Stage numberOfQuetionsStage = new Stage();
       TextField inputBox = new TextField();
 
@@ -94,7 +94,7 @@ public class Main extends Application {
           numberOfQuetionsStage.show();
         }
       });
-      
+
       hbox.getStyleClass().add("hbox");
 
       // Set up behavior for Start Quiz button
@@ -109,6 +109,16 @@ public class Main extends Application {
           int numQuestions = 0;
           try {
             numQuestions = Integer.parseInt(inputBox.getText());
+            if (numQuestions > topicsToQuestion.size() && topicsToQuestion.size() != 0) {
+              numQuestions = topicsToQuestion.size();
+            }
+            Quiz quiz = new Quiz();
+            quiz.setNumQuestions(numQuestions);
+            Stage newStage = new Stage();
+            quiz.start(newStage);
+            numberOfQuetionsStage.close();
+            primaryStage.close();
+            newStage.show();
           } catch (NumberFormatException e) {
             numberOfQuetionsStage.close();
             Label questionNumPrompt = new Label("Type number of questions");
@@ -118,29 +128,16 @@ public class Main extends Application {
             numberOfQuetionsStage.show();
             return;
           }
-          Quiz quiz = new Quiz();
-
-          if (topicsToQuestion.size() < numQuestions && topicsToQuestion.size() != 0) {
-            quiz.setNumQuestions(topicsToQuestion.size());
-          } else {
-            quiz.setNumQuestions(numQuestions);
-          }
-          Stage newStage = new Stage();
-          try {
-            quiz.start(newStage);
+          catch (Exception e){
             numberOfQuetionsStage.close();
-            primaryStage.close();
-          } catch (Exception e) {
-            numberOfQuetionsStage.close();
-            Label questionNumPrompt = new Label("Choose at least one topic");
-
+            Label questionNumPrompt = new Label("Please select a topic");
             VBox vBox = new VBox(questionNumPrompt, closePopUp);
             Scene popupScene = new Scene(vBox);
             numberOfQuetionsStage.setScene(popupScene);
             numberOfQuetionsStage.show();
           }
-        }
-      });
+        }});
+
 
       closePopUp.setOnAction(new EventHandler<ActionEvent>() {
         @Override

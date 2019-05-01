@@ -56,10 +56,10 @@ public class Quiz extends Application {
     i = 1;
 
     BorderPane root = new BorderPane();
-    
+
     HBox hboxTopMenu = new HBox();
     HBox hboxBottomMenu = new HBox();
-    
+
     hboxTopMenu.setSpacing(10);
     hboxBottomMenu.setSpacing(10);
 
@@ -84,6 +84,10 @@ public class Quiz extends Application {
           answers.add(
               Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
       }
+      if(a>=Main.topicsToQuestion.size()-1) {
+        hboxBottomMenu.getChildren().remove(nextQuestionButton);
+        primaryStage.show();
+      }
     }
     // Add questions to a Vertical Box
     nextButtonClicked = true;
@@ -103,7 +107,7 @@ public class Quiz extends Application {
       question.setTextFill(Color.WHITE);
       questionsAndAnswers.getChildren().add(question);
       for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { // Adds answer
-                                                                                // options
+        // options
         RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
         // r.setSelected(true);
         r.setToggleGroup(answersGroup);
@@ -145,7 +149,7 @@ public class Quiz extends Application {
             question.setTextFill(Color.WHITE);
             questionsAndAnswers.getChildren().add(question);
             for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { // Adds answer
-                                                                                      // options
+              // options
               RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
               r.setToggleGroup(answersGroup);
               r.setTextFill(Color.WHITE);
