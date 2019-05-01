@@ -74,7 +74,7 @@ public class Quiz extends Application {
     answers = new ArrayList<>();
     chosenAnswers = new ArrayList<>();
     
-    for (int a=0;a<Main.topicsToQuestion.size();a++)
+    for (int a=0;a<Main.topicsToQuestion.size(); a++)
     {
     	questions.addAll(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().keySet());
     	for (int b=0;b<questions.size();b++)
@@ -82,7 +82,9 @@ public class Quiz extends Application {
     		if (Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)) != null)
     			answers.add(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
     	}
-    	
+//    	if(a==Main.topicsToQuestion.size()-2) {
+//    		hboxBottomMenu.getChildren().remove(nextQuestionButton);
+//    	}
     }
 
     // Add questions to a Vertical Box

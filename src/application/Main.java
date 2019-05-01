@@ -118,7 +118,12 @@ public class Main extends Application {
 						return;
 					}
 					Quiz quiz = new Quiz();
-					quiz.setNumQuestions(numQuestions);
+					
+					if(topicsToQuestion.size() < numQuestions) {
+						quiz.setNumQuestions(topicsToQuestion.size());
+					} else {
+						quiz.setNumQuestions(numQuestions);
+					}
 					Stage newStage = new Stage();
 					try {
 						quiz.start(newStage);
