@@ -176,13 +176,6 @@ public class Main extends Application {
 				 */
 				@Override
 				public void handle(ActionEvent event) {
-					// ObservableList<String> options =
-					// FXCollections.observableArrayList(
-					// "Add Individual Question",
-					// "Upload JSON File"
-					// );
-					// final ComboBox comboBox = new ComboBox(options);
-
 					primaryStage.show();
 					AddQuestion addQuestion = new AddQuestion();
 					Stage newStage = new Stage();
@@ -226,36 +219,10 @@ public class Main extends Application {
 						}
 
 					}
-
-					// if (file != null) {
-					try {
-						// addFile.start(newStage);
-						// primaryStage.close();
-						// Main main = new Main();
-						// Stage newStage1 = new Stage();
-
-						// main.start(newStage1);
-						primaryStage.show();
-
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
 				}
 
 			});
-
-			// AddFile addFile = new AddFile();
-			// Stage newStage = new Stage();
-			// try {
-			// addFile.start(newStage);
-			// primaryStage.close();
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// }
-			// }
-			// });
-
+			
 			// Generates Topic List
 			items = FXCollections.observableArrayList();
 			// topicsToQuestion = new ArrayList<String>();
@@ -293,17 +260,6 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Opens File Explorer so a user can upload a JSON file
-	 * 
-	 * @param file
-	 */
-	/*
-	 * private void openFile(File file) { try { desktop.open(file); } catch
-	 * (IOException ex) { } }
-	 */
-
 	/**
 	 * Main method that runs the application
 	 * 
