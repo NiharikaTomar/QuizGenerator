@@ -43,6 +43,8 @@ public class AddQuestion extends Application{
     BorderPane root = new BorderPane();
 
     HBox hboxTopMenu = new HBox();
+    HBox hboxBottomMenu = new HBox();
+    
     VBox form = new VBox();
     HBox answersAndSwitches = new HBox();
     VBox answers = new VBox();
@@ -50,12 +52,14 @@ public class AddQuestion extends Application{
     ToggleGroup answersGroup = new ToggleGroup();
 
     hboxTopMenu.setSpacing(10);
+    hboxBottomMenu.setSpacing(10);
 
     // Buttons needed for the page
     Button homeButton = new Button("Home");
     Button addQuestion = new Button("Add question");
 
     hboxTopMenu.getChildren().add(homeButton);
+    hboxBottomMenu.getChildren().add(addQuestion);
     
     Label topicPrompt = new Label("Choose a topic");
     topicPrompt.setTextFill(Color.WHITE);
@@ -143,6 +147,18 @@ public class AddQuestion extends Application{
     form.getChildren().add(answersAndSwitches);
 
     root.setCenter(form);
+    
+    String topicChosen ="";
+    
+//    topicChooser.setOnAction(new EventHandler<ActionEvent>() {
+//    	public void handle(ActionEvent event) {
+//           topicChosen = topicChooser.getValue();
+//           
+//           //System.out.println(topicChooser.getValue());
+//          }
+//    	
+//    });
+    
 
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
@@ -151,6 +167,7 @@ public class AddQuestion extends Application{
       public void handle(ActionEvent event) {
         Main main = new Main();
         Stage newStage = new Stage();
+        
         try {
           main.start(newStage);
           primaryStage.close();
@@ -168,7 +185,35 @@ public class AddQuestion extends Application{
           Main main = new Main();
           Stage newStage = new Stage();
           try {
+        	  Answer ans = new Answer();
+        	  boolean corr1 = false;
+        	  boolean corr2 = false;
+        	  boolean corr3 = false;
+        	  boolean corr4 = false;
+        	  boolean corr5 = false;
         	  
+        	  Toggle selectedCorrect = answersGroup.getSelectedToggle();
+        	  if( selectedCorrect.equals(switch1.getUserData())) {
+        		  corr1 = true;
+        	  }
+        	  if( selectedCorrect.equals(switch2.getUserData())) {
+        		  corr2 = true;
+        	  }
+        	  if( selectedCorrect.equals(switch3.getUserData())) {
+        		  corr3 = true;
+        	  }
+        	  if( selectedCorrect.equals(switch4.getUserData())) {
+        		  corr4 = true;
+        	  }
+        	  if( selectedCorrect.equals(switch5.getUserData())) {
+        		  corr5 = true;
+        	  }
+        	  ans.addAnswer(answer1.toString(), corr1);
+        	  ans.addAnswer(answer2.toString(), corr2);
+        	  ans.addAnswer(answer3.toString(), corr3);
+        	  ans.addAnswer(answer4.toString(), corr4);
+        	  ans.addAnswer(answer5.toString(), corr5);
+        	  Main.topics.get(topicChooser.getValue()).addQA(new Question(questionInput.getText(), null), ans);
         	  
             main.start(newStage);
             primaryStage.close();
@@ -182,6 +227,7 @@ public class AddQuestion extends Application{
     
     
     root.setTop(hboxTopMenu);
+    root.setBottom(hboxBottomMenu);
 
     Scene scene = new Scene(root, 1200, 600);
 
