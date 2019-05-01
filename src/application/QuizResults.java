@@ -116,7 +116,7 @@ public class QuizResults extends Application {
     agreeButton.setOnAction(new EventHandler<ActionEvent>() {
 
       /**
-       * This method exits the program
+       * This method saves the program
        */
       @Override
       public void handle(ActionEvent event) {

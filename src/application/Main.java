@@ -20,6 +20,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -71,6 +72,7 @@ public class Main extends Application {
       Button takeQuiz = new Button("Take Quiz");
       Button startQuiz = new Button("Start Quiz");
       Button closePopUp = new Button("Thank you");
+      
 
       // Add buttons to a horizontal box
       hbox.getChildren().add(addQuestion);
@@ -229,6 +231,53 @@ public class Main extends Application {
       scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
       primaryStage.setScene(scene);
 
+      Stage exitStage = new Stage();
+      Button agreeButton = new Button("Yes");
+      Button disagreeButton = new Button("No");
+      primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+        @Override
+        public void handle(WindowEvent event) {
+          Label exitLabel = new Label("Save and exit?");
+          HBox buttonBox = new HBox(agreeButton, disagreeButton);
+          buttonBox.setSpacing(10);
+          VBox vBox = new VBox(exitLabel, buttonBox);
+          Scene popupScene = new Scene(vBox);
+          exitStage.setScene(popupScene);
+          exitStage.show();
+        }
+      });
+      
+      agreeButton.setOnAction(new EventHandler<ActionEvent>() {
+
+        /**
+         * This method saves the program
+         */
+        @Override
+        public void handle(ActionEvent event) {
+          Main main = new Main();
+          Stage newStage = new Stage();
+          
+          try {
+            main.start(newStage);
+            primaryStage.close();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+        }
+      });
+      
+      disagreeButton.setOnAction(new EventHandler<ActionEvent>() {
+
+        /**
+         * This method exits the program
+         */
+        @Override
+        public void handle(ActionEvent event) {
+          exitStage.close();
+        }
+      });
+      
       // Set the title
       primaryStage.setTitle("Quiz Generator");
       primaryStage.show();
