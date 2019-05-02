@@ -152,7 +152,16 @@ public class Quiz extends Application {
 						chosenAnswers[i-2] = "";
 					}
 					chosenAnswers[i-2] = selectedRadioButton.getText();
-
+					
+//				  RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+//		          chosenAnswers.add(selectedRadioButton.getText());
+//		          Alert correctness = new Alert(AlertType.NONE);
+//		          Answer temp = new Answer();
+//		          String message = "INCORRECT";
+//		          if (temp.checkAnswer(selectedRadioButton.getText()) ) {
+//		            message = "CORRECT!";
+//		          }
+//		          correctness.setContentText(message);
 					nextButtonClicked = false;
 					if (i <= numQuestions) {
 						questionsAndAnswers.getChildren().clear();
