@@ -30,7 +30,7 @@ import javafx.stage.WindowEvent;
 /**
  * Runs QuizResults GUI
  * 
- * @author Miriam
+ * @author Miriam, Elizaveta, Niharika, Ved
  *
  */
 public class QuizResults extends Application {

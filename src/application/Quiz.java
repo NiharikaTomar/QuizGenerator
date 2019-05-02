@@ -34,8 +34,6 @@ import javafx.stage.Stage;
 
 /**
  * Runs the Quiz page GUI
- * 
- * @author Miriam, Elizaveta, Niharika, and Ved
  *
  */
 public class Quiz extends Application {
@@ -169,35 +167,6 @@ public class Quiz extends Application {
           correctness.setHeaderText("Result");
           correctness.showAndWait();
 
-          //					Alert correctness = new Alert(AlertType.INFORMATION);
-          //					String message = "INCORRECT";
-          //					Question q = questions.get(questions.size() - 1);
-          //					Answer a = askedQuestions.get(q);
-          //					if (a != null && a.checkAnswer(selectedRadioButton.getText())) {
-          //					  message = "CORRECT";
-          //					}
-          //					correctness.setContentText(message);
-          //					correctness.show();
-
-          //				  Object selectedAnswer = answersGroup.getSelectedToggle().getUserData();
-          //				  selectedAnswer.toString();
-          //				  String message = "INCORRECT";
-          ////				  if (selectedAnswer.checkAnswer(selectedAnswer.toString()) == true) {
-          ////				    message = "CORRECT!";
-          ////				  }
-          //				  System.out.println(selectedAnswer.toString());
-          //				  Alert correctness = new Alert(AlertType.NONE);
-          //				  correctness.setContentText(message);
-
-          //RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-          //		          chosenAnswers.add(selectedRadioButton.getText());
-          //		          Alert correctness = new Alert(AlertType.NONE);
-          //		          Answer temp = new Answer();
-          //		          String message = "INCORRECT";
-          //		          if (temp.checkAnswer(selectedRadioButton.getText()) ) {
-          //		            message = "CORRECT!";
-          //		          }
-          //		          correctness.setContentText(message);
           nextButtonClicked = false;
           if (i <= numQuestions) {
             questionsAndAnswers.getChildren().clear();
