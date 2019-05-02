@@ -8,12 +8,16 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -37,10 +41,11 @@ public class Quiz extends Application {
 	private int numQuestions;
 	private boolean nextButtonClicked; // pauses program until "Next Question" is pressed.
 	private int i;
-	private ArrayList<Question> askedQuestions;
+	//private ArrayList<Question> askedQuestions;
 	List<Question> questions;
 	List<Answer> answers;
-	List<String> chosenAnswers;
+	String[] chosenAnswers;
+	HashMap<Question, Answer> askedQuestions;
 	ToggleGroup answersGroup;
 
 	/**
@@ -66,10 +71,12 @@ public class Quiz extends Application {
 		hboxTopMenu.getChildren().add(homeButton);
 		hboxBottomMenu.getChildren().add(nextQuestionButton);
 		hboxBottomMenu.getChildren().add(submitButton);
+		
+		Alert alert = new Alert(AlertType.NONE); 
 
 		questions = new ArrayList<>();
 		answers = new ArrayList<>();
-		chosenAnswers = new ArrayList<>();
+		chosenAnswers = new String[numQuestions];
 
 		for (int a = 0; a < Main.topicsToQuestion.size(); a++) {
 			questions.addAll(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().keySet());
@@ -80,18 +87,22 @@ public class Quiz extends Application {
 							Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
 			}
 		}
+		
+		if (numQuestions > questions.size()) {
+           numQuestions = questions.size();
+        }
 		// Add questions to a Vertical Box
 		nextButtonClicked = true;
 		while (i <= numQuestions && nextButtonClicked) {
 			nextButtonClicked = false;
 			VBox questionsAndAnswers = new VBox();
 
-			askedQuestions = new ArrayList<Question>();
+			askedQuestions = new HashMap<>();
 
 			Random random = new Random();
 			int randomNumber = random.nextInt(questions.size());
 			Question randomKey = questions.get(randomNumber);
-			askedQuestions.add(randomKey);
+			askedQuestions.put(randomKey, answers.get(randomNumber));
 
 			Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
 			System.out.println(randomKey.image);
@@ -115,8 +126,6 @@ public class Quiz extends Application {
 				root.setCenter(questionsAndAnswers);
 
 			}
-			// RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-			// System.out.println(selectedRadioButton.getText());
 			if(numQuestions==1) { 
 				hboxBottomMenu.getChildren().remove(nextQuestionButton);
 				primaryStage.show();
@@ -129,9 +138,21 @@ public class Quiz extends Application {
 				 */
 				@Override
 				public void handle(ActionEvent arg0) {
-					//RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-					//chosenAnswers.add(selectedRadioButton.getText());
-					System.out.println(chosenAnswers);
+					RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+					if (selectedRadioButton == null)
+					{
+						alert.setAlertType(AlertType.ERROR); 
+		                alert.setContentText("Choose an answer"); 
+		                alert.show();
+		                selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+					}
+					
+					if (selectedRadioButton != null)
+					{
+						chosenAnswers[i-2] = "";
+					}
+					chosenAnswers[i-2] = selectedRadioButton.getText();
+
 					nextButtonClicked = false;
 					if (i <= numQuestions) {
 						questionsAndAnswers.getChildren().clear();
@@ -140,12 +161,12 @@ public class Quiz extends Application {
 						int randomNumber = random.nextInt(questions.size());
 						Question randomKey = questions.get(randomNumber);
 
-						while (askedQuestions.contains(randomKey)) {
+						while (askedQuestions.keySet().contains(randomKey)) {
 							randomNumber = random.nextInt(questions.size());
 							randomKey = questions.get(randomNumber);
 						}
 
-						askedQuestions.add(randomKey);
+						askedQuestions.put(randomKey, answers.get(randomNumber));
 
 						Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
 						answersGroup = new ToggleGroup();
@@ -165,8 +186,6 @@ public class Quiz extends Application {
 							primaryStage.show();
 						}
 					}
-					// if (i > numQuestions)
-					// hboxBottomMenu.getChildren().remove(nextQuestionButton);
 				}
 			});
 		}
@@ -193,13 +212,21 @@ public class Quiz extends Application {
 			 * This method creates a new screen with quiz results.
 			 */
 			public void handle(ActionEvent event) {
-				if(i>=Main.topicsToQuestion.size()) {
-					//hboxBottomMenu.getChildren().remove(nextQuestionButton);
-					primaryStage.show();
+				RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+				if (selectedRadioButton == null)
+				{
+					alert.setAlertType(AlertType.ERROR); 
+	                alert.setContentText("Choose an answer"); 
+	                alert.show();
+	                selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
 				}
-				// RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-				// chosenAnswers.add(selectedRadioButton.getText());
-				// System.out.println(chosenAnswers);
+				
+				if (selectedRadioButton != null)
+				{
+					chosenAnswers[i-2] = "";
+				}
+				chosenAnswers[i-2] = selectedRadioButton.getText();
+
 				QuizResults quizResults = new QuizResults();
 				Stage newStage = new Stage();
 				try {

@@ -112,9 +112,9 @@ public class Main extends Application {
           int numQuestions = 0;
           try {
             numQuestions = Integer.parseInt(inputBox.getText());
-            if (numQuestions > topicsToQuestion.size() && topicsToQuestion.size() != 0) {
-              numQuestions = topicsToQuestion.size();
-            }
+            //if (numQuestions > topicsToQuestion.size() && topicsToQuestion.size() != 0) {
+            //  numQuestions = topicsToQuestion.size();
+            //}
             Quiz quiz = new Quiz();
             quiz.setNumQuestions(numQuestions);
             Stage newStage = new Stage();
