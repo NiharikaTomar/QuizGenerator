@@ -41,8 +41,4 @@ public class Answer {
 	public ArrayList<Boolean> getIsCorrect() {
       return isCorrect;
     }
-	
-	public int size() {
-	  return answers.size();
-	}
 }
