@@ -288,12 +288,6 @@ public class AddQuestion extends Application{
             Main.topics.get(topic).addQA(new Question(questionInput.getText(), imageName.getName()), ans); 
           }
           else {
-            System.out.println(topic);
-            System.out.println(questionInput.getText());
-            for (int i = 0; i < ans.size(); i++) {
-              System.out.println(ans.getAnswers().get(i));
-            }
-            //System.out.println(ans.toString());
             Main.topics.get(topic).addQA(new Question(questionInput.getText()), ans);
           }
           main.start(newStage);
