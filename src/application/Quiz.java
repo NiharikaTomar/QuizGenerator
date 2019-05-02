@@ -40,278 +40,280 @@ import javafx.stage.Stage;
  */
 public class Quiz extends Application {
 
-	private int numQuestions;
-	private boolean nextButtonClicked; // pauses program until "Next Question" is pressed.
-	private int i;
-	//private ArrayList<Question> askedQuestions;
-	List<Question> questions;
-	List<Answer> answers;
-	String[] chosenAnswers;
-	LinkedHashMap<Question, Answer> askedQuestions;
-	ToggleGroup answersGroup;
-	Answer currentAnswer;
+  private int numQuestions;
+  private boolean nextButtonClicked; // pauses program until "Next Question" is pressed.
+  private int i;
+  //private ArrayList<Question> askedQuestions;
+  List<Question> questions;
+  List<Answer> answers;
+  String[] chosenAnswers;
+  LinkedHashMap<Question, Answer> askedQuestions;
+  ToggleGroup answersGroup;
+  Answer currentAnswer;
 
-	/**
-	 * Runs the quiz page
-	 */
-	@Override
-	public void start(Stage primaryStage) throws Exception {
-		i = 1;
+  /**
+   * Runs the quiz page
+   */
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    i = 1;
 
-		BorderPane root = new BorderPane();
+    BorderPane root = new BorderPane();
 
-		HBox hboxTopMenu = new HBox();
-		HBox hboxBottomMenu = new HBox();
+    HBox hboxTopMenu = new HBox();
+    HBox hboxBottomMenu = new HBox();
 
-		hboxTopMenu.setSpacing(10);
-		hboxBottomMenu.setSpacing(10);
+    hboxTopMenu.setSpacing(10);
+    hboxBottomMenu.setSpacing(10);
 
-		// Buttons needed for the page
-		Button homeButton = new Button("Home");
-		Button nextQuestionButton = new Button("Next Question");
-		Button submitButton = new Button("Submit");
+    // Buttons needed for the page
+    Button homeButton = new Button("Home");
+    Button nextQuestionButton = new Button("Next Question");
+    Button submitButton = new Button("Submit");
 
-		hboxTopMenu.getChildren().add(homeButton);
-		hboxBottomMenu.getChildren().add(nextQuestionButton);
-		hboxBottomMenu.getChildren().add(submitButton);
+    hboxTopMenu.getChildren().add(homeButton);
+    hboxBottomMenu.getChildren().add(nextQuestionButton);
+    hboxBottomMenu.getChildren().add(submitButton);
 
-		Alert alert = new Alert(AlertType.NONE); 
+    Alert alert = new Alert(AlertType.NONE); 
 
-		questions = new ArrayList<>();
-		answers = new ArrayList<>();
-		chosenAnswers = new String[numQuestions];
+    questions = new ArrayList<>();
+    answers = new ArrayList<>();
+    chosenAnswers = new String[numQuestions];
 
-		for (int a = 0; a < Main.topicsToQuestion.size(); a++) {
-			questions.addAll(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().keySet());
-			for (int b = 0; b < questions.size(); b++) {
-				if (Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions()
-						.get(questions.get(b)) != null)
-					answers.add(
-							Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
-			}
-		}
+    for (int a = 0; a < Main.topicsToQuestion.size(); a++) {
+      questions.addAll(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().keySet());
+      for (int b = 0; b < questions.size(); b++) {
+        if (Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions()
+            .get(questions.get(b)) != null)
+          answers.add(
+              Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
+      }
+    }
 
-		if (numQuestions > questions.size()) {
-			numQuestions = questions.size();
-		}
-		
-
-		// Add questions to a Vertical Box
-		nextButtonClicked = true;
-		while (i <= numQuestions && nextButtonClicked) {
-			nextButtonClicked = false;
-			VBox questionsAndAnswers = new VBox();
-
-			askedQuestions = new LinkedHashMap<Question, Answer>();
-
-			Random random = new Random();
-			int randomNumber = random.nextInt(questions.size());
-			Question randomKey = questions.get(randomNumber);
-			
-			askedQuestions.put(randomKey, answers.get(randomNumber));
-			currentAnswer = answers.get(randomNumber);
-
-			Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
-
-			if (!(randomKey.image.equals("none")))
-			{
-				question.setGraphic(new ImageView(new Image(randomKey.image)));
-			}
-
-			answersGroup = new ToggleGroup();
-			question.setTextFill(Color.WHITE);
-			questionsAndAnswers.getChildren().add(question);
-			for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { // Adds answer
-				// options
-				RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
-				// r.setSelected(true);
-				r.setToggleGroup(answersGroup);
-				r.setTextFill(Color.WHITE);
-				questionsAndAnswers.getChildren().add(r);
-				root.setCenter(questionsAndAnswers);
-
-			}
-			if(numQuestions==1) { 
-				hboxBottomMenu.getChildren().remove(nextQuestionButton);
-				primaryStage.show();
-			}
-			i++;
-
-			nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
-				/**
-				 * This method loads a next questions when next button was clicked.
-				 */
-				@Override
-				public void handle(ActionEvent arg0) {
-					RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-					if (selectedRadioButton == null)
-					{
-						alert.setAlertType(AlertType.ERROR); 
-						alert.setContentText("Choose an answer"); 
-						alert.show();
-						selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-					}
-
-					if (selectedRadioButton != null)
-					{
-						chosenAnswers[i-2] = "";
-					}
-					chosenAnswers[i-2] = selectedRadioButton.getText();
-
-					Alert correctness = new Alert(AlertType.INFORMATION);
-					String message = "INCORRECT";
-					if (currentAnswer.checkAnswer(selectedRadioButton.getText()) ) {
-						message = "CORRECT!";
-					}
-					correctness.setContentText(message);
-					correctness.setHeaderText("Result");
-					correctness.showAndWait();
-					
-//					Alert correctness = new Alert(AlertType.INFORMATION);
-//					String message = "INCORRECT";
-//					Question q = questions.get(questions.size() - 1);
-//					Answer a = askedQuestions.get(q);
-//					if (a != null && a.checkAnswer(selectedRadioButton.getText())) {
-//					  message = "CORRECT";
-//					}
-//					correctness.setContentText(message);
-//					correctness.show();
-					
-//				  Object selectedAnswer = answersGroup.getSelectedToggle().getUserData();
-//				  selectedAnswer.toString();
-//				  String message = "INCORRECT";
-////				  if (selectedAnswer.checkAnswer(selectedAnswer.toString()) == true) {
-////				    message = "CORRECT!";
-////				  }
-//				  System.out.println(selectedAnswer.toString());
-//				  Alert correctness = new Alert(AlertType.NONE);
-//				  correctness.setContentText(message);
-				  
-				  //RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-//		          chosenAnswers.add(selectedRadioButton.getText());
-//		          Alert correctness = new Alert(AlertType.NONE);
-//		          Answer temp = new Answer();
-//		          String message = "INCORRECT";
-//		          if (temp.checkAnswer(selectedRadioButton.getText()) ) {
-//		            message = "CORRECT!";
-//		          }
-//		          correctness.setContentText(message);
-					nextButtonClicked = false;
-					if (i <= numQuestions) {
-						questionsAndAnswers.getChildren().clear();
-
-						Random random = new Random();
-						int randomNumber = random.nextInt(questions.size());
-						Question randomKey = questions.get(randomNumber);
-
-						while (askedQuestions.keySet().contains(randomKey)) {
-							randomNumber = random.nextInt(questions.size());
-							randomKey = questions.get(randomNumber);
-						}
-
-						askedQuestions.put(randomKey, answers.get(randomNumber));
-						currentAnswer = answers.get(randomNumber);
-
-						Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
-						answersGroup = new ToggleGroup();
-						question.setTextFill(Color.WHITE);
-						questionsAndAnswers.getChildren().add(question);
-						for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { // Adds answer
-							// options
-							RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
-							r.setToggleGroup(answersGroup);
-							r.setTextFill(Color.WHITE);
-							questionsAndAnswers.getChildren().add(r);
-							root.setCenter(questionsAndAnswers);
-						}
-						i++;
-						if(i>=numQuestions-1) {
-							hboxBottomMenu.getChildren().remove(nextQuestionButton);
-							primaryStage.show();
-						}
-					}
-				}
-			});
-		}
+    if (numQuestions > questions.size()) {
+      numQuestions = questions.size();
+    }
 
 
-		homeButton.setOnAction(new EventHandler<ActionEvent>() {
-			/**
-			 * This method creates a new scene with a pop up to go back to main page.
-			 */
-			public void handle(ActionEvent event) {
-				Main main = new Main();
-				Stage newStage = new Stage();
-				try {
-					main.start(newStage);
-					primaryStage.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+    // Add questions to a Vertical Box
+    nextButtonClicked = true;
+    while (i <= numQuestions && nextButtonClicked) {
+      nextButtonClicked = false;
+      VBox questionsAndAnswers = new VBox();
 
-		submitButton.setOnAction(new EventHandler<ActionEvent>() {
-			/**
-			 * This method creates a new screen with quiz results.
-			 */
-			public void handle(ActionEvent event) {
-				RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-				if (selectedRadioButton == null)
-				{
-					alert.setAlertType(AlertType.ERROR); 
-					alert.setContentText("Choose an answer"); 
-					alert.showAndWait();
-					selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-				}
+      askedQuestions = new LinkedHashMap<Question, Answer>();
 
-				if (selectedRadioButton != null)
-				{
-					chosenAnswers[i-2] = "";
-				}
-				chosenAnswers[i-2] = selectedRadioButton.getText();
-				
-				Alert correctness = new Alert(AlertType.INFORMATION);
-				String message = "INCORRECT";
-				if (currentAnswer.checkAnswer(selectedRadioButton.getText()) ) {
-					message = "CORRECT!";
-				}
-				correctness.setContentText(message);
-				correctness.setHeaderText("Result");
-				correctness.showAndWait();
+      Random random = new Random();
+      int randomNumber = random.nextInt(questions.size());
+      Question randomKey = questions.get(randomNumber);
 
-				QuizResults quizResults = new QuizResults(chosenAnswers, askedQuestions);
-				Stage newStage = new Stage();
-				try {
-					quizResults.start(newStage);
-					primaryStage.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+      askedQuestions.put(randomKey, answers.get(randomNumber));
+      currentAnswer = answers.get(randomNumber);
+
+      Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
+
+      if (!(randomKey.image.equals("none")))
+      {
+        question.setGraphic(new ImageView(new Image(randomKey.image)));
+      }
+
+      answersGroup = new ToggleGroup();
+      question.setTextFill(Color.WHITE);
+      questionsAndAnswers.getChildren().add(question);
+      for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { // Adds answer
+        // options
+        if (answers.get(randomNumber).getAnswers().get(j) != null) {
+          RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
+          // r.setSelected(true);
+          r.setToggleGroup(answersGroup);
+          r.setTextFill(Color.WHITE);
+          questionsAndAnswers.getChildren().add(r);
+          root.setCenter(questionsAndAnswers);
+        }
+
+      }
+      if(numQuestions==1) { 
+        hboxBottomMenu.getChildren().remove(nextQuestionButton);
+        primaryStage.show();
+      }
+      i++;
+
+      nextQuestionButton.setOnAction(new EventHandler<ActionEvent>() {
+        /**
+         * This method loads a next questions when next button was clicked.
+         */
+        @Override
+        public void handle(ActionEvent arg0) {
+          RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+          if (selectedRadioButton == null)
+          {
+            alert.setAlertType(AlertType.ERROR); 
+            alert.setContentText("Choose an answer"); 
+            alert.show();
+            selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+          }
+
+          if (selectedRadioButton != null)
+          {
+            chosenAnswers[i-2] = "";
+          }
+          chosenAnswers[i-2] = selectedRadioButton.getText();
+
+          Alert correctness = new Alert(AlertType.INFORMATION);
+          String message = "INCORRECT";
+          if (currentAnswer.checkAnswer(selectedRadioButton.getText()) ) {
+            message = "CORRECT!";
+          }
+          correctness.setContentText(message);
+          correctness.setHeaderText("Result");
+          correctness.showAndWait();
+
+          //					Alert correctness = new Alert(AlertType.INFORMATION);
+          //					String message = "INCORRECT";
+          //					Question q = questions.get(questions.size() - 1);
+          //					Answer a = askedQuestions.get(q);
+          //					if (a != null && a.checkAnswer(selectedRadioButton.getText())) {
+          //					  message = "CORRECT";
+          //					}
+          //					correctness.setContentText(message);
+          //					correctness.show();
+
+          //				  Object selectedAnswer = answersGroup.getSelectedToggle().getUserData();
+          //				  selectedAnswer.toString();
+          //				  String message = "INCORRECT";
+          ////				  if (selectedAnswer.checkAnswer(selectedAnswer.toString()) == true) {
+          ////				    message = "CORRECT!";
+          ////				  }
+          //				  System.out.println(selectedAnswer.toString());
+          //				  Alert correctness = new Alert(AlertType.NONE);
+          //				  correctness.setContentText(message);
+
+          //RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+          //		          chosenAnswers.add(selectedRadioButton.getText());
+          //		          Alert correctness = new Alert(AlertType.NONE);
+          //		          Answer temp = new Answer();
+          //		          String message = "INCORRECT";
+          //		          if (temp.checkAnswer(selectedRadioButton.getText()) ) {
+          //		            message = "CORRECT!";
+          //		          }
+          //		          correctness.setContentText(message);
+          nextButtonClicked = false;
+          if (i <= numQuestions) {
+            questionsAndAnswers.getChildren().clear();
+
+            Random random = new Random();
+            int randomNumber = random.nextInt(questions.size());
+            Question randomKey = questions.get(randomNumber);
+
+            while (askedQuestions.keySet().contains(randomKey)) {
+              randomNumber = random.nextInt(questions.size());
+              randomKey = questions.get(randomNumber);
+            }
+
+            askedQuestions.put(randomKey, answers.get(randomNumber));
+            currentAnswer = answers.get(randomNumber);
+
+            Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
+            answersGroup = new ToggleGroup();
+            question.setTextFill(Color.WHITE);
+            questionsAndAnswers.getChildren().add(question);
+            for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { // Adds answer
+              // options
+              RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
+              r.setToggleGroup(answersGroup);
+              r.setTextFill(Color.WHITE);
+              questionsAndAnswers.getChildren().add(r);
+              root.setCenter(questionsAndAnswers);
+            }
+            i++;
+            if(i>=numQuestions-1) {
+              hboxBottomMenu.getChildren().remove(nextQuestionButton);
+              primaryStage.show();
+            }
+          }
+        }
+      });
+    }
 
 
-		root.setTop(hboxTopMenu);
-		root.setBottom(hboxBottomMenu);
+    homeButton.setOnAction(new EventHandler<ActionEvent>() {
+      /**
+       * This method creates a new scene with a pop up to go back to main page.
+       */
+      public void handle(ActionEvent event) {
+        Main main = new Main();
+        Stage newStage = new Stage();
+        try {
+          main.start(newStage);
+          primaryStage.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
 
-		Scene scene = new Scene(root, 1200, 600);
+    submitButton.setOnAction(new EventHandler<ActionEvent>() {
+      /**
+       * This method creates a new screen with quiz results.
+       */
+      public void handle(ActionEvent event) {
+        RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+        if (selectedRadioButton == null)
+        {
+          alert.setAlertType(AlertType.ERROR); 
+          alert.setContentText("Choose an answer"); 
+          alert.showAndWait();
+          selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+        }
 
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		primaryStage.setScene(scene);
+        if (selectedRadioButton != null)
+        {
+          chosenAnswers[i-2] = "";
+        }
+        chosenAnswers[i-2] = selectedRadioButton.getText();
 
-		// Set the title
-		primaryStage.setTitle("Quiz Generator");
-		primaryStage.show();
-	}
+        Alert correctness = new Alert(AlertType.INFORMATION);
+        String message = "INCORRECT";
+        if (currentAnswer.checkAnswer(selectedRadioButton.getText()) ) {
+          message = "CORRECT!";
+        }
+        correctness.setContentText(message);
+        correctness.setHeaderText("Result");
+        correctness.showAndWait();
 
-	/**
-	 * Sets numQuestions field
-	 * 
-	 * @param numQs
-	 */
-	public void setNumQuestions(int numQs) {
-		numQuestions = numQs;
-	}
+        QuizResults quizResults = new QuizResults(chosenAnswers, askedQuestions);
+        Stage newStage = new Stage();
+        try {
+          quizResults.start(newStage);
+          primaryStage.close();
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
+
+
+    root.setTop(hboxTopMenu);
+    root.setBottom(hboxBottomMenu);
+
+    Scene scene = new Scene(root, 1200, 600);
+
+    scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+    primaryStage.setScene(scene);
+
+    // Set the title
+    primaryStage.setTitle("Quiz Generator");
+    primaryStage.show();
+  }
+
+  /**
+   * Sets numQuestions field
+   * 
+   * @param numQs
+   */
+  public void setNumQuestions(int numQs) {
+    numQuestions = numQs;
+  }
 
 }
