@@ -227,6 +227,7 @@ public class Main extends Application {
       items.clear();
       for (int i = 0; i < topics.keySet().size(); i++) {
         items.add(topics.keySet().get(i));
+        Collections.sort(items);
       }
       ListView<String> list = new ListView<>(items);
       ListView<String> selected = new ListView<>();
