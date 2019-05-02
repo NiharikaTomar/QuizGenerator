@@ -97,15 +97,16 @@ public class Main extends Application {
          * This method creates a new scene with a pop up to get number of questions needed in quiz.
          */
         public void handle(ActionEvent event) {
-          Label questionNumPrompt = new Label("How many questions would you like in your quiz?");
-          VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
-          Scene popupScene = new Scene(vBox);
           if (topicsToQuestion.isEmpty())
           {
         	  Alert alert = new Alert(AlertType.ERROR);
-        	  alert.setContentText("Choose an answer"); 
+        	  alert.setContentText("Choose a Topic"); 
               alert.show();
+              return;
           }
+          Label questionNumPrompt = new Label("How many questions would you like in your quiz?");
+          VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
+          Scene popupScene = new Scene(vBox);
           numberOfQuetionsStage.setScene(popupScene);
           numberOfQuetionsStage.show();
         }

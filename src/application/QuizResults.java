@@ -96,10 +96,14 @@ public class QuizResults extends Application {
 		ca.setTextFill(Color.WHITE);
 		Label ta = new Label("Total Quesions: " + askedQuestions.size());
 		ta.setTextFill(Color.WHITE);
+		double percent = ((double) correctAnswers / askedQuestions.size()) * 100;
+        Label percentage = new Label("Score: " + percent +"%");
+        percentage.setTextFill(Color.WHITE);
 		
 		vBoxResults.getChildren().add(ia);
 		vBoxResults.getChildren().add(ca);
 		vBoxResults.getChildren().add(ta);
+		vBoxResults.getChildren().add(percentage);
 
 		homeButton.setOnAction(new EventHandler<ActionEvent>() {
 			/**
