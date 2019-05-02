@@ -37,8 +37,9 @@ import javafx.stage.Stage;
  *
  */
 public class AddQuestion extends Application{
-  
+
   private File imageName;
+  private String topic;
   /**
    * Runs AddQuestion GUI
    */
@@ -50,12 +51,13 @@ public class AddQuestion extends Application{
 
     HBox hboxTopMenu = new HBox();
     HBox hboxBottomMenu = new HBox();
-    
+
     VBox form = new VBox();
     form.setSpacing(5);
     HBox answersAndSwitches = new HBox();
     VBox answers = new VBox();
     VBox switches = new VBox();
+    HBox topicBox = new HBox();
     ToggleGroup answersGroup = new ToggleGroup();
 
     hboxTopMenu.setSpacing(10);
@@ -68,26 +70,44 @@ public class AddQuestion extends Application{
 
     hboxTopMenu.getChildren().add(homeButton);
     hboxBottomMenu.getChildren().add(addQuestion);
-    
-    Label topicPrompt = new Label("Choose a topic");
+
+    VBox oldTopic = new VBox();
+    Label topicPrompt = new Label("Choose a topic          OR           ");
     topicPrompt.setTextFill(Color.WHITE);
-    form.getChildren().add(topicPrompt);
+    oldTopic.getChildren().add(topicPrompt);
     HashTable<String, QuestionBank> table = Main.topics;
     ArrayList<String> topics = table.keySet();
     ComboBox<String> topicChooser = new ComboBox<String>();
     for (int i = 0; i < topics.size(); i++) {
       topicChooser.getItems().add(topics.get(i));
     }
+    oldTopic.getChildren().add(topicChooser);
+    topicBox.getChildren().add(oldTopic);
+
+    //Label optional = new Label("              OR              ");
+    //optional.setTextFill(Color.WHITE);
+    //topicBox.getChildren().add(optional);
+    VBox newTopic = new VBox();
+    Label newTopicPrompt = new Label("Enter a new topic:");
+    newTopicPrompt.setTextFill(Color.WHITE);
+    TextField topicInput = new TextField();
+
+    topicInput.setMaxWidth(150);
+    newTopic.getChildren().add(newTopicPrompt);
+    newTopic.getChildren().add(topicInput);
+    topicBox.getChildren().add(newTopic);
+    form.getChildren().add(topicBox);
+
     //Question
     Label questionPrompt = new Label("Please enter a question: ");
     questionPrompt.setTextFill(Color.WHITE);
     TextField questionInput = new TextField();
     questionInput.setMaxWidth(500);
-    
+
     Label instructions = new Label("Mark one answer as correct.");
     instructions.setTextFill(Color.WHITE);
     instructions.setPadding(new Insets(20, 10, 10, 0));
-    
+
     //Answers
     Label answer1 = new Label("Please enter Answer 1: ");
     answer1.setTextFill(Color.WHITE);
@@ -99,8 +119,8 @@ public class AddQuestion extends Application{
     switch1.setPadding(new Insets(20, 10, 10, 20));
     switch1.setToggleGroup(answersGroup);
     switches.getChildren().add(switch1);
-    
-    
+
+
     Label answer2 = new Label("Please enter Answer 2: ");
     answer2.setTextFill(Color.WHITE);
     TextField txt2 = new TextField();
@@ -111,7 +131,7 @@ public class AddQuestion extends Application{
     switch2.setPadding(new Insets(15, 10, 5, 20));
     switch2.setToggleGroup(answersGroup);
     switches.getChildren().add(switch2);
-    
+
     Label answer3 = new Label("Please enter Answer 3: ");
     answer3.setTextFill(Color.WHITE);
     TextField txt3 = new TextField();
@@ -122,7 +142,7 @@ public class AddQuestion extends Application{
     switch3.setPadding(new Insets(20, 10, 5, 20));
     switch3.setToggleGroup(answersGroup);
     switches.getChildren().add(switch3);
-    
+
     Label answer4 = new Label("Please enter Answer 4: ");
     answer4.setTextFill(Color.WHITE);
     TextField txt4 = new TextField();
@@ -133,7 +153,7 @@ public class AddQuestion extends Application{
     switch4.setPadding(new Insets(20, 10, 5, 20));
     switch4.setToggleGroup(answersGroup);
     switches.getChildren().add(switch4);
-    
+
     Label answer5 = new Label("Please enter Answer 5: ");
     answer5.setTextFill(Color.WHITE);
     TextField txt5 = new TextField();
@@ -144,11 +164,11 @@ public class AddQuestion extends Application{
     switch5.setPadding(new Insets(20, 10, 10, 20));
     switch5.setToggleGroup(answersGroup);
     switches.getChildren().add(switch5);
-    
+
     answersAndSwitches.getChildren().add(answers);
     answersAndSwitches.getChildren().add(switches);
-    
-    form.getChildren().add(topicChooser);
+
+    //form.getChildren().add(topicChooser);
     form.getChildren().add(questionPrompt);
     form.getChildren().add(questionInput);
     form.getChildren().add(addImage);
@@ -156,22 +176,24 @@ public class AddQuestion extends Application{
     form.getChildren().add(answersAndSwitches);
 
     root.setCenter(form);
-    
+
     String topicChosen ="";
-    
+
     final FileChooser fileChooser = new FileChooser();
     addImage.setOnAction(new EventHandler<ActionEvent>() {
 
       @Override
       public void handle(ActionEvent arg0) {
-        imageName = fileChooser.showOpenDialog(primaryStage);  
-        Alert a = new Alert(AlertType.CONFIRMATION);
-        a.setContentText("You have successfully uploaded an image!");
-        a.show();
+        imageName = fileChooser.showOpenDialog(primaryStage);
+        if (imageName != null) {
+          Alert a = new Alert(AlertType.CONFIRMATION);
+          a.setContentText("You have successfully uploaded an image!");
+          a.show();
+        }
       }
-      
+
     });
-    
+
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**
        * This method creates a new scene with a pop up to go back to main page.
@@ -179,7 +201,7 @@ public class AddQuestion extends Application{
       public void handle(ActionEvent event) {
         Main main = new Main();
         Stage newStage = new Stage();
-        
+
         try {
           main.start(newStage);
           primaryStage.close();
@@ -190,54 +212,95 @@ public class AddQuestion extends Application{
     });
 
     addQuestion.setOnAction(new EventHandler<ActionEvent>() {
-        /**
-         * This method creates a new scene with a pop up to go back to main page.
-         */
-        public void handle(ActionEvent event) {
-          Main main = new Main();
-          Stage newStage = new Stage();
-          try {
-        	  Answer ans = new Answer();
-        	  boolean corr1 = false;
-        	  boolean corr2 = false;
-        	  boolean corr3 = false;
-        	  boolean corr4 = false;
-        	  boolean corr5 = false;
-        	  
-        	  Toggle selectedCorrect = answersGroup.getSelectedToggle();
-        	  if( selectedCorrect.equals(switch1.getUserData())) {
-        		  corr1 = true;
-        	  }
-        	  if( selectedCorrect.equals(switch2.getUserData())) {
-        		  corr2 = true;
-        	  }
-        	  if( selectedCorrect.equals(switch3.getUserData())) {
-        		  corr3 = true;
-        	  }
-        	  if( selectedCorrect.equals(switch4.getUserData())) {
-        		  corr4 = true;
-        	  }
-        	  if( selectedCorrect.equals(switch5.getUserData())) {
-        		  corr5 = true;
-        	  }
-        	  ans.addAnswer(txt1.getText(), corr1);
-        	  ans.addAnswer(txt2.getText(), corr2);
-        	  ans.addAnswer(txt3.getText(), corr3);
-        	  ans.addAnswer(txt4.getText(), corr4);
-        	  ans.addAnswer(txt5.getText(), corr5);
-        	  Main.topics.get(topicChooser.getValue()).addQA(new Question(questionInput.getText(), imageName.getName()), ans);
-        	  
-            main.start(newStage);
-            primaryStage.close();
-            
-          } catch (Exception e) {
-            e.printStackTrace();
+      /**
+       * This method creates a new scene with a pop up to go back to main page.
+       */
+      public void handle(ActionEvent event) {
+        Main main = new Main();
+        Stage newStage = new Stage();
+        try {
+          Answer ans = new Answer();
+          boolean corr1 = false;
+          boolean corr2 = false;
+          boolean corr3 = false;
+          boolean corr4 = false;
+          boolean corr5 = false;
+
+          Toggle selectedCorrect = answersGroup.getSelectedToggle();
+//          if( selectedCorrect.equals(switch1.getUserData())) {
+//            corr1 = true;
+//          }
+//          if( selectedCorrect.equals(switch2.getUserData())) {
+//            corr2 = true;
+//          }
+//          if( selectedCorrect.equals(switch3.getUserData())) {
+//            corr3 = true;
+//          }
+//          if( selectedCorrect.equals(switch4.getUserData())) {
+//            corr4 = true;
+//          }
+//          if( selectedCorrect.equals(switch5.getUserData())) {
+//            corr5 = true;
+//          }
+          if (switch1.isSelected()) {
+            corr1 = true;
           }
+          if (switch2.isSelected()) {
+            corr2 = true;
+          }
+          if (switch3.isSelected()) {
+            corr3 = true;
+          }
+          if (switch4.isSelected()) {
+            corr4 = true;
+          }
+          if (switch5.isSelected()) {
+            corr5 = true;
+          }
+          if (!txt1.equals(null)) {
+            ans.addAnswer(txt1.getText(), corr1);
+          }
+          if (!txt2.equals(null)) {
+            ans.addAnswer(txt2.getText(), corr2);
+          }
+          if (!txt3.equals(null)) {
+            ans.addAnswer(txt3.getText(), corr3);
+          }
+          if (!txt4.equals(null)) {
+            ans.addAnswer(txt4.getText(), corr4);
+          }
+          if (!txt5.equals(null)) {
+            ans.addAnswer(txt5.getText(), corr5);
+          }
+//          ans.addAnswer(txt2.getText(), corr2);
+//          ans.addAnswer(txt3.getText(), corr3);
+//          ans.addAnswer(txt4.getText(), corr4);
+//          ans.addAnswer(txt5.getText(), corr5);
+          
+          if (!topicInput.equals(null)) {
+            topic = topicInput.getText();
+            Main.topics.insert(topicInput.getText(), new QuestionBank(topic)); 
+          }
+          else {
+            topic = topicChooser.getValue();
+          }
+          if (imageName != null) {
+            Main.topics.get(topic).addQA(new Question(questionInput.getText(), imageName.getName()), ans); 
+          }
+          else {
+            Main.topics.get(topic).addQA(new Question(questionInput.getText()), ans);
+          }
+          main.start(newStage);
+          primaryStage.close();
+
+        } catch (Exception e) {
+          e.printStackTrace();
         }
-      });
-    
-    
-    
+      }
+    });
+
+
+
     root.setTop(hboxTopMenu);
     root.setBottom(hboxBottomMenu);
 

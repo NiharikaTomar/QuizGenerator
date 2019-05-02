@@ -14,7 +14,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -50,16 +49,21 @@ public class QuizResults extends Application {
     hboxTopMenu.getChildren().add(homeButton);
     hboxTopMenu.getChildren().add(exitButton);
 
+
     Label headerLabel = new Label("Your Quiz Results");
     headerLabel.setTextFill(Color.WHITE);
 
+    
+    
 
     Scrollbar scrollBar = new Scrollbar();
     scrollBar.setMinimum(0);
     scrollBar.setMaximum(100);
     scrollBar.setValue(50);
 
+    
     vBoxResults.getChildren().add(headerLabel);
+    
 
     homeButton.setOnAction(new EventHandler<ActionEvent>() {
       /**

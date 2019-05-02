@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+
 import org.json.simple.parser.ParseException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -50,8 +52,9 @@ public class Main extends Application {
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
-
+	  
     try {
+      //Collections.sort(topicsToQuestion);
       BorderPane root = new BorderPane();
 
       HBox hbox = new HBox();
@@ -138,7 +141,6 @@ public class Main extends Application {
           }
         }});
 
-
       closePopUp.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
@@ -185,6 +187,7 @@ public class Main extends Application {
             items.clear();
             for (int i = 0; i < topics.keySet().size(); i++) {
               items.add(topics.keySet().get(i));
+              Collections.sort(items);
             }
           } catch (Exception e1) {
 
@@ -192,6 +195,7 @@ public class Main extends Application {
             Stage newStage3 = new Stage();
 
             try {
+            	
               main.start(newStage3);
               primaryStage.close();
             } catch (Exception e) {
@@ -204,6 +208,7 @@ public class Main extends Application {
 
       // Generates Topic List
       items = FXCollections.observableArrayList();
+      
       // topicsToQuestion = new ArrayList<String>();
       items.clear();
       for (int i = 0; i < topics.keySet().size(); i++) {
