@@ -9,7 +9,7 @@ package application;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 import javafx.application.Application;
@@ -45,7 +45,7 @@ public class Quiz extends Application {
 	List<Question> questions;
 	List<Answer> answers;
 	String[] chosenAnswers;
-	HashMap<Question, Answer> askedQuestions;
+	LinkedHashMap<Question, Answer> askedQuestions;
 	ToggleGroup answersGroup;
 
 	/**
@@ -97,7 +97,7 @@ public class Quiz extends Application {
 			nextButtonClicked = false;
 			VBox questionsAndAnswers = new VBox();
 
-			askedQuestions = new HashMap<>();
+			askedQuestions = new LinkedHashMap<Question, Answer>();
 
 			Random random = new Random();
 			int randomNumber = random.nextInt(questions.size());
@@ -105,8 +105,6 @@ public class Quiz extends Application {
 			askedQuestions.put(randomKey, answers.get(randomNumber));
 
 			Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
-			System.out.println(randomKey.image);
-			System.out.println(randomKey.image.equals("none"));
 
 			if (!(randomKey.image.equals("none")))
 			{
@@ -236,7 +234,7 @@ public class Quiz extends Application {
 				}
 				chosenAnswers[i-2] = selectedRadioButton.getText();
 
-				QuizResults quizResults = new QuizResults();
+				QuizResults quizResults = new QuizResults(chosenAnswers, askedQuestions);
 				Stage newStage = new Stage();
 				try {
 					quizResults.start(newStage);

@@ -34,7 +34,9 @@ public class AddFile {
           {
         	  JSONObject choices = (JSONObject) choicesArray.get(j);
         	  String choice = (String) choices.get("choice");
-        	  boolean correct = Boolean.getBoolean((String) choices.get("isCorrect"));
+        	  boolean correct = false;
+        	  if (((String) choices.get("isCorrect")).equals("T"))
+        		  correct = true;
         	  
         	  ans.addAnswer(choice, correct);
           }

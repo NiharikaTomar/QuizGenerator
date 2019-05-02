@@ -8,7 +8,7 @@ public class Question implements Comparable<Question>{
 	public Question(String question)
 	{
 		this.question = question;
-		this.image = "null";
+		this.image = "none";
 	}
 	
 	public Question(String question, String image)

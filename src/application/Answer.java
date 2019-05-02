@@ -21,7 +21,7 @@ public class Answer {
 	
 	public boolean checkAnswer(String ans)
 	{
-		return isCorrect.get(answers.indexOf(ans));
+		return getCorrectAnswer().equals(ans);
 	}
 	
 	public String getCorrectAnswer()
@@ -31,7 +31,7 @@ public class Answer {
 			if (isCorrect.get(i))
 				return answers.get(i);
 		}
-		return "No Correct Answer";
+		return "";
 	}
 	
 	public ArrayList<String> getAnswers() {
