@@ -47,6 +47,7 @@ public class Quiz extends Application {
 	String[] chosenAnswers;
 	LinkedHashMap<Question, Answer> askedQuestions;
 	ToggleGroup answersGroup;
+	Answer currentAnswer;
 
 	/**
 	 * Runs the quiz page
@@ -71,7 +72,7 @@ public class Quiz extends Application {
 		hboxTopMenu.getChildren().add(homeButton);
 		hboxBottomMenu.getChildren().add(nextQuestionButton);
 		hboxBottomMenu.getChildren().add(submitButton);
-		
+
 		Alert alert = new Alert(AlertType.NONE); 
 
 		questions = new ArrayList<>();
@@ -87,10 +88,12 @@ public class Quiz extends Application {
 							Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
 			}
 		}
-		
+
 		if (numQuestions > questions.size()) {
-           numQuestions = questions.size();
-        }
+			numQuestions = questions.size();
+		}
+		
+
 		// Add questions to a Vertical Box
 		nextButtonClicked = true;
 		while (i <= numQuestions && nextButtonClicked) {
@@ -102,7 +105,9 @@ public class Quiz extends Application {
 			Random random = new Random();
 			int randomNumber = random.nextInt(questions.size());
 			Question randomKey = questions.get(randomNumber);
+			
 			askedQuestions.put(randomKey, answers.get(randomNumber));
+			currentAnswer = answers.get(randomNumber);
 
 			Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
 
@@ -140,26 +145,26 @@ public class Quiz extends Application {
 					if (selectedRadioButton == null)
 					{
 						alert.setAlertType(AlertType.ERROR); 
-		                alert.setContentText("Choose an answer"); 
-		                alert.show();
-		                selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+						alert.setContentText("Choose an answer"); 
+						alert.show();
+						selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
 					}
-					
+
 					if (selectedRadioButton != null)
 					{
 						chosenAnswers[i-2] = "";
 					}
 					chosenAnswers[i-2] = selectedRadioButton.getText();
-					
-//				  RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-//		          chosenAnswers.add(selectedRadioButton.getText());
-//		          Alert correctness = new Alert(AlertType.NONE);
-//		          Answer temp = new Answer();
-//		          String message = "INCORRECT";
-//		          if (temp.checkAnswer(selectedRadioButton.getText()) ) {
-//		            message = "CORRECT!";
-//		          }
-//		          correctness.setContentText(message);
+
+					Alert correctness = new Alert(AlertType.INFORMATION);
+					String message = "INCORRECT";
+					if (currentAnswer.checkAnswer(selectedRadioButton.getText()) ) {
+						message = "CORRECT!";
+					}
+					correctness.setContentText(message);
+					correctness.setHeaderText("Result");
+					correctness.showAndWait();
+
 					nextButtonClicked = false;
 					if (i <= numQuestions) {
 						questionsAndAnswers.getChildren().clear();
@@ -174,6 +179,7 @@ public class Quiz extends Application {
 						}
 
 						askedQuestions.put(randomKey, answers.get(randomNumber));
+						currentAnswer = answers.get(randomNumber);
 
 						Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
 						answersGroup = new ToggleGroup();
@@ -223,16 +229,25 @@ public class Quiz extends Application {
 				if (selectedRadioButton == null)
 				{
 					alert.setAlertType(AlertType.ERROR); 
-	                alert.setContentText("Choose an answer"); 
-	                alert.show();
-	                selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+					alert.setContentText("Choose an answer"); 
+					alert.showAndWait();
+					selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
 				}
-				
+
 				if (selectedRadioButton != null)
 				{
 					chosenAnswers[i-2] = "";
 				}
 				chosenAnswers[i-2] = selectedRadioButton.getText();
+				
+				Alert correctness = new Alert(AlertType.INFORMATION);
+				String message = "INCORRECT";
+				if (currentAnswer.checkAnswer(selectedRadioButton.getText()) ) {
+					message = "CORRECT!";
+				}
+				correctness.setContentText(message);
+				correctness.setHeaderText("Result");
+				correctness.showAndWait();
 
 				QuizResults quizResults = new QuizResults(chosenAnswers, askedQuestions);
 				Stage newStage = new Stage();

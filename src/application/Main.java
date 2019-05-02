@@ -24,6 +24,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -93,6 +95,12 @@ public class Main extends Application {
           Label questionNumPrompt = new Label("How many questions would you like in your quiz?");
           VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
           Scene popupScene = new Scene(vBox);
+          if (topicsToQuestion.isEmpty())
+          {
+        	  Alert alert = new Alert(AlertType.ERROR);
+        	  alert.setContentText("Choose an answer"); 
+              alert.show();
+          }
           numberOfQuetionsStage.setScene(popupScene);
           numberOfQuetionsStage.show();
         }
@@ -223,6 +231,7 @@ public class Main extends Application {
       list.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
       list.getSelectionModel().selectedItemProperty().addListener((obs, ov, nv) -> {
         selected.setItems(list.getSelectionModel().getSelectedItems());
+        topicsToQuestion.clear();
         for (String t : list.getSelectionModel().getSelectedItems()) {
           if (!topicsToQuestion.contains(t))
             topicsToQuestion.add(t);

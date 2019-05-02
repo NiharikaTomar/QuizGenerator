@@ -49,15 +49,8 @@ public class QuizResults extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		for (int g=0;g<chosenAnswers.length;g++)
-		{
-			System.out.println("G" + g);
-			System.out.println("AAAAAAAAA:" + chosenAnswers[g]);
-		}
-
 		int i=0;
 		int correctAnswers = 0;
-		//int missedAnswers = 0;
 		for (Entry<Question, Answer> entry : askedQuestions.entrySet())  
 		{
 			if (entry.getValue().checkAnswer(chosenAnswers[i]))
@@ -97,9 +90,9 @@ public class QuizResults extends Application {
 
 		vBoxResults.getChildren().add(headerLabel);
 		
-		Label ia = new Label("Incorrect Answers: " + correctAnswers);
+		Label ia = new Label("Correct Answers: " + correctAnswers);
 		ia.setTextFill(Color.WHITE);
-		Label ca = new Label("Correct Answers: " + (askedQuestions.size()-correctAnswers));
+		Label ca = new Label("Incorrect Answers: " + (askedQuestions.size()-correctAnswers));
 		ca.setTextFill(Color.WHITE);
 		Label ta = new Label("Total Quesions: " + askedQuestions.size());
 		ta.setTextFill(Color.WHITE);
