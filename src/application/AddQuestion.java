@@ -261,16 +261,16 @@ public class AddQuestion extends Application{
             ans.addAnswer(txt1.getText(), corr1);
           }
           if (!txt2.equals(null)) {
-            ans.addAnswer(txt2.getText(), corr1);
+            ans.addAnswer(txt2.getText(), corr2);
           }
           if (!txt3.equals(null)) {
-            ans.addAnswer(txt3.getText(), corr1);
+            ans.addAnswer(txt3.getText(), corr3);
           }
           if (!txt4.equals(null)) {
-            ans.addAnswer(txt4.getText(), corr1);
+            ans.addAnswer(txt4.getText(), corr4);
           }
           if (!txt5.equals(null)) {
-            ans.addAnswer(txt5.getText(), corr1);
+            ans.addAnswer(txt5.getText(), corr5);
           }
 //          ans.addAnswer(txt2.getText(), corr2);
 //          ans.addAnswer(txt3.getText(), corr3);
