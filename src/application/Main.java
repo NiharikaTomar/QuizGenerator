@@ -21,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
@@ -77,12 +78,16 @@ public class Main extends Application {
       Button takeQuiz = new Button("Take Quiz");
       Button startQuiz = new Button("Start Quiz");
       Button closePopUp = new Button("Thank you");
+      Button saveAndQuitButton = new Button("Save and Quit");
+      Button quitButton = new Button("Quit");
       
 
       // Add buttons to a horizontal box
       hbox.getChildren().add(addQuestion);
       hbox.getChildren().add(addFile);
       hbox.getChildren().add(takeQuiz);
+      hbox.getChildren().add(saveAndQuitButton);
+      hbox.getChildren().add(quitButton);
 
       Stage numberOfQuetionsStage = new Stage();
       TextField inputBox = new TextField();
@@ -246,50 +251,53 @@ public class Main extends Application {
       scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
       primaryStage.setScene(scene);
 
-      Stage exitStage = new Stage();
-      Button agreeButton = new Button("Yes");
-      Button disagreeButton = new Button("No");
-      primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-        @Override
-        public void handle(WindowEvent event) {
-          Label exitLabel = new Label("Save and exit?");
-          HBox buttonBox = new HBox(agreeButton, disagreeButton);
-          buttonBox.setSpacing(10);
-          VBox vBox = new VBox(exitLabel, buttonBox);
-          Scene popupScene = new Scene(vBox);
-          exitStage.setScene(popupScene);
-          exitStage.show();
-        }
-      });
-      
-      agreeButton.setOnAction(new EventHandler<ActionEvent>() {
+      saveAndQuitButton.setOnAction(new EventHandler<ActionEvent>() {
 
         /**
          * This method saves the program
          */
         @Override
         public void handle(ActionEvent event) {
-          Main main = new Main();
-          Stage newStage = new Stage();
-          
+          // Main main = new Main();
           try {
-            main.start(newStage);
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save Your Json File:");
+            fileChooser.setInitialFileName("Quiz");
+            fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON files (*.json)", "*.json"));
+            File fileToSave = fileChooser.showSaveDialog(primaryStage);
+            
+            if (fileToSave != null) {
+              try {
+                  SaveFile saveFile = new SaveFile(fileToSave);
+              } catch (Exception e) {
+                e.printStackTrace();
+                  Alert alert = new Alert(AlertType.ERROR, "Unable to save file!");
+                  alert.showAndWait();
+                  return;
+              }
+          }
             primaryStage.close();
           } catch (Exception e) {
             e.printStackTrace();
+            Main main = new Main();
+            Stage newStage3 = new Stage();
+            try {
+              main.start(newStage3);
+              primaryStage.close();
+            } catch (Exception e1) {
+              e.printStackTrace();
+            }
           }
         }
       });
-      
-      disagreeButton.setOnAction(new EventHandler<ActionEvent>() {
 
+      quitButton.setOnAction(new EventHandler<ActionEvent>() {
         /**
          * This method exits the program
          */
         @Override
         public void handle(ActionEvent event) {
-          exitStage.close();
+          primaryStage.close();
         }
       });
       
