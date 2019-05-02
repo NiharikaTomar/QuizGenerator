@@ -13,6 +13,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Random;
 import javafx.application.Application;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -151,7 +153,27 @@ public class Quiz extends Application {
 					}
 					chosenAnswers[i-2] = selectedRadioButton.getText();
 					
-//				  RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+					Alert correctness = new Alert(AlertType.INFORMATION);
+					String message = "INCORRECT";
+					Question q = questions.get(questions.size() - 1);
+					Answer a = askedQuestions.get(q);
+					if (a != null && a.checkAnswer(selectedRadioButton.getText())) {
+					  message = "CORRECT";
+					}
+					correctness.setContentText(message);
+					correctness.show();
+					
+//				  Object selectedAnswer = answersGroup.getSelectedToggle().getUserData();
+//				  selectedAnswer.toString();
+//				  String message = "INCORRECT";
+////				  if (selectedAnswer.checkAnswer(selectedAnswer.toString()) == true) {
+////				    message = "CORRECT!";
+////				  }
+//				  System.out.println(selectedAnswer.toString());
+//				  Alert correctness = new Alert(AlertType.NONE);
+//				  correctness.setContentText(message);
+				  
+				  //RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
 //		          chosenAnswers.add(selectedRadioButton.getText());
 //		          Alert correctness = new Alert(AlertType.NONE);
 //		          Answer temp = new Answer();
