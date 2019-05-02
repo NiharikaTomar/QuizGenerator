@@ -14,6 +14,8 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -129,9 +131,15 @@ public class Quiz extends Application {
 				 */
 				@Override
 				public void handle(ActionEvent arg0) {
-					//RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-					//chosenAnswers.add(selectedRadioButton.getText());
-					System.out.println(chosenAnswers);
+//				  RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
+//		          chosenAnswers.add(selectedRadioButton.getText());
+//		          Alert correctness = new Alert(AlertType.NONE);
+//		          Answer temp = new Answer();
+//		          String message = "INCORRECT";
+//		          if (temp.checkAnswer(selectedRadioButton.getText()) ) {
+//		            message = "CORRECT!";
+//		          }
+//		          correctness.setContentText(message);
 					nextButtonClicked = false;
 					if (i <= numQuestions) {
 						questionsAndAnswers.getChildren().clear();

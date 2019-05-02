@@ -133,6 +133,7 @@ public class Main extends Application {
           }
           catch (Exception e){
             numberOfQuetionsStage.close();
+            System.out.println(e.getLocalizedMessage());
             Label questionNumPrompt = new Label("Please select a topic");
             VBox vBox = new VBox(questionNumPrompt, closePopUp);
             Scene popupScene = new Scene(vBox);

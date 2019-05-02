@@ -227,21 +227,6 @@ public class AddQuestion extends Application{
           boolean corr5 = false;
 
           Toggle selectedCorrect = answersGroup.getSelectedToggle();
-//          if( selectedCorrect.equals(switch1.getUserData())) {
-//            corr1 = true;
-//          }
-//          if( selectedCorrect.equals(switch2.getUserData())) {
-//            corr2 = true;
-//          }
-//          if( selectedCorrect.equals(switch3.getUserData())) {
-//            corr3 = true;
-//          }
-//          if( selectedCorrect.equals(switch4.getUserData())) {
-//            corr4 = true;
-//          }
-//          if( selectedCorrect.equals(switch5.getUserData())) {
-//            corr5 = true;
-//          }
           if (switch1.isSelected()) {
             corr1 = true;
           }
@@ -272,12 +257,8 @@ public class AddQuestion extends Application{
           if (!txt5.equals(null)) {
             ans.addAnswer(txt5.getText(), corr5);
           }
-//          ans.addAnswer(txt2.getText(), corr2);
-//          ans.addAnswer(txt3.getText(), corr3);
-//          ans.addAnswer(txt4.getText(), corr4);
-//          ans.addAnswer(txt5.getText(), corr5);
           
-          if (!topicInput.equals(null)) {
+          if (!topicInput.getText().trim().isEmpty()) {
             topic = topicInput.getText();
             Main.topics.insert(topicInput.getText(), new QuestionBank(topic)); 
           }
@@ -292,7 +273,7 @@ public class AddQuestion extends Application{
           }
           main.start(newStage);
           primaryStage.close();
-
+          
         } catch (Exception e) {
           e.printStackTrace();
         }
