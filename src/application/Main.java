@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
+
 import org.json.simple.parser.ParseException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -42,11 +43,13 @@ import javafx.scene.paint.Color;
  */
 public class Main extends Application {
 
-	//private Desktop desktop = Desktop.getDesktop();
+	private Desktop desktop = Desktop.getDesktop();
 	public static HashTable<String, QuestionBank> topics = new HashTable<String, QuestionBank>();
 	ObservableList<String> items;
 	public static ArrayList<String> topicsToQuestion = new ArrayList<String>();
 	int totalQuestions;
+
+
 	/**
 	 * Runs the Home Screen
 	 */
@@ -56,7 +59,6 @@ public class Main extends Application {
 		try {
 
 			//Collections.sort(topicsToQuestion);
-
 			BorderPane root = new BorderPane();
 
 			HBox hbox = new HBox();
@@ -94,6 +96,20 @@ public class Main extends Application {
 
 			takeQuiz.setOnAction(new EventHandler<ActionEvent>() {
 				/**
+//				 * This method creates a new scene with a pop up to get number of questions needed in quiz.
+//				 */
+//				public void handle(ActionEvent event) {
+//					Label questionNumPrompt = new Label("How many questions would you like in your quiz?");
+//					VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
+//					Scene popupScene = new Scene(vBox);
+//					if (topicsToQuestion.isEmpty())
+//					{
+//						Alert alert = new Alert(AlertType.ERROR);
+//						alert.setContentText("Choose an answer"); 
+//						alert.show();
+//					}
+					
+				/*
 				 * This method creates a new scene with a pop up to get number of questions
 				 * needed in quiz.
 				 */
@@ -107,6 +123,7 @@ public class Main extends Application {
 					Label questionNumPrompt = new Label("How many questions would you like in your quiz?");
 					VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
 					Scene popupScene = new Scene(vBox);
+
 					numberOfQuetionsStage.setScene(popupScene);
 					numberOfQuetionsStage.show();
 				}
@@ -129,6 +146,7 @@ public class Main extends Application {
 						if (numQuestions > totalQuestions) {
 							numQuestions = totalQuestions;
 						}						
+						
 						Quiz quiz = new Quiz();
 						quiz.setNumQuestions(numQuestions);
 						Stage newStage = new Stage();
@@ -153,12 +171,7 @@ public class Main extends Application {
 						numberOfQuetionsStage.setScene(popupScene);
 						numberOfQuetionsStage.show();
 					}
-/* <<<<<<< HEAD
 				}});
-
-======= */
-				}
-			});
 
 			/**
 			 * this method closes the stage showing number of questions
@@ -210,6 +223,7 @@ public class Main extends Application {
 							items.add(topics.keySet().get(i));
 							Collections.sort(items);
 						}
+						
 						for (int a = 0; a < topics.keySet().size(); a++) {
 							
 							totalQuestions += topics.get(topics.keySet().get(a)).getQuestions().keySet().size();
@@ -234,6 +248,7 @@ public class Main extends Application {
 				}
 
 			});
+
 			// Generates Topic List
 			items = FXCollections.observableArrayList();
 
@@ -241,6 +256,7 @@ public class Main extends Application {
 			items.clear();
 			for (int i = 0; i < topics.keySet().size(); i++) {
 				items.add(topics.keySet().get(i));
+
 				Collections.sort(items);
 			}
 			ListView<String> list = new ListView<>(items);
@@ -267,6 +283,7 @@ public class Main extends Application {
 			numQ.setTextFill(Color.WHITE);
 			root.setRight(numQ);
 
+
 			root.setTop(chooseTopic);
 			root.setCenter(hbox);
 			root.setLeft(hBox2);
@@ -275,24 +292,26 @@ public class Main extends Application {
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 
-			Stage exitStage = new Stage();
-			Button agreeButton = new Button("Yes");
-			Button disagreeButton = new Button("No");
-			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-
-				@Override
-				public void handle(WindowEvent event) {
-					Label exitLabel = new Label("Save and exit?");
-					HBox buttonBox = new HBox(agreeButton, disagreeButton);
-					buttonBox.setSpacing(10);
-					VBox vBox = new VBox(exitLabel, buttonBox);
-					Scene popupScene = new Scene(vBox);
-					exitStage.setScene(popupScene);
-					exitStage.show();
-				}
-			});
-
-			agreeButton.setOnAction(new EventHandler<ActionEvent>() {
+//<<<<<<< HEAD
+//			Stage exitStage = new Stage();
+//			Button agreeButton = new Button("Yes");
+//			Button disagreeButton = new Button("No");
+//			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+//
+//				@Override
+//				public void handle(WindowEvent event) {
+//					Label exitLabel = new Label("Save and exit?");
+//					HBox buttonBox = new HBox(agreeButton, disagreeButton);
+//					buttonBox.setSpacing(10);
+//					VBox vBox = new VBox(exitLabel, buttonBox);
+//					Scene popupScene = new Scene(vBox);
+//					exitStage.setScene(popupScene);
+//					exitStage.show();
+//				}
+//			});
+//
+//			agreeButton.setOnAction(new EventHandler<ActionEvent>() {
+			
 			saveAndQuitButton.setOnAction(new EventHandler<ActionEvent>() {
 
 				/**
@@ -300,14 +319,6 @@ public class Main extends Application {
 				 */
 				@Override
 				public void handle(ActionEvent event) {
-					Main main = new Main();
-					Stage newStage = new Stage();
-
-					try {
-						main.start(newStage);
-						primaryStage.close();
-					} catch (Exception e) {
-						e.printStackTrace();
 					// Main main = new Main();
 					try {
 						FileChooser fileChooser = new FileChooser();
@@ -341,16 +352,14 @@ public class Main extends Application {
 				}
 			});
 
-			disagreeButton.setOnAction(new EventHandler<ActionEvent>() {
 			quitButton.setOnAction(new EventHandler<ActionEvent>() {
 				/**
 				 * This method exits the program
 				 */
 				@Override
 				public void handle(ActionEvent event) {
-					exitStage.close();
+					//exitStage.close();
 					primaryStage.close();
-
 				}
 			});
 
@@ -367,6 +376,7 @@ public class Main extends Application {
 	 * Main method that runs the application
 	 * 
 	 * @param args command-line arguments
+
 	 */
 	public static void main(String[] args) {
 		Application.launch(args);
