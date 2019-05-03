@@ -129,7 +129,7 @@ public class Quiz extends Application {
 				root.setCenter(questionsAndAnswers);
 			}
 			BorderPane bottom = new BorderPane();
-			Label numQ = new Label("Number of Questions in Quiz" + numQuestions);
+			Label numQ = new Label("Number of Questions in Quiz: " + numQuestions);
 			numQ.setTextFill(Color.WHITE);
 			bottom.setBottom(numQ);
 			root.setRight(bottom);
