@@ -1,13 +1,10 @@
 /**
- * Filename: Main.java Project: Final Project Authors: Ved Kale, Miriam Lebowitz, Niharika Tomar,
- * and Elizaveta Stepanova
+ * Filename: Main.java
  * 
- * Final Project GUI
- * 
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
  */
 package application;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,32 +30,32 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 /**
- * Drives the GUI for the program
+ * This class runs Main GUI page.
  * 
- * @author Miriam, Elizaveta, Niharika, and Ved
- *
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
  */
 public class Main extends Application {
 
-  private Desktop desktop = Desktop.getDesktop();
+  // Initialize HashTable needed for GUI
   public static HashTable<String, QuestionBank> topics = new HashTable<String, QuestionBank>();
-  ObservableList<String> items;
+  ObservableList<String> items; // topics in ObservableList
+  // Initialize ArrayList needed for GUI
   public static ArrayList<String> topicsToQuestion = new ArrayList<String>();
+  // Counter for total number of questions in the database
   int totalQuestions;
 
   /**
-   * Runs the Home Screen
+   * Runs the Main GUI page
    */
   @Override
   public void start(Stage primaryStage) throws Exception {
 
     try {
-
-      // Collections.sort(topicsToQuestion);
+      // Setup layout of the page
       BorderPane root = new BorderPane();
 
+      // Needed Horizontal Box
       HBox hbox = new HBox();
-
       hbox.setSpacing(10);
 
       // Choose Topic Label
@@ -66,16 +63,15 @@ public class Main extends Application {
           "Please choose a topic. \n[To select multiple topics, hold down the CTRL button on Windows "
               + "or COMMAND on MAC.]");
 
-      // sets text color to white
+      // Set text color to white
       chooseTopic.setTextFill(Color.WHITE);
 
-      // Generate Buttons needed
+      // Generate Buttons needed for this page
       Button addQuestion = new Button("Add Question");
       Button addFile = new Button("Upload a JSON File");
       Button takeQuiz = new Button("Take Quiz");
       Button startQuiz = new Button("Start Quiz");
       Button closePopUp = new Button("Thank you");
-
       Button saveAndQuitButton = new Button("Save and Quit");
       Button quitButton = new Button("Quit");
 
@@ -83,30 +79,15 @@ public class Main extends Application {
       hbox.getChildren().add(addQuestion);
       hbox.getChildren().add(addFile);
       hbox.getChildren().add(takeQuiz);
-
       hbox.getChildren().add(saveAndQuitButton);
       hbox.getChildren().add(quitButton);
 
+      // Setup layout of the page
       Stage numberOfQuetionsStage = new Stage();
       TextField inputBox = new TextField();
 
+      // Event handler for Take Quiz Button to pop-up a question to a user
       takeQuiz.setOnAction(new EventHandler<ActionEvent>() {
-        /**
-         * // * This method creates a new scene with a pop up to get number of questions needed in
-         * quiz. //
-         */
-        // public void handle(ActionEvent event) {
-        // Label questionNumPrompt = new Label("How many questions would you like in
-        // your quiz?");
-        // VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
-        // Scene popupScene = new Scene(vBox);
-        // if (topicsToQuestion.isEmpty())
-        // {
-        // Alert alert = new Alert(AlertType.ERROR);
-        // alert.setContentText("Choose an answer");
-        // alert.show();
-        // }
-
         /*
          * This method creates a new scene with a pop up to get number of questions needed in quiz.
          */
@@ -128,9 +109,8 @@ public class Main extends Application {
 
       hbox.getStyleClass().add("hbox");
 
-      // Set up behavior for Start Quiz button
+      // Event handler for Start Quiz Button
       startQuiz.setOnAction(new EventHandler<ActionEvent>() {
-
         /**
          * This method creates a new scene with a quiz questions and closes primaryStage and
          * numberOfQuestionsStage.
@@ -142,10 +122,10 @@ public class Main extends Application {
             numQuestions = Integer.parseInt(inputBox.getText());
             int q = 0;
             for (int a = 0; a < topicsToQuestion.size(); a++) {
-                ArrayList<Question> questions = new ArrayList<>();
-                questions.addAll(topics.get(topicsToQuestion.get(a)).getQuestions().keySet());
-                q += questions.size();
-              }
+              ArrayList<Question> questions = new ArrayList<>();
+              questions.addAll(topics.get(topicsToQuestion.get(a)).getQuestions().keySet());
+              q += questions.size();
+            }
             if (numQuestions > q && q != 0) {
               numQuestions = q;
             }
@@ -157,7 +137,9 @@ public class Main extends Application {
             numberOfQuetionsStage.close();
             primaryStage.close();
             newStage.show();
+
           } catch (NumberFormatException e) {
+            // User is required to type number of questions
             numberOfQuetionsStage.close();
             Label questionNumPrompt = new Label("Type number of questions");
             VBox vBox = new VBox(questionNumPrompt, closePopUp);
@@ -166,6 +148,7 @@ public class Main extends Application {
             numberOfQuetionsStage.show();
             return;
           } catch (Exception e) {
+            // User is required to choose a topic
             numberOfQuetionsStage.close();
             System.out.println(e.getLocalizedMessage());
             Label questionNumPrompt = new Label("Please select a topic");
@@ -186,13 +169,11 @@ public class Main extends Application {
           numberOfQuetionsStage.close();
         }
       });
-      // Set up behavior for Edit button
 
-      // Set up behavior for addQuestion button
+      // Event handler for addQuestion button
       addQuestion.setOnAction(new EventHandler<ActionEvent>() {
-
         /**
-         * Goes to AddQuestion Page
+         * This method goes to an Add Question page.
          */
         @Override
         public void handle(ActionEvent event) {
@@ -210,8 +191,9 @@ public class Main extends Application {
 
       // Sets up behavior for addFile button
       final FileChooser fileChooser = new FileChooser();
-      addFile.setOnAction(new EventHandler<ActionEvent>() {
 
+      // Event handler for addFile button
+      addFile.setOnAction(new EventHandler<ActionEvent>() {
         /**
          * Goes to AddQuestion Page
          */
@@ -234,19 +216,20 @@ public class Main extends Application {
               questions.addAll(topics.get(Main.topics.keySet().get(a)).getQuestions().keySet());
               totalQuestions += questions.size();
             }
-            
+
+            // Show total number of questions in a database
             BorderPane bottom = new BorderPane();
             Label numQ = new Label("Total Number of Questions: " + totalQuestions);
             numQ.setTextFill(Color.WHITE);
             bottom.setRight(numQ);
             root.setBottom(bottom);
+            
           } catch (Exception e1) {
 
             Main main = new Main();
             Stage newStage3 = new Stage();
 
             try {
-
               main.start(newStage3);
               primaryStage.close();
             } catch (Exception e) {
@@ -279,10 +262,10 @@ public class Main extends Application {
         for (String t : list.getSelectionModel().getSelectedItems()) {
           if (!topicsToQuestion.contains(t))
             topicsToQuestion.add(t);
-        }       
+        }
       });
 
-      
+
       BorderPane bottom = new BorderPane();
       Label numQ = new Label("Total Number of Questions: " + totalQuestions);
       numQ.setTextFill(Color.WHITE);

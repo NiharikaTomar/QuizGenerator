@@ -1,40 +1,54 @@
-package application;
 /**
- * A data structure that can store at as many key,value pairs as needed.
+ * Filename: DataStructureADT.java
  * 
- * CAUTION: The methods in this interface are similar, 
- * but not exactly the same as given in p1 and p2.
- *
- * May not add any public members to ADT or your implementation.
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
+ */
+
+package application;
+
+/**
+ * This is a public interface of the data structure.
  * 
- * @author deppeler
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
  *
- * @param <K> The key must not be null and must be Comparable.
- * @param <V> The data value associated with a given key.
+ * @param <K> Key of the node
+ * @param <V> Value of the node
  */
 public interface DataStructureADT<K extends Comparable<K>, V> {
 
-    // Add the key,value pair to the data structure and increase the number of keys.
-    // If key is null, throw IllegalNullKeyException;
-    // If key is already in data structure, throw DuplicateKeyException();
-    void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException;
+  /**
+   * Add the key, value pair to the data structure and increase the number of keys.
+   * 
+   * @param key   of the node
+   * @param value of the node
+   * @throws IllegalNullKeyException if key is null
+   * @throws DuplicateKeyException   if already exists in data structure
+   */
+  void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException;
 
-    // If key is found, 
-    //    remove the key,value pair from the data structure
-    //    decrease number of keys.
-    //    return true
-    // If key is null, throw IllegalNullKeyException
-    // If key is not found, return false
-    boolean remove(K key) throws IllegalNullKeyException;
+  /**
+   * Removes the key, value pair from the data structure.
+   * 
+   * @param key of the node
+   * @return true when remove was successful, false otherwise
+   * @throws IllegalNullKeyException if key is null
+   */
+  boolean remove(K key) throws IllegalNullKeyException;
 
-    // Returns the value associated with the specified key
-    // Does not remove key or decrease number of keys
-    //
-    // If key is null, throw IllegalNullKeyException 
-    // If key is not found, throw KeyNotFoundException().
-    V get(K key) throws IllegalNullKeyException, KeyNotFoundException;
+  /**
+   * This method returns the value associated with the specified key.
+   * 
+   * @param key of the node
+   * @return the value associated with the specified key
+   * @throws IllegalNullKeyException if key is null
+   * @throws KeyNotFoundException    if key is not found
+   */
+  V get(K key) throws IllegalNullKeyException, KeyNotFoundException;
 
-    // Returns the number of key,value pairs in the data structure
-    int numKeys();
-
+  /**
+   * This method the number of key, value pairs in the data stracture.
+   * 
+   * @return number of key, value pairs
+   */
+  int numKeys();
 }

@@ -1,3 +1,9 @@
+/**
+ * Filename: IllegaNullKeyException.java
+ * 
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
+ */
+
 package application;
 
 /**

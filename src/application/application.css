@@ -1,24 +1,23 @@
 /**
- * Filename:   application.css
- * Project:    Final Project
- * Authors:    Ved Kale, Miriam Lebowitz, Niharika Tomar, and Elizaveta Stepanova
+ * Filename: Main.java
  * 
- * Final Project GUI
- * 
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
  */
+ 
+ /* Style all the buttons in GUI pages */
 .button {
 	-fx-background-color: #b0c4de;
-	-fx-border-radius: 4px;
-	-fx-padding: 10px;
+	-fx-border-radius: 4.0px;
+	-fx-padding: 10.0px;
 } 
 
+/* Style .hbox with padding */
 .hbox {
-	-fx-padding: 20px;
+	-fx-padding: 20.0px;
 }
 
+/* Style all the Border Panes with background color and padding */
 .root {
 	-fx-background-color: #132D54;
-	-fx-padding: 10px 10px 10px 10px;
+	-fx-padding: 10.0px 10.0px 10.0px 10.0px;
 }
-
-

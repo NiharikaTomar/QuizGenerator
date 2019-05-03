@@ -1,81 +1,96 @@
-package application;
-
-//////////////////// ALL ASSIGNMENTS INCLUDE THIS SECTION /////////////////////
-//
-// Title: P3a HashTable
-// Files: HashTable.java
-// Course and lecture: CS 400 lecture 004, Spring 2019
-// Due date: march 14 2019
-// Author: Niharika Tomar
-// Email: ntomar@wisc.edu
-// Lecturer's Name: Andrew Kuemmel
-//
-///////////////////////////// CREDIT OUTSIDE HELP /////////////////////////////
-//
-// Students who get help from sources other than their partner must fully
-// acknowledge and credit those sources of help here. Instructors and TAs do
-// not need to be credited here, but tutors, friends, relatives, room mates,
-// strangers, and others do. If you received no outside help from either type
-// of source, then please explicitly indicate NONE.
-//
-// Persons: (identify each person and describe their help in detail)
-// Online Sources: (identify each URL and describe their assistance in detail)
-//
-/////////////////////////////// 100 COLUMNS WIDE ///////////////////////////////
 /**
- * This class aims to implement the HashTableADT class using OPEN ADDRESSING: with linear probing.
+ * Filename: HashTable.java
  * 
- * @author niharikatomar
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
  */
+package application;
 
 import java.util.*;
 
-// This class uses open addressing: linear probing for the hash table implementation
-// and rehashing as the collision resolution.
+/**
+ * This class uses open addressing: linear probing for the hash table implementation and rehashing
+ * as the collision resolution.
+ * 
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
+ *
+ * @param <K> Key of the node
+ * @param <V> Value of the node
+ */
 public class HashTable<K extends Comparable<K>, V> implements HashTableADT<K, V> {
 
-  // private Node class for hash table implementation
+  /**
+   * Private Node class for hash table implementation
+   * 
+   * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
+   *
+   * @param <K> Key of the node
+   * @param <V> Value of the node
+   */
   private static class Node<K, V> {
     private K key;
     private V value;
 
-    private Node(K key, V value) { // initializing key and value
+    /**
+     * Constructs a Node Object; initializes key and value
+     * 
+     * @param key   of the node
+     * @param value of the node
+     */
+    private Node(K key, V value) {
       this.key = key;
       this.value = value;
     }
 
+    /**
+     * Public getter of the key.
+     * 
+     * @return key of the node
+     */
     public K getKey() {
-      // TODO Auto-generated method stub
       return this.key;
     }
   }
 
-  // Adding DATA FIELD MEMBERS needed for the implementation
+  /**
+   * DATA FIELD MEMBERS needed for the implementation
+   */
   private double thresh; // threshold factor
   private int tableSize; // starting current size
   private int size; // total number of elements in the hash table
   private Node<K, V> table[]; // hash table
 
   // a default no-argument constructor
+  /**
+   * A default no-argument constructor.
+   */
   public HashTable() {
-    this.tableSize = 49157; // initializing hash table to a prime size
-    this.thresh = 0.75; // threshold factor
-    this.size = 0; // total number of elements in the hash table initialized
-    this.table = (Node<K, V>[]) new Node<?, ?>[tableSize]; // hash table initialization
+    // Initialize hash table to a prime size
+    this.tableSize = 49157;
+    // Threshold factor
+    this.thresh = 0.75;
+    // Total number of elements in the hash table initialized
+    this.size = 0;
+    // Hash table initialization
+    this.table = (Node<K, V>[]) new Node<?, ?>[tableSize];
     for (int i = 0; i < tableSize; i++) {
-      table[i] = null; // setting all indices of table to be null
+      // Set all indices of table to be null
+      table[i] = null;
     }
   }
 
-  /*
+  /**
    * A constructor that accepts initial capacity and load factor threshold The threshold is the load
-   * factor that causes a resize and rehash
+   * factor that causes a resize and rehash.
+   * 
+   * @param initialCapacity     initial size of HashTable
+   * @param loadFactorThreshold Signal that rehashing needs to happen
    */
   public HashTable(int initialCapacity, double loadFactorThreshold) {
-    if (initialCapacity <= 0) { // checking for initial capacity to be positive
+    // Check for initial capacity to be positive
+    if (initialCapacity <= 0) {
       throw new IllegalArgumentException();
     }
-    // initializing data
+    // Initialize data
     this.tableSize = initialCapacity;
     this.thresh = loadFactorThreshold;
     this.size = 0;
@@ -85,50 +100,62 @@ public class HashTable<K extends Comparable<K>, V> implements HashTableADT<K, V>
     }
   }
 
-  /*
-   * private helper method to get the hashIndex of the key
+  /**
+   * Private helper method to get the hashIndex of the key.
+   * 
+   * @param key of the node
+   * @return the index where the key is located
    */
   private int getHashIndex(K key) {
     int hashCode = Math.abs(key.hashCode());
+
     return hashCode % this.tableSize;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Inserts a key and value pair into the HashTable.
    * 
-   * @see DataStructureADT#insert(java.lang.Comparable, java.lang.Object)
+   * @param key   is the key of the node
+   * @param value is the value of the node
    */
   @Override
   public void insert(K key, V value) throws IllegalNullKeyException, DuplicateKeyException {
-    // check if the key is not null
+    // Check if the key is null
     if (key == null) {
-      throw new IllegalNullKeyException(); // throw exception
+      throw new IllegalNullKeyException();
     }
     int index = getHashIndex(key);
     if (index < 0) {
-      index = -index; // getting a negative index if it is less than 0
+      // Get a negative index if it is less than 0
+      index = -index;
     }
-    // checking for a duplicate key
-    if (contains(key)) { // if duplicate found
-      throw new DuplicateKeyException();// throw exception
+    // Check if key is duplicate
+    if (contains(key)) {
+      throw new DuplicateKeyException();
     }
     int hashIndex = lookup(key, index);
-    // putting Key value pair in hash table
+
+    // Put Key value pair in hash table
     if (hashTable(key, value, hashIndex)) {
-      this.size++; // incrementing number of elements in table
+      // increment number of elements in table
+      this.size++;
     }
     // checking if load factor exceeds threshold
     if (getLoadFactor() > getLoadFactorThreshold()) {
-      int newTableSize = (this.tableSize * 2) + 1; // resizing table
+      // Resize a table
+      int newTableSize = (this.tableSize * 2) + 1;
       int newHashIndex = 0;
-      Node<K, V> newTable[] = (Node<K, V>[]) new Node<?, ?>[newTableSize]; // new hash table
+
+      // new hash table
+      Node<K, V> newTable[] = (Node<K, V>[]) new Node<?, ?>[newTableSize];
       Node<K, V>[] tempTable = table;
       this.table = newTable;
       int tempSize = tableSize;
       tableSize = newTableSize;
-      // rehashing the table
+      // Rehashing the table
       for (int i = 0; i <= tempSize - 1; i++) {
-        if (tempTable[i] != null) { // if key is not null
+        // Check if key is not null
+        if (tempTable[i] != null) {
           Node<K, V> temp = tempTable[i];
           newHashIndex = lookup(temp.key, getHashIndex(temp.key));
           this.table[newHashIndex] = temp;
@@ -138,7 +165,7 @@ public class HashTable<K extends Comparable<K>, V> implements HashTableADT<K, V>
   }
 
   /*
-   * private helper method to set the hash table
+   * Private helper method to set the hash table.
    */
   private boolean hashTable(K key, V value, int hash) {
     this.table[hash] = new Node<K, V>(key, value);
@@ -146,154 +173,178 @@ public class HashTable<K extends Comparable<K>, V> implements HashTableADT<K, V>
   }
 
   /*
-   * private helper method to lookup a key at a given index.
+   * Private helper method to lookup a key at a given index.
    */
   public int lookup(K key, int hashIndex) {
     int i = hashIndex;
+
     while (table[i] != null) {
       if (i == this.tableSize - 1) {
         i = -1;
       }
       i++;
     }
+
     return i;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Removes a node from the HashTable.
    * 
-   * @see DataStructureADT#remove(java.lang.Comparable)
+   * @param key of the node
+   * @return true if removed successfully
    */
   @Override
   public boolean remove(K key) throws IllegalNullKeyException {
-    if (key == null) { // null key check
+    // Check if the key is null
+    if (key == null) {
       throw new IllegalNullKeyException();
     }
-    if (!contains(key)) { // duplicate key check
+
+    // Check if the key is duplicate
+    if (!contains(key)) {
       return false;
     }
-    int hashIndex = getHashIndex(key); // getting hash index
+
+    // Getting hash index
+    int hashIndex = getHashIndex(key);
     int i = hashIndex;
+
     while (this.table[i] != null && !this.table[i].key.equals(key)) {
       if (i == this.tableSize - 1) {
         i = -1;
       }
-      i++; // incrementing counter i
+      i++;
     }
+
     if (this.table[i] != null && this.table[i].key.equals(key)) {
-      table[i] = null; // removing a node/key at a given index
-      this.size--; // decrementing table size
+      // removing a node/key at a given index
+      table[i] = null;
+      // decrementing table size
+      this.size--;
       return true;
     }
     return false;
   }
 
-  /*
-   * private helper method to check whether the table contains a key or not. If duplicate found,
-   * returns -1
+  /**
+   * Private helper method to check whether the table contains a key or not. If duplicate found,
+   * 
+   * @param key of the node
+   * @return true if key is in the HashTable, false otherwise
    */
   public boolean contains(K key) {
-    int hashIndex = getHashIndex(key); // getting hash index for key
+    int hashIndex = getHashIndex(key);
+
     int i = hashIndex;
+
     while (table[i] != null && !table[i].key.equals(key)) {
       if (i == tableSize - 1) {
         i = -1;
       }
-      i++; // incrementing counter i
+      i++;
     }
-    if (table[i] != null && table[i].key.equals(key))
-      return true;
-    return false;
 
+    if (table[i] != null && table[i].key.equals(key)) {
+      return true;
+    }
+
+    return false;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * This method returns a value of the node with the specified key.
    * 
-   * @see DataStructureADT#get(java.lang.Comparable)
+   * @param key of the node
+   * @return value of the node
    */
   @Override
   public V get(K key) throws IllegalNullKeyException, KeyNotFoundException {
-    if (key == null) { // null check
+    // Check if the key is null
+    if (key == null) {
       throw new IllegalNullKeyException();
     }
-    if (!contains(key)) { // absent key check
+
+    // Check if the key is absent
+    if (!contains(key)) {
       throw new KeyNotFoundException();
     }
-    V value = getVal(key); // getting value of a key
+
+    // getting value of a key
+    V value = getVal(key);
     return value;
   }
 
-  /*
-   * private helper method to get the value of a certain key
+
+  /**
+   * Private helper method to get the value of a certain key.
+   * 
+   * @param key of the node
+   * @return value of the node
    */
   private V getVal(K key) {
     int hashIndex = getHashIndex(key); // get hash index
+
     int i = hashIndex;
+
     while (this.table[i] != null && !this.table[i].key.equals(key)) {
       if (i == tableSize - 1) {
         i = -1;
       }
-      i++; // incrementing counter i
+      i++;
     }
+
     if (this.table[i] != null && this.table[i].key.equals(key)) {
       return this.table[i].value; // returning value at the given key
     }
     return null;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Returns the number of keys in the HashTable
    * 
-   * @see DataStructureADT#numKeys()
+   * @return number of keys
    */
   @Override
   public int numKeys() {
     return this.size;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Returns the loadFactorThreshold.
    * 
-   * @see HashTableADT#getLoadFactorThreshold()
+   * @return loadFactorThreshold
    */
   @Override
   public double getLoadFactorThreshold() {
     return this.thresh;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Returns the loadFactor.
    * 
-   * @see HashTableADT#getLoadFactor()
+   * @return loadFactor
    */
   @Override
   public double getLoadFactor() {
     return (double) this.size / this.tableSize;
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * Returns the capacity of the HashTable.
    * 
-   * @see HashTableADT#getCapacity()
+   * @return the capacity of the HashTable
    */
   @Override
   public int getCapacity() {
     return this.tableSize;
   }
 
-  /*
-   * (non-Javadoc) uses OPEN ADDRESSING: linear probe
+  /**
+   * Returns a list of the keys in the HashTable
    * 
-   * @see HashTableADT#getCollisionResolution()
+   * @return ArrayList of keys
    */
-  @Override
-  public int getCollisionResolution() {
-    return 1;
-  }
-
-
-
   public ArrayList<K> keySet() {
     ArrayList<K> keys = new ArrayList<K>();
     for (int i = 0; i < table.length; i++) {

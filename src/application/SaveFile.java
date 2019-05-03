@@ -1,3 +1,9 @@
+/**
+ * Filename: SaveFile.java
+ * 
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
+ */
+
 package application;
 
 import java.io.File;
@@ -8,24 +14,35 @@ import java.util.ArrayList;
 import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+
+/**
+ * This class saves the question database to a JSON file.
+ * 
+ * @author Ved Kale, Miriam Lebowitz, Elizaveta Stepanova, and Niharika Tomar
+ */
 public class SaveFile {
+  @SuppressWarnings("unchecked")
   public SaveFile(File file) throws FileNotFoundException, IOException, ParseException {
 
 
+    // Initialize ArrayLists and Lists needed
     ArrayList<String> topics = new ArrayList<>();
     ArrayList<Question> questions = new ArrayList<>();
     List<Answer> answers = new ArrayList<>();
 
     try {
+      // Initialize JSONArray and JSONObject
       JSONArray mainArray = new JSONArray();
       JSONObject mainObject = new JSONObject();
 
+      // Loop through the HashTable
       for (int i = 0; i < Main.topics.keySet().size(); i++) {
 
+        // Initialize JSONObject for each question
         JSONObject questionsObject = new JSONObject();
+        
         // Prints out a meta-data
         questionsObject.put("meta-data", "unused");
 
@@ -42,6 +59,7 @@ public class SaveFile {
 
         answers.addAll(Main.topics.get(topics.get(i)).getAnswers());
 
+        // Loop through the List of answers and add the to a choiceArray
         for (Answer answer : answers) {
           ArrayList<String> answers2 = answer.getAnswers();
           JSONArray choicesArray = new JSONArray();
@@ -50,7 +68,6 @@ public class SaveFile {
 
             String correctness = String.valueOf(answer.checkAnswer(a));
 
-            // System.out.println(a);
             JSONObject choiceJsonObject = new JSONObject();
 
             choiceJsonObject.put("isCorrect", correctness);
@@ -64,9 +81,6 @@ public class SaveFile {
       }
 
       mainObject.put("questionArray", mainArray);
-
-      JSONParser parser = new JSONParser();
-
 
       // Write JSON file
       PrintWriter filewriter = new PrintWriter(file, "UTF-8");
