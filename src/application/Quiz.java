@@ -80,7 +80,7 @@ public class Quiz extends Application {
 		questions = new ArrayList<>();
 		answers = new ArrayList<>();
 		chosenAnswers = new String[numQuestions];
-
+		
 		for (int a = 0; a < Main.topicsToQuestion.size(); a++) {
 			questions.addAll(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().keySet());
 			for (int b = 0; b < questions.size(); b++) {
@@ -205,7 +205,6 @@ public class Quiz extends Application {
 					}
 				}
 			});
-			System.out.println("I" + i); 
 		}
 
 

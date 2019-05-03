@@ -11,8 +11,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Set;
-import org.json.simple.parser.ParseException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -142,8 +140,14 @@ public class Main extends Application {
           int numQuestions = 0;
           try {
             numQuestions = Integer.parseInt(inputBox.getText());
-            if (numQuestions > topicsToQuestion.size() && topicsToQuestion.size() != 0) {
-              numQuestions = topicsToQuestion.size();
+            int q = 0;
+            for (int a = 0; a < topicsToQuestion.size(); a++) {
+                ArrayList<Question> questions = new ArrayList<>();
+                questions.addAll(topics.get(topicsToQuestion.get(a)).getQuestions().keySet());
+                q += questions.size();
+              }
+            if (numQuestions > q && q != 0) {
+              numQuestions = q;
             }
 
             Quiz quiz = new Quiz();
@@ -275,12 +279,9 @@ public class Main extends Application {
         for (String t : list.getSelectionModel().getSelectedItems()) {
           if (!topicsToQuestion.contains(t))
             topicsToQuestion.add(t);
-        }
+        }       
       });
-      for (int a = 0; a < topics.keySet().size(); a++) {
 
-        totalQuestions += topics.get(topics.keySet().get(a)).getQuestions().keySet().size();
-      }
       
       BorderPane bottom = new BorderPane();
       Label numQ = new Label("Total Number of Questions: " + totalQuestions);
