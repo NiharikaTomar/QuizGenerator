@@ -127,8 +127,13 @@ public class Quiz extends Application {
 				r.setTextFill(Color.WHITE);
 				questionsAndAnswers.getChildren().add(r);
 				root.setCenter(questionsAndAnswers);
-
 			}
+			BorderPane bottom = new BorderPane();
+			Label numQ = new Label("Number of Questions in Quiz" + numQuestions);
+			numQ.setTextFill(Color.WHITE);
+			bottom.setBottom(numQ);
+			root.setRight(bottom);
+			
 			if(numQuestions==1) { 
 				hboxBottomMenu.getChildren().remove(nextQuestionButton);
 				//primaryStage.show();
