@@ -49,7 +49,6 @@ public class Main extends Application {
 	public static ArrayList<String> topicsToQuestion = new ArrayList<String>();
 	int totalQuestions;
 
-
 	/**
 	 * Runs the Home Screen
 	 */
@@ -58,7 +57,7 @@ public class Main extends Application {
 
 		try {
 
-			//Collections.sort(topicsToQuestion);
+			// Collections.sort(topicsToQuestion);
 			BorderPane root = new BorderPane();
 
 			HBox hbox = new HBox();
@@ -96,19 +95,21 @@ public class Main extends Application {
 
 			takeQuiz.setOnAction(new EventHandler<ActionEvent>() {
 				/**
-//				 * This method creates a new scene with a pop up to get number of questions needed in quiz.
-//				 */
-//				public void handle(ActionEvent event) {
-//					Label questionNumPrompt = new Label("How many questions would you like in your quiz?");
-//					VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
-//					Scene popupScene = new Scene(vBox);
-//					if (topicsToQuestion.isEmpty())
-//					{
-//						Alert alert = new Alert(AlertType.ERROR);
-//						alert.setContentText("Choose an answer"); 
-//						alert.show();
-//					}
-					
+				 * // * This method creates a new scene with a pop up to get number of questions
+				 * needed in quiz. //
+				 */
+				// public void handle(ActionEvent event) {
+				// Label questionNumPrompt = new Label("How many questions would you like in
+				// your quiz?");
+				// VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
+				// Scene popupScene = new Scene(vBox);
+				// if (topicsToQuestion.isEmpty())
+				// {
+				// Alert alert = new Alert(AlertType.ERROR);
+				// alert.setContentText("Choose an answer");
+				// alert.show();
+				// }
+
 				/*
 				 * This method creates a new scene with a pop up to get number of questions
 				 * needed in quiz.
@@ -135,8 +136,8 @@ public class Main extends Application {
 			startQuiz.setOnAction(new EventHandler<ActionEvent>() {
 
 				/**
-				 * This method creates a new scene with a quiz questions and closes primaryStage and
-				 * numberOfQuestionsStage.
+				 * This method creates a new scene with a quiz questions and closes primaryStage
+				 * and numberOfQuestionsStage.
 				 */
 				@Override
 				public void handle(ActionEvent event) {
@@ -145,8 +146,8 @@ public class Main extends Application {
 						numQuestions = Integer.parseInt(inputBox.getText());
 						if (numQuestions > totalQuestions) {
 							numQuestions = totalQuestions;
-						}						
-						
+						}
+
 						Quiz quiz = new Quiz();
 						quiz.setNumQuestions(numQuestions);
 						Stage newStage = new Stage();
@@ -171,7 +172,8 @@ public class Main extends Application {
 						numberOfQuetionsStage.setScene(popupScene);
 						numberOfQuetionsStage.show();
 					}
-				}});
+				}
+			});
 
 			/**
 			 * this method closes the stage showing number of questions
@@ -223,12 +225,12 @@ public class Main extends Application {
 							items.add(topics.keySet().get(i));
 							Collections.sort(items);
 						}
-						
+
 						for (int a = 0; a < topics.keySet().size(); a++) {
-							
+
 							totalQuestions += topics.get(topics.keySet().get(a)).getQuestions().keySet().size();
 						}
-						
+
 						Label numQ = new Label("Total Number of Questions: " + totalQuestions);
 						numQ.setTextFill(Color.WHITE);
 						root.setRight(numQ);
@@ -273,75 +275,74 @@ public class Main extends Application {
 						topicsToQuestion.add(t);
 				}
 			});
-
+			totalQuestions = 0;
 			for (int a = 0; a < topics.keySet().size(); a++) {
-				
-				totalQuestions += topics.get(topics.keySet().get(a)).getQuestions().keySet().size();
+				ArrayList<Question> questions = new ArrayList<>();
+				questions.addAll(topics.get(Main.topics.keySet().get(a)).getQuestions().keySet());
+				totalQuestions += questions.size();
 			}
-			
+
 			Label numQ = new Label("Total Number of Questions: " + totalQuestions);
 			numQ.setTextFill(Color.WHITE);
 			root.setRight(numQ);
-
 
 			root.setTop(chooseTopic);
 			root.setCenter(hbox);
 			root.setLeft(hBox2);
 
 			Scene scene = new Scene(root, 1200, 600);
-		    scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		    primaryStage.setScene(scene);
+			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			primaryStage.setScene(scene);
 
-		    saveAndQuitButton.setOnAction(new EventHandler<ActionEvent>() {
+			saveAndQuitButton.setOnAction(new EventHandler<ActionEvent>() {
 
-		      /**
-		       * This method saves the program
-		       */
-		      @Override
-		      public void handle(ActionEvent event) {
-		        // Main main = new Main();
-		        try {
-		          FileChooser fileChooser = new FileChooser();
-		          fileChooser.setTitle("Save Your Json File:");
-		          fileChooser.setInitialFileName("Quiz");
-		          fileChooser.getExtensionFilters()
-		              .addAll(new ExtensionFilter("JSON files (*.json)", "*.json"));
-		          File fileToSave = fileChooser.showSaveDialog(primaryStage);
+				/**
+				 * This method saves the program
+				 */
+				@Override
+				public void handle(ActionEvent event) {
+					// Main main = new Main();
+					try {
+						FileChooser fileChooser = new FileChooser();
+						fileChooser.setTitle("Save Your Json File:");
+						fileChooser.setInitialFileName("Quiz");
+						fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON files (*.json)", "*.json"));
+						File fileToSave = fileChooser.showSaveDialog(primaryStage);
 
-		          if (fileToSave != null) {
-		            try {
-		              SaveFile saveFile = new SaveFile(fileToSave);
-		              primaryStage.close();
-		            } catch (Exception e) {
-		              e.printStackTrace();
-		              Alert alert = new Alert(AlertType.ERROR, "Unable to save file!");
-		              alert.showAndWait();
-		              return;
-		            }
-		          }
-		        } catch (Exception e) {
-		          e.printStackTrace();
-		          Main main = new Main();
-		          Stage newStage3 = new Stage();
-		          try {
-		            main.start(newStage3);
-		            primaryStage.close();
-		          } catch (Exception e1) {
-		            e.printStackTrace();
-		          }
-		        }
-		      }
-		    });
+						if (fileToSave != null) {
+							try {
+								SaveFile saveFile = new SaveFile(fileToSave);
+								primaryStage.close();
+							} catch (Exception e) {
+								e.printStackTrace();
+								Alert alert = new Alert(AlertType.ERROR, "Unable to save file!");
+								alert.showAndWait();
+								return;
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						Main main = new Main();
+						Stage newStage3 = new Stage();
+						try {
+							main.start(newStage3);
+							primaryStage.close();
+						} catch (Exception e1) {
+							e.printStackTrace();
+						}
+					}
+				}
+			});
 
-		    quitButton.setOnAction(new EventHandler<ActionEvent>() {
-		      /**
-		       * This method exits the program
-		       */
-		      @Override
-		      public void handle(ActionEvent event) {
-		        primaryStage.close();
-		      }
-		    });
+			quitButton.setOnAction(new EventHandler<ActionEvent>() {
+				/**
+				 * This method exits the program
+				 */
+				@Override
+				public void handle(ActionEvent event) {
+					primaryStage.close();
+				}
+			});
 			// Set the title
 			primaryStage.setTitle("Quiz Generator");
 			primaryStage.show();
@@ -354,8 +355,9 @@ public class Main extends Application {
 	/**
 	 * Main method that runs the application
 	 * 
-	 * @param args command-line arguments
-
+	 * @param args
+	 *            command-line arguments
+	 * 
 	 */
 	public static void main(String[] args) {
 		Application.launch(args);
