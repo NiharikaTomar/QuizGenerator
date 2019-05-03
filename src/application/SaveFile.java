@@ -2,12 +2,9 @@ package application;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -21,74 +18,50 @@ public class SaveFile {
     ArrayList<String> topics = new ArrayList<>();
     ArrayList<Question> questions = new ArrayList<>();
     List<Answer> answers = new ArrayList<>();
-    List<Boolean> correctness = new ArrayList<>();
 
     try {
       JSONArray mainArray = new JSONArray();
-      JSONArray choiceArray = new JSONArray();
       JSONObject mainObject = new JSONObject();
-      JSONObject questionsObject = new JSONObject();
-//      JSONObject choiceObject = new JSONObject();
-
-
 
       for (int i = 0; i < Main.topics.keySet().size(); i++) {
 
+        JSONObject questionsObject = new JSONObject();
         // Prints out a meta-data
         questionsObject.put("meta-data", "unused");
-        
+
         // Prints out a topic
         topics.add(Main.topics.keySet().get(i));
         questionsObject.put("topic", topics.get(i));
 
         // Prints out a questions text
         questions.addAll(Main.topics.get(topics.get(i)).getQuestions().keySet());
-
         questionsObject.put("questionText", questions.get(i).question);
-
 
         // Prints out an image
         questionsObject.put("image", questions.get(i).image);
 
-        // Prints out answers
-        for (int j = 0; j < questions.size(); j++) {
-          if (Main.topics.get(topics.get(i)).getQuestions().get(questions.get(i)) != null) {
+        answers.addAll(Main.topics.get(topics.get(i)).getAnswers());
 
-            String question = questions.get(i).question;
-            
-            answers.add(Main.topics.get(topics.get(i)).getQuestions().get(questions.get(j)));
-            
-            ArrayList<String> arrayOfAnswers = null;
+        for (Answer answer : answers) {
+          ArrayList<String> answers2 = answer.getAnswers();
+          JSONArray choicesArray = new JSONArray();
 
-            for (int k = 0; k < answers.size(); k++) {
-              if (answers.get(k) != null) {
-                arrayOfAnswers = answers.get(k).getAnswers();
-               
-              }
-            }
+          for (String a : answers2) {
 
-            for (int m = 0; m < arrayOfAnswers.size(); m++) {
-              JSONObject choiceObject = new JSONObject();
-//              correctness.add(answers.get(m).checkAnswer("true"));
-//               choiceObject.put("isCorrect", answers.get(m).checkAnswer("true"));
-              
-              choiceObject.put("choice", arrayOfAnswers.get(m));
+            String correctness = String.valueOf(answer.checkAnswer(a));
 
-              choiceArray.add(choiceObject);
-            }
+            // System.out.println(a);
+            JSONObject choiceJsonObject = new JSONObject();
+
+            choiceJsonObject.put("isCorrect", correctness);
+            choiceJsonObject.put("choice", a);
+            choicesArray.add(choiceJsonObject);
           }
-          // // answers.add(
-          // // Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
+          questionsObject.put("choiceArray", choicesArray);
         }
 
-
         mainArray.add(questionsObject);
-//        choiceArray.add(choiceObject);
-        questionsObject.put("choiceArray", choiceArray);
-
       }
-
-
 
       mainObject.put("questionArray", mainArray);
 
