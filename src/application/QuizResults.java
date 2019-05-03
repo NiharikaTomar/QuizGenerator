@@ -8,6 +8,7 @@
 package application;
 
 import java.awt.Scrollbar;
+import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,15 +18,19 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 /**
  * Runs QuizResults GUI
@@ -73,10 +78,12 @@ public class QuizResults extends Application {
 
 		// Buttons needed for the page
 		Button homeButton = new Button("Home");
-		Button exitButton = new Button("Exit");
+		Button saveAndQuitButton = new Button("Save and Quit");
+	    Button quitButton = new Button("Quit");
 
 		hboxTopMenu.getChildren().add(homeButton);
-		hboxTopMenu.getChildren().add(exitButton);
+		hboxTopMenu.getChildren().add(saveAndQuitButton);
+		hboxTopMenu.getChildren().add(quitButton);
 
 
 		Label headerLabel = new Label("Your Quiz Results");
@@ -121,72 +128,68 @@ public class QuizResults extends Application {
 			}
 		});
 
-		exitButton.setOnAction(new EventHandler<ActionEvent>() {
-
-			/**
-			 * This method exits the program
-			 */
-			@Override
-			public void handle(ActionEvent event) {
-				primaryStage.close();
-			}
-		});
-
+		
 		root.setTop(hboxTopMenu);
 		root.setCenter(vBoxResults);
 
-		Scene scene = new Scene(root, 1200, 600);
+	      Scene scene = new Scene(root, 1200, 600);
+	      scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+	      primaryStage.setScene(scene);
 
-		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-		primaryStage.setScene(scene);
+	      saveAndQuitButton.setOnAction(new EventHandler<ActionEvent>() {
 
-		Stage exitStage = new Stage();
-		Button agreeButton = new Button("Yes");
-		Button disagreeButton = new Button("No");
-		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+	        /**
+	         * This method saves the program
+	         */
+	        @Override
+	        public void handle(ActionEvent event) {
+	          // Main main = new Main();
+	          try {
+	            FileChooser fileChooser = new FileChooser();
+	            fileChooser.setTitle("Save Your Json File:");
+	            fileChooser.setInitialFileName("Quiz");
+	            fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON files (*.json)", "*.json"));
+	            File fileToSave = fileChooser.showSaveDialog(primaryStage);
+	            
+	            if (fileToSave != null) {
+	              try {
+	                  SaveFile saveFile = new SaveFile(fileToSave);
+	              } catch (Exception e) {
+	                e.printStackTrace();
+	                  Alert alert = new Alert(AlertType.ERROR, "Unable to save file!");
+	                  alert.showAndWait();
+	                  return;
+	              }
+	          }
+	            primaryStage.close();
+	          } catch (Exception e) {
+	            e.printStackTrace();
+	            Main main = new Main();
+	            Stage newStage3 = new Stage();
+	            try {
+	              main.start(newStage3);
+	              primaryStage.close();
+	            } catch (Exception e1) {
+	              e.printStackTrace();
+	            }
+	          }
+	        }
+	      });
 
-			@Override
-			public void handle(WindowEvent event) {
-				Label exitLabel = new Label("Save and exit?");
-				HBox buttonBox = new HBox(agreeButton, disagreeButton);
-				buttonBox.setSpacing(10);
-				VBox vBox = new VBox(exitLabel, buttonBox);
-				Scene popupScene = new Scene(vBox);
-				exitStage.setScene(popupScene);
-				exitStage.show();
-			}
-		});
+	      quitButton.setOnAction(new EventHandler<ActionEvent>() {
+	        /**
+	         * This method exits the program
+	         */
+	        @Override
+	        public void handle(ActionEvent event) {
+	          primaryStage.close();
+	        }
+	      });
 
-		agreeButton.setOnAction(new EventHandler<ActionEvent>() {
-
-			/**
-			 * This method saves the program
-			 */
-			@Override
-			public void handle(ActionEvent event) {
-				Main main = new Main();
-				Stage newStage = new Stage();
-
-				try {
-					main.start(newStage);
-					primaryStage.close();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-		disagreeButton.setOnAction(new EventHandler<ActionEvent>() {
-
-			/**
-			 * This method exits the program
-			 */
-			@Override
-			public void handle(ActionEvent event) {
-				exitStage.close();
-			}
-		});
-
+		
+		
+		
+		
 		// Set the title
 		primaryStage.setTitle("Quiz Generator");
 		primaryStage.show();
