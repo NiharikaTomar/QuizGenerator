@@ -9,12 +9,9 @@ package application;
 
 import java.awt.Desktop;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
-
 import org.json.simple.parser.ParseException;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -22,8 +19,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -45,12 +42,11 @@ import javafx.scene.paint.Color;
  */
 public class Main extends Application {
 
-	private Desktop desktop = Desktop.getDesktop();
+	//private Desktop desktop = Desktop.getDesktop();
 	public static HashTable<String, QuestionBank> topics = new HashTable<String, QuestionBank>();
 	ObservableList<String> items;
 	public static ArrayList<String> topicsToQuestion = new ArrayList<String>();
 	int totalQuestions;
-
 	/**
 	 * Runs the Home Screen
 	 */
@@ -58,7 +54,9 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		try {
+
 			//Collections.sort(topicsToQuestion);
+
 			BorderPane root = new BorderPane();
 
 			HBox hbox = new HBox();
@@ -70,7 +68,7 @@ public class Main extends Application {
 					"Please choose a topic. \n[To select multiple topics, hold down the CTRL button on Windows "
 							+ "or COMMAND on MAC.]");
 
-
+			// sets text color to white
 			chooseTopic.setTextFill(Color.WHITE);
 
 			// Generate Buttons needed
@@ -80,29 +78,35 @@ public class Main extends Application {
 			Button startQuiz = new Button("Start Quiz");
 			Button closePopUp = new Button("Thank you");
 
+			Button saveAndQuitButton = new Button("Save and Quit");
+			Button quitButton = new Button("Quit");
 
 			// Add buttons to a horizontal box
 			hbox.getChildren().add(addQuestion);
 			hbox.getChildren().add(addFile);
 			hbox.getChildren().add(takeQuiz);
 
+			hbox.getChildren().add(saveAndQuitButton);
+			hbox.getChildren().add(quitButton);
+
 			Stage numberOfQuetionsStage = new Stage();
 			TextField inputBox = new TextField();
 
 			takeQuiz.setOnAction(new EventHandler<ActionEvent>() {
 				/**
-				 * This method creates a new scene with a pop up to get number of questions needed in quiz.
+				 * This method creates a new scene with a pop up to get number of questions
+				 * needed in quiz.
 				 */
 				public void handle(ActionEvent event) {
+					if (topicsToQuestion.isEmpty()) {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setContentText("Choose a Topic");
+						alert.show();
+						return;
+					}
 					Label questionNumPrompt = new Label("How many questions would you like in your quiz?");
 					VBox vBox = new VBox(questionNumPrompt, inputBox, startQuiz);
 					Scene popupScene = new Scene(vBox);
-					if (topicsToQuestion.isEmpty())
-					{
-						Alert alert = new Alert(AlertType.ERROR);
-						alert.setContentText("Choose an answer"); 
-						alert.show();
-					}
 					numberOfQuetionsStage.setScene(popupScene);
 					numberOfQuetionsStage.show();
 				}
@@ -125,9 +129,7 @@ public class Main extends Application {
 						if (numQuestions > totalQuestions) {
 							numQuestions = totalQuestions;
 						}						
-						
 						Quiz quiz = new Quiz();
-						
 						quiz.setNumQuestions(numQuestions);
 						Stage newStage = new Stage();
 						quiz.start(newStage);
@@ -142,8 +144,7 @@ public class Main extends Application {
 						numberOfQuetionsStage.setScene(popupScene);
 						numberOfQuetionsStage.show();
 						return;
-					}
-					catch (Exception e){
+					} catch (Exception e) {
 						numberOfQuetionsStage.close();
 						System.out.println(e.getLocalizedMessage());
 						Label questionNumPrompt = new Label("Please select a topic");
@@ -152,13 +153,20 @@ public class Main extends Application {
 						numberOfQuetionsStage.setScene(popupScene);
 						numberOfQuetionsStage.show();
 					}
+/* <<<<<<< HEAD
 				}});
 
+======= */
+				}
+			});
+
+			/**
+			 * this method closes the stage showing number of questions
+			 */
 			closePopUp.setOnAction(new EventHandler<ActionEvent>() {
 				@Override
 				public void handle(ActionEvent event) {
 					numberOfQuetionsStage.close();
-
 				}
 			});
 			// Set up behavior for Edit button
@@ -194,6 +202,7 @@ public class Main extends Application {
 				public void handle(ActionEvent event) {
 
 					File file = fileChooser.showOpenDialog(primaryStage);
+					Stage newStage = new Stage();
 					try {
 						AddFile addFile = new AddFile(file);
 						items.clear();
@@ -201,7 +210,6 @@ public class Main extends Application {
 							items.add(topics.keySet().get(i));
 							Collections.sort(items);
 						}
-						
 						for (int a = 0; a < topics.keySet().size(); a++) {
 							
 							totalQuestions += topics.get(topics.keySet().get(a)).getQuestions().keySet().size();
@@ -226,10 +234,6 @@ public class Main extends Application {
 				}
 
 			});
-			
-			
-
-
 			// Generates Topic List
 			items = FXCollections.observableArrayList();
 
@@ -237,6 +241,7 @@ public class Main extends Application {
 			items.clear();
 			for (int i = 0; i < topics.keySet().size(); i++) {
 				items.add(topics.keySet().get(i));
+				Collections.sort(items);
 			}
 			ListView<String> list = new ListView<>(items);
 			ListView<String> selected = new ListView<>();
@@ -252,8 +257,7 @@ public class Main extends Application {
 						topicsToQuestion.add(t);
 				}
 			});
-			
-			
+
 			for (int a = 0; a < topics.keySet().size(); a++) {
 				
 				totalQuestions += topics.get(topics.keySet().get(a)).getQuestions().keySet().size();
@@ -262,7 +266,6 @@ public class Main extends Application {
 			Label numQ = new Label("Total Number of Questions: " + totalQuestions);
 			numQ.setTextFill(Color.WHITE);
 			root.setRight(numQ);
-			
 
 			root.setTop(chooseTopic);
 			root.setCenter(hbox);
@@ -290,6 +293,7 @@ public class Main extends Application {
 			});
 
 			agreeButton.setOnAction(new EventHandler<ActionEvent>() {
+			saveAndQuitButton.setOnAction(new EventHandler<ActionEvent>() {
 
 				/**
 				 * This method saves the program
@@ -304,18 +308,49 @@ public class Main extends Application {
 						primaryStage.close();
 					} catch (Exception e) {
 						e.printStackTrace();
+					// Main main = new Main();
+					try {
+						FileChooser fileChooser = new FileChooser();
+						fileChooser.setTitle("Save Your Json File:");
+						fileChooser.setInitialFileName("Quiz");
+						fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON files (*.json)", "*.json"));
+						File fileToSave = fileChooser.showSaveDialog(primaryStage);
+
+						if (fileToSave != null) {
+							try {
+								SaveFile saveFile = new SaveFile(fileToSave);
+		                        primaryStage.close();
+							} catch (Exception e) {
+								e.printStackTrace();
+								Alert alert = new Alert(AlertType.ERROR, "Unable to save file!");
+								alert.showAndWait();
+								return;
+							}
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+						Main main = new Main();
+						Stage newStage3 = new Stage();
+						try {
+							main.start(newStage3);
+							primaryStage.close();
+						} catch (Exception e1) {
+							e.printStackTrace();
+						}
 					}
 				}
 			});
 
 			disagreeButton.setOnAction(new EventHandler<ActionEvent>() {
-
+			quitButton.setOnAction(new EventHandler<ActionEvent>() {
 				/**
 				 * This method exits the program
 				 */
 				@Override
 				public void handle(ActionEvent event) {
 					exitStage.close();
+					primaryStage.close();
+
 				}
 			});
 

@@ -34,8 +34,6 @@ import javafx.stage.Stage;
 
 /**
  * Runs the Quiz page GUI
- * 
- * @author Miriam, Elizaveta, Niharika, and Ved
  *
  */
 public class Quiz extends Application {
@@ -275,5 +273,4 @@ public class Quiz extends Application {
 	public void setNumQuestions(int numQs) {
 		numQuestions = numQs;
 	}
-
 }
