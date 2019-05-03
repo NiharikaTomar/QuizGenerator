@@ -121,7 +121,7 @@ public class Quiz extends Application {
       questionsAndAnswers.getChildren().add(question);
       for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { // Adds answer
         // options
-        if (answers.get(randomNumber).getAnswers().get(j) != null) {
+        if (!answers.get(randomNumber).getAnswers().get(j).equals("")) {
           RadioButton r = new RadioButton(answers.get(randomNumber).getAnswers().get(j));
           // r.setSelected(true);
           r.setToggleGroup(answersGroup);
@@ -129,8 +129,8 @@ public class Quiz extends Application {
           questionsAndAnswers.getChildren().add(r);
           root.setCenter(questionsAndAnswers);
         }
-
       }
+      
       if(numQuestions==1) { 
         hboxBottomMenu.getChildren().remove(nextQuestionButton);
         primaryStage.show();
