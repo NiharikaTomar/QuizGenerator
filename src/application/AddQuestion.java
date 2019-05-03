@@ -190,10 +190,10 @@ public class AddQuestion extends Application{
     	  fc.getExtensionFilters().add(imageFilter);
     	  
     	  
-    	  
-    	  File imageFile = fc.showOpenDialog(primaryStage);
+    	  imageName=fc.showOpenDialog(primaryStage);
+    	  //File imageFile = fc.showOpenDialog(primaryStage);
         //imageName = fileChooser.showOpenDialog(primaryStage);
-        if (imageFile != null) {
+        if (imageName != null) {
           Alert a = new Alert(AlertType.CONFIRMATION);
           a.setContentText("You have successfully uploaded an image!");
           a.show();

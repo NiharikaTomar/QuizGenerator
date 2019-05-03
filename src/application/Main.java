@@ -289,80 +289,59 @@ public class Main extends Application {
 			root.setLeft(hBox2);
 
 			Scene scene = new Scene(root, 1200, 600);
-			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-			primaryStage.setScene(scene);
+		    scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+		    primaryStage.setScene(scene);
 
-//<<<<<<< HEAD
-//			Stage exitStage = new Stage();
-//			Button agreeButton = new Button("Yes");
-//			Button disagreeButton = new Button("No");
-//			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//
-//				@Override
-//				public void handle(WindowEvent event) {
-//					Label exitLabel = new Label("Save and exit?");
-//					HBox buttonBox = new HBox(agreeButton, disagreeButton);
-//					buttonBox.setSpacing(10);
-//					VBox vBox = new VBox(exitLabel, buttonBox);
-//					Scene popupScene = new Scene(vBox);
-//					exitStage.setScene(popupScene);
-//					exitStage.show();
-//				}
-//			});
-//
-//			agreeButton.setOnAction(new EventHandler<ActionEvent>() {
-			
-			saveAndQuitButton.setOnAction(new EventHandler<ActionEvent>() {
+		    saveAndQuitButton.setOnAction(new EventHandler<ActionEvent>() {
 
-				/**
-				 * This method saves the program
-				 */
-				@Override
-				public void handle(ActionEvent event) {
-					// Main main = new Main();
-					try {
-						FileChooser fileChooser = new FileChooser();
-						fileChooser.setTitle("Save Your Json File:");
-						fileChooser.setInitialFileName("Quiz");
-						fileChooser.getExtensionFilters().addAll(new ExtensionFilter("JSON files (*.json)", "*.json"));
-						File fileToSave = fileChooser.showSaveDialog(primaryStage);
+		      /**
+		       * This method saves the program
+		       */
+		      @Override
+		      public void handle(ActionEvent event) {
+		        // Main main = new Main();
+		        try {
+		          FileChooser fileChooser = new FileChooser();
+		          fileChooser.setTitle("Save Your Json File:");
+		          fileChooser.setInitialFileName("Quiz");
+		          fileChooser.getExtensionFilters()
+		              .addAll(new ExtensionFilter("JSON files (*.json)", "*.json"));
+		          File fileToSave = fileChooser.showSaveDialog(primaryStage);
 
-						if (fileToSave != null) {
-							try {
-								SaveFile saveFile = new SaveFile(fileToSave);
-		                        primaryStage.close();
-							} catch (Exception e) {
-								e.printStackTrace();
-								Alert alert = new Alert(AlertType.ERROR, "Unable to save file!");
-								alert.showAndWait();
-								return;
-							}
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-						Main main = new Main();
-						Stage newStage3 = new Stage();
-						try {
-							main.start(newStage3);
-							primaryStage.close();
-						} catch (Exception e1) {
-							e.printStackTrace();
-						}
-					}
-				}
-			});
+		          if (fileToSave != null) {
+		            try {
+		              SaveFile saveFile = new SaveFile(fileToSave);
+		              primaryStage.close();
+		            } catch (Exception e) {
+		              e.printStackTrace();
+		              Alert alert = new Alert(AlertType.ERROR, "Unable to save file!");
+		              alert.showAndWait();
+		              return;
+		            }
+		          }
+		        } catch (Exception e) {
+		          e.printStackTrace();
+		          Main main = new Main();
+		          Stage newStage3 = new Stage();
+		          try {
+		            main.start(newStage3);
+		            primaryStage.close();
+		          } catch (Exception e1) {
+		            e.printStackTrace();
+		          }
+		        }
+		      }
+		    });
 
-			quitButton.setOnAction(new EventHandler<ActionEvent>() {
-				/**
-				 * This method exits the program
-				 */
-				@Override
-				public void handle(ActionEvent event) {
-					//exitStage.close();
-					primaryStage.close();
-				}
-			});
-
+		    quitButton.setOnAction(new EventHandler<ActionEvent>() {
+		      /**
+		       * This method exits the program
+		       */
+		      @Override
+		      public void handle(ActionEvent event) {
+		        primaryStage.close();
+		      }
+		    });
 			// Set the title
 			primaryStage.setTitle("Quiz Generator");
 			primaryStage.show();
