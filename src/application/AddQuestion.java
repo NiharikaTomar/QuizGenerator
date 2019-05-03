@@ -184,8 +184,15 @@ public class AddQuestion extends Application{
 
       @Override
       public void handle(ActionEvent arg0) {
-        imageName = fileChooser.showOpenDialog(primaryStage);
-        if (imageName != null) {
+    	  FileChooser.ExtensionFilter imageFilter
+    	    = new FileChooser.ExtensionFilter("Image Files", "*.jpg", "*.png", "*.gif");
+    	  FileChooser fc = new FileChooser();
+    	  fc.getExtensionFilters().add(imageFilter);
+    	  
+    	  
+    	  fc.showOpenDialog(primaryStage);
+        //imageName = fileChooser.showOpenDialog(primaryStage);
+        if (fc != null) {
           Alert a = new Alert(AlertType.CONFIRMATION);
           a.setContentText("You have successfully uploaded an image!");
           a.show();
