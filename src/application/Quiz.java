@@ -16,6 +16,7 @@ import javafx.application.Application;
 import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -30,6 +31,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
@@ -101,14 +103,21 @@ public class Quiz extends Application {
 			currentAnswer = answers.get(randomNumber);
 
 			Label question = new Label("Question " + i + ": " + randomKey.getQuestion());
-
+			question.setWrapText(true);
+			question.setTextAlignment(TextAlignment.JUSTIFY);
+			question.setMaxWidth(700);
+			question.setTextFill(Color.WHITE);
+			
 			if (!(randomKey.image.equals("none")))
 			{
-				question.setGraphic(new ImageView(new Image(randomKey.image)));
+			    ImageView image = new ImageView(new Image(randomKey.image));
+			    questionsAndAnswers.setPadding(new Insets(10, 10, 10, 10));
+			    image.setFitWidth(200);
+			    image.setPreserveRatio(true);
+				questionsAndAnswers.getChildren().add(image);
 			}
 
 			answersGroup = new ToggleGroup();
-			question.setTextFill(Color.WHITE);
 			questionsAndAnswers.getChildren().add(question);
 			for (int j = 0; j < answers.get(randomNumber).getAnswers().size(); j++) { // Adds answer
 				// options

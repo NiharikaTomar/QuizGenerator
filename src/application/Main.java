@@ -224,21 +224,18 @@ public class Main extends Application {
               Collections.sort(items);
             }
 
-            // for (int a = 0; a < topics.keySet().size(); a++) {
-            //
-            // totalQuestions += topics.get(topics.keySet().get(a)).getQuestions().keySet().size();
-            // }
-
             totalQuestions = 0;
             for (int a = 0; a < topics.keySet().size(); a++) {
               ArrayList<Question> questions = new ArrayList<>();
               questions.addAll(topics.get(Main.topics.keySet().get(a)).getQuestions().keySet());
               totalQuestions += questions.size();
             }
-
+            
+            BorderPane bottom = new BorderPane();
             Label numQ = new Label("Total Number of Questions: " + totalQuestions);
             numQ.setTextFill(Color.WHITE);
-            root.setRight(numQ);
+            bottom.setRight(numQ);
+            root.setBottom(bottom);
           } catch (Exception e1) {
 
             Main main = new Main();
@@ -284,10 +281,12 @@ public class Main extends Application {
 
         totalQuestions += topics.get(topics.keySet().get(a)).getQuestions().keySet().size();
       }
-
+      
+      BorderPane bottom = new BorderPane();
       Label numQ = new Label("Total Number of Questions: " + totalQuestions);
       numQ.setTextFill(Color.WHITE);
-      root.setRight(numQ);
+      bottom.setRight(numQ);
+      root.setBottom(bottom);
 
       root.setTop(chooseTopic);
       root.setCenter(hbox);

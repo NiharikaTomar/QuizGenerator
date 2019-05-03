@@ -235,34 +235,32 @@ public class AddQuestion extends Application{
           boolean corr5 = false;
 
           Toggle selectedCorrect = answersGroup.getSelectedToggle();
-          if (switch1.isSelected()) {
+          
+          if(selectedCorrect.equals(switch1)) {
             corr1 = true;
-          }
-          if (switch2.isSelected()) {
+          } else if(selectedCorrect.equals(switch2)) {
             corr2 = true;
-          }
-          if (switch3.isSelected()) {
+          } else if(selectedCorrect.equals(switch3)) {
             corr3 = true;
-          }
-          if (switch4.isSelected()) {
+          } else if(selectedCorrect.equals(switch4)) {
             corr4 = true;
-          }
-          if (switch5.isSelected()) {
+          } else if(selectedCorrect.equals(switch5)) {
             corr5 = true;
           }
-          if (!txt1.equals(null)) {
+          
+          if(!txt1.getText().trim().isEmpty()){
             ans.addAnswer(txt1.getText(), corr1);
           }
-          if (!txt2.equals(null)) {
+          if(!txt2.getText().trim().isEmpty()){
             ans.addAnswer(txt2.getText(), corr2);
           }
-          if (!txt3.equals(null)) {
+          if(!txt3.getText().trim().isEmpty()){
             ans.addAnswer(txt3.getText(), corr3);
           }
-          if (!txt4.equals(null)) {
+          if(!txt4.getText().trim().isEmpty()){
             ans.addAnswer(txt4.getText(), corr4);
           }
-          if (!txt5.equals(null)) {
+          if(!txt5.getText().trim().isEmpty()){
             ans.addAnswer(txt5.getText(), corr5);
           }
           
