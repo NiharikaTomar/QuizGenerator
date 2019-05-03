@@ -27,14 +27,14 @@ public class Question implements Comparable<Question>{
 		return question.equals(q);
 	}
 	
-	public boolean equals(Question q)
+	@Override
+	public boolean equals(Object q)
 	{
-		return question.equals(q.getQuestion());
+		return question.equals(((Question) q).getQuestion());
 	}
 
 	@Override
 	public int compareTo(Question o) {
 		return question.compareTo(o.getQuestion());
 	}
-
 }

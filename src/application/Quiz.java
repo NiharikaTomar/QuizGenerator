@@ -84,25 +84,16 @@ public class Quiz extends Application {
 		for (int a = 0; a < Main.topicsToQuestion.size(); a++) {
 			questions.addAll(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().keySet());
 			for (int b = 0; b < questions.size(); b++) {
-				if (Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions()
-						.get(questions.get(b)) != null)
-					answers.add(
-							Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
+				if (Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)) != null)
+					answers.add(Main.topics.get(Main.topicsToQuestion.get(a)).getQuestions().get(questions.get(b)));
 			}
 		}
-
-		if (numQuestions > questions.size()) {
-			numQuestions = questions.size();
-		}
-		
-
+		askedQuestions = new LinkedHashMap<Question, Answer>();
 		// Add questions to a Vertical Box
 		nextButtonClicked = true;
 		while (i <= numQuestions && nextButtonClicked) {
 			nextButtonClicked = false;
 			VBox questionsAndAnswers = new VBox();
-
-			askedQuestions = new LinkedHashMap<Question, Answer>();
 
 			Random random = new Random();
 			int randomNumber = random.nextInt(questions.size());
@@ -133,7 +124,7 @@ public class Quiz extends Application {
 			}
 			if(numQuestions==1) { 
 				hboxBottomMenu.getChildren().remove(nextQuestionButton);
-				primaryStage.show();
+				//primaryStage.show();
 			}
 			i++;
 
@@ -166,36 +157,7 @@ public class Quiz extends Application {
 					correctness.setContentText(message);
 					correctness.setHeaderText("Result");
 					correctness.showAndWait();
-					
-//					Alert correctness = new Alert(AlertType.INFORMATION);
-//					String message = "INCORRECT";
-//					Question q = questions.get(questions.size() - 1);
-//					Answer a = askedQuestions.get(q);
-//					if (a != null && a.checkAnswer(selectedRadioButton.getText())) {
-//					  message = "CORRECT";
-//					}
-//					correctness.setContentText(message);
-//					correctness.show();
-					
-//				  Object selectedAnswer = answersGroup.getSelectedToggle().getUserData();
-//				  selectedAnswer.toString();
-//				  String message = "INCORRECT";
-////				  if (selectedAnswer.checkAnswer(selectedAnswer.toString()) == true) {
-////				    message = "CORRECT!";
-////				  }
-//				  System.out.println(selectedAnswer.toString());
-//				  Alert correctness = new Alert(AlertType.NONE);
-//				  correctness.setContentText(message);
-				  
-				  //RadioButton selectedRadioButton = (RadioButton) answersGroup.getSelectedToggle();
-//		          chosenAnswers.add(selectedRadioButton.getText());
-//		          Alert correctness = new Alert(AlertType.NONE);
-//		          Answer temp = new Answer();
-//		          String message = "INCORRECT";
-//		          if (temp.checkAnswer(selectedRadioButton.getText()) ) {
-//		            message = "CORRECT!";
-//		          }
-//		          correctness.setContentText(message);
+
 					nextButtonClicked = false;
 					if (i <= numQuestions) {
 						questionsAndAnswers.getChildren().clear();
@@ -224,14 +186,14 @@ public class Quiz extends Application {
 							questionsAndAnswers.getChildren().add(r);
 							root.setCenter(questionsAndAnswers);
 						}
-						i++;
-						if(i>=numQuestions-1) {
+						if(i==numQuestions) {
 							hboxBottomMenu.getChildren().remove(nextQuestionButton);
-							primaryStage.show();
 						}
+						i++;
 					}
 				}
 			});
+			System.out.println("I" + i); 
 		}
 
 
